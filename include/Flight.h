@@ -1,7 +1,6 @@
 #pragma once
 #include "Ticket.h"
 #include "Constants.h"
-struct Plane;
 
 struct Flight {
     char flight_code[LEN_FLIGHT_CODE];
@@ -12,9 +11,9 @@ struct Flight {
         sold_out = 2,      // Hết vé
         completed = 3     // Hoàn tất
     } cur_status;
-    Ticket *list; // khi khởi tạo chuyến bay list = new Ticket[số chỗ]
+    char flight_code[LEN_FLIGHT_CODE];
 
-    Plane *used; // trỏ đến máy bay đang sử dụng
+    Ticket *list; // khi khởi tạo chuyến bay list = new Ticket[số chỗ]
 
     // danh sách chuyến bay trỏ đến nhau
     Flight *next;
