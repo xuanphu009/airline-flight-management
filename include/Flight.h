@@ -11,7 +11,7 @@ struct Flight {
         sold_out = 2,      // Hết vé
         completed = 3     // Hoàn tất
     } cur_status;
-    char flight_code[LEN_FLIGHT_CODE];
+    char flight_number[LEN_FLIGHT_CODE];
 
     Ticket *list; // khi khởi tạo chuyến bay list = new Ticket[số chỗ]
 
