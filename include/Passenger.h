@@ -9,8 +9,7 @@ struct Passenger{
     char first_name[LEN_FIRST_NAME];
     bool gender;
     Ticket *used;
-
-    Passenger *left;
-    Passenger *right;
+    
     Passenger();
 };
+
