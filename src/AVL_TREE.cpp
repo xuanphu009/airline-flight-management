@@ -37,7 +37,7 @@ Node* AVL_TREE::left_rotate(Node* x) {
     x->height = max(get_height(x->left), get_height(x->right)) + 1;
     return y;
 }
-Node *AVL_TREE::insert(Node *x, Passenger &data) {
+Node *AVL_TREE::insert(Node *x, Passenger data) {
     if(x == nullptr) {
         return new Node(data);
     }
@@ -75,7 +75,7 @@ Node *AVL_TREE::min_val_subtree(Node *node){
        current = current->left;
     return current;
  }
-Node *AVL_TREE::erase(Node *x, Passenger &data){
+Node *AVL_TREE::erase(Node *x, Passenger data){
     if (x == NULL)
        return x;
     if (strcmp(data.CMND, x->data.CMND) < 0)
@@ -117,12 +117,12 @@ Node *AVL_TREE::erase(Node *x, Passenger &data){
     }
     return x;
 }
-Node *AVL_TREE::search(Node *x, Passenger &data) {
+Node *AVL_TREE::search(Node *x, char *CMND) {
     if (x == nullptr) return nullptr;
-    if (strcmp(data.CMND, x->data.CMND) < 0)
-       return search(x->left, data);
-    else if (strcmp(data.CMND, x->data.CMND) > 0)
-       return search(x->right, data);
+    if (strcmp(CMND, x->data.CMND) < 0)
+       return search(x->left, CMND);
+    else if (strcmp(CMND, x->data.CMND) > 0)
+       return search(x->right, CMND);
     else {
         return x;
     }

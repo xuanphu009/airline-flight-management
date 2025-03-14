@@ -1,7 +1,7 @@
 #pragma once
 #include"Ticket.h"
 #include "Constants.h"
-
+#include <cstring>
 
 struct Passenger{
     char CMND[LEN_CMND];
@@ -11,5 +11,8 @@ struct Passenger{
     Ticket *used;
     
     Passenger();
+    Passenger(char *_CMND) {strcpy(CMND, _CMND);}
+    void insert(Ticket *x);
+    
 };
 

@@ -12,4 +12,4 @@ struct Plane {
 
 };
 
-extern Plane *inland[MAX_PLANE];
+extern Plane *domestic[MAX_PLANE];

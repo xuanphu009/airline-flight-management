@@ -22,8 +22,8 @@ struct AVL_TREE {
     Node* get_root();
     Node* right_rotate(Node *x);
     Node* left_rotate(Node* x);
-    Node *insert(Node *x, Passenger &data);
+    Node *insert(Node *x, Passenger data);
     Node *min_val_subtree(Node *node);
-    Node *erase(Node *x, Passenger &data);
-    Node *search(Node *x, Passenger &data);
+    Node *erase(Node *x, Passenger data);
+    Node *search(Node *x, char *CMND);
 };
