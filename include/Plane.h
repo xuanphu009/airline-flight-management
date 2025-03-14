@@ -12,4 +12,4 @@ struct Plane {
 
 };
 
-extern Plane *domestic[MAX_PLANE];
+extern Plane *list_planes[MAX_PLANE]; //sô máy bay nội địa có
