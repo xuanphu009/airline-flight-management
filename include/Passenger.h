@@ -8,7 +8,7 @@ struct Passenger{
     char last_name[LEN_LAST_NAME];
     char first_name[LEN_FIRST_NAME];
     bool gender;
-    Ticket *used;
+    // Ticket *used;
     
     Passenger();
     Passenger(char *_CMND) {strcpy(CMND, _CMND);}
