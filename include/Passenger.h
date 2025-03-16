@@ -12,7 +12,6 @@ struct Passenger{
     
     Passenger();
     Passenger(char *_CMND) {strcpy(CMND, _CMND);}
-    void insert(Ticket *x);
     
 };
 

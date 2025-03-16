@@ -16,10 +16,9 @@ struct Flight {
     } cur_status;
 
     Ticket *tickets; // khi khởi tạo chuyến bay list = new Ticket[số chỗ]
-    unsigned int number_of_seats;
 
     // danh sách chuyến bay trỏ đến nhau
     Flight *next;
     Flight();
-    // bool is_exist(char *CMND);
+
 };
