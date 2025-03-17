@@ -1,5 +1,4 @@
 #include "include/Passenger.h"
 
 
-Passenger::Passenger() {}
-Passenger::Passenger(char *_CMND) {strcpy(CMND, _CMND);}
+Passenger::Passenger() : CMND({'\0'}), last_name({'\0'}), first_name({'\0'}), gender(nullptr) {}
