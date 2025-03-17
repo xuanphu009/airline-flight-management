@@ -5,10 +5,16 @@
 
 struct Flight {
     char flight_code[LEN_FLIGHT_CODE];
-    //thiếu ngày giờ
-    char departure[LEN_DEPARTURE]; 
+    struct date_departure {
+        char day[3], month[3], year[5];
+    } date_dep;
+    struct time_departure {
+        char hour[3], minute[3];
+    } time_dep;
+    
+    char destination[LEN_DESTINATION]; 
     char flight_number[LEN_FLIGHT_NUMBER];
-    enum struct Status {
+    enum struct status {
         cancelled = 0,    // Hủy chuyến
         available = 1,    // Còn vé
         sold_out = 2,      // Hết vé
