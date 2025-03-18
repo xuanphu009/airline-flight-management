@@ -26,5 +26,16 @@ struct Flight {
     // danh sách chuyến bay trỏ đến nhau
     Flight *next;
     Flight();
-
+    bool valid_CMND(char *CMND) {
+        for(int i = 1; i < sizeof(tickets)/sizeof(tickets[0]); ++i) {
+            if(strcmp(tickets[i].CMND, CMND) == 0) return false;
+        }
+        return true;
+    }
+    bool valid_seat(unsigned int seat) {
+        for(int i = 1; i < sizeof(tickets)/sizeof(tickets[0]); ++i) {
+            if(tickets[i].seat == seat && tickets[i].CMND != '\0') return false;
+        }
+        return true;
+    }
 };
