@@ -5,7 +5,7 @@
 #include <iostream>
 struct Ticket {
     unsigned int seat;
-    char CMND[LEN_CMND];
+    char *CMND = nullptr;
     Ticket();
     Ticket(unsigned int _seat, char *CMND);
 

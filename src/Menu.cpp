@@ -406,14 +406,14 @@ void Menu::available_flights() {//F
 
     show_navigation_instructions();
 }
-void Menu::available_tickets() { 
+void Menu::display_available_tickets() { 
     system("cls");
     std::cout << R"(
 									 ____________________________________________________________________________
-									|                                                                           |
-									|                 AVAILABLE TICKETS FOR FLIGHT ID: [XXXXXX]                  |
+									|                                                                            |
+									|                 AVAILABLE TICKETS FOR FLIGHT ID:                           |
 									|____________________________________________________________________________|
-									|               |                                                             |
+									|               |                                                            |
 									|  Seat Number  |  Status                                                    |
 									|_______________|____________________________________________________________|
 									)";
@@ -424,7 +424,7 @@ void Menu::available_tickets() {
 									|____________________________________________________________________________|
 									   )";
 
-    show_navigation_instructions(); 
+    // show_navigation_instructions(); 
 }
 
 

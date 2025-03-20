@@ -23,7 +23,7 @@ namespace Menu {
     void cancel_ticket();
     void passenger_list();
     void available_flights();
-    void available_tickets();
+    void display_available_tickets();
     void display_aircraft_statistics();
 
     void print_main_menu();

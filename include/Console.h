@@ -108,6 +108,10 @@ namespace Console {
     // }
 
     // void 
+
+    void main() {
+
+    }
 }
 
 
