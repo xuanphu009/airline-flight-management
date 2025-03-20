@@ -3,7 +3,7 @@
 #include <iostream>
 #include <windows.h>
 
-struct Menu {
+namespace Menu {
     void gotoxy(int x, int y);
     void show_navigation_instructions();
     void print_login_frame();
@@ -16,7 +16,7 @@ struct Menu {
     void create_new_flight();
     void edit_flight_schedule();
     void cancel_flight();
-    void enter_user_information();
+    void display_enter_user_information();
     void identification_information();
     void flight_list();
     void book_ticket();

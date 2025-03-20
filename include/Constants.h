@@ -9,6 +9,10 @@ extern const int UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 13;
 
 template <typename... Conds>
 void enter(char *str, int &index, int max_len, char &ch, auto... conditions) {
+            //char *str : nhập str
+            //int &index: nhập tại ví trị index của str
+            //char &ch: nằm bên ngoài hàmm để kiểm soát nhập up/down/....
+            // auto... conditions: add điều kiện cho valid cho str
     while (true) {
         ch = _getch();
 

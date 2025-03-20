@@ -241,7 +241,7 @@ void Menu::cancel_flight() {
 
 
 
-void Menu::enter_user_information() {
+void Menu::display_enter_user_information() {
     system("cls");
     std::cout << R"(
                                         ___________________________________________
@@ -249,20 +249,19 @@ void Menu::enter_user_information() {
                                        |         ENTER USER INFORMATION            |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter Last Name: ______________________|
+                                       |    Enter Last Name:                       |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter First Name: _____________________|
+                                       |    Enter First Name:                      |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter Gender (Male: 1, Female: 0)      |
+                                       |    Enter Gender (Male: 1, Female: 0):     |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter ID Card Number: _________________|
+                                       |    Enter CMND:                            |
                                        |___________________________________________|
-
     )";
-    show_navigation_instructions();
+    // show_navigation_instructions();
 }
 
 void Menu::identification_information() {    
