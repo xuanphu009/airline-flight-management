@@ -8,7 +8,7 @@ struct Ticket {
     char *CMND = nullptr;
     Ticket();
     Ticket(unsigned int _seat, char *CMND);
-
+    
 
 
 };

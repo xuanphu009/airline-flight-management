@@ -1,6 +1,7 @@
 #pragma once
 #include "Flight.h"
 #include "Passenger.h"
+#include "Menu.h"
 #include "AVL_tree.h"
 #include <cstring>
 #include <iostream>
@@ -10,22 +11,24 @@
 namespace Console {
     AVL_TREE manager;
     Flight *list;
+    Passenger *input;
 
 
 
-    void buy_ticket(Passenger input, Flight *booking) {
-        //in ra danh sách vé còn trống
-        Ticket new_ticket;
+    // void buy_ticket(Passenger input, Flight *booking) {
+    //     //in ra danh sách vé còn trống
+    //     Ticket new_ticket;
         
-    }
+    // }
+
+
+    void enter_available_tickets(Flight *flight);
 
 
     void enter_user_information() {
-        Passenger input;
-        char tmp_gender[2] = "";
-        int idx[4] = {};
-        int column = 0;
-        char ch;
+        //khởi tạo input = neu passenger
+        char tmp_gender[2] = "", ch;
+        int idx[4] = {}, column = 0;
     
         while (true) {
             Menu::display_enter_user_information();
