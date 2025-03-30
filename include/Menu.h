@@ -19,13 +19,14 @@ namespace Menu {
     void cancel_flight();
     void display_enter_user_information();
     void identification_information();
-    void flight_list();
+    void display_flight_list();
     void book_ticket();
     void cancel_ticket();
     void passenger_list();
     void available_flights();
     void display_available_tickets(Flight *flight, int current_page, int max_pages, int start_idx, int end_idx, int current_column);
     void display_aircraft_statistics();
+    void display_flight_statistics();
 
     void print_main_menu();
     void print_manage_planes();

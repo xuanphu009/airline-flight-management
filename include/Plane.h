@@ -4,9 +4,10 @@
 
 
 struct Plane {
-    char flight_number[LEN_FLIGHT_NUMBER];
-    char airplane_type[LEN_PLANE_TYPE];
+    char plane_id[LEN_PLANE_ID];
+    char plane_type[LEN_PLANE_TYPE];
     unsigned int number_of_seats;
+    unsigned int number_of_flights_performed;
     
     Plane();
 

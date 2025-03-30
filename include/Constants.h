@@ -21,9 +21,9 @@
     }
 #endif
 
-extern const int LEN_FLIGHT_CODE = 15, LEN_DESTINATION = 16;
+extern const int LEN_FLIGHT_ID = 15, LEN_DESTINATION = 16;
 extern const int LEN_LAST_NAME = 12, LEN_FIRST_NAME = 12;
-extern const int LEN_FLIGHT_NUMBER = 15, LEN_PLANE_TYPE = 40, MAX_PLANE = 300; 
+extern const int LEN_PLANE_ID = 15, LEN_PLANE_TYPE = 40, MAX_PLANE = 300; 
 extern const int LEN_CMND = 15;
 extern const int UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 13;
 extern const int SEATS_PER_PAGE = 10;

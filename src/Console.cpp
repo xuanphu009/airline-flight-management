@@ -25,6 +25,7 @@ void Console::enter_available_tickets(Flight *flight) {
             int selected = start_idx + current_column + 1;
             flight->tickets[selected].seat = selected;
             flight->tickets[selected].CMND = input->CMND;
+            //in ra mua thành công
             break;
         }
     }

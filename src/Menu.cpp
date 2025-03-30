@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <windows.h>
 #include "Menu.h"
+#include "Passenger.h"
 
 void Menu::gotoxy(int x, int y) {
     COORD coord;
@@ -286,28 +287,19 @@ void Menu::identification_information() {
     show_navigation_instructions();
 }
 
-void Menu::flight_list() {
-    system("cls"); 
+void Menu::display_flight_list() {
+    system("cls");
     std::cout << R"(
-								____________________________________________________________________________
-							   |                                                                            |
-							   |  Destination: ___________________       Departure Date & Time: __________  |
-							   |____________________________________________________________________________|
-							   |                                                                            |
-							   |                            AVAILABLE FLIGHTS                               |
-							   |____________________________________________________________________________|
-							   |                                                                            |
-							   |    
-								)";                                                                        
-    // display_flight_list(); //tu viet them
-    std:: cout << R"(
-								|                                                                            |
-							    |                                                                            |
-								|                                                                            |
-								|____________________________________________________________________________|
-									   )";
+                         ______________________________________________________________________________________
+                        | Flight ID      | Destination      | Departure Date  | Departure Time |    Status     |
+                        |________________|__________________|_________________|________________|_______________|
+    )" << std::endl;
+    
+
+    
     show_navigation_instructions();
 }
+
 void Menu::book_ticket() { //C
     system("cls");
     std::cout << R"(
@@ -335,6 +327,19 @@ void Menu::book_ticket() { //C
 									   )";
 
    show_navigation_instructions();  
+}
+
+void Menu::display_flight_statistics() {
+    system("cls");
+    std::cout << R"(
+                                        _______________________________________________________________________________
+                                        |                            FLIGHT STATISTICS                                 |
+                                        |______________________________________________________________________________|
+                                        |                              |                                               |
+                                        |  Flight Number               |  Number of Flights Completed                  |
+                                        |______________________________|_______________________________________________|
+
+            )" << std::endl;
 }
 
 void Menu::cancel_ticket() { //D
