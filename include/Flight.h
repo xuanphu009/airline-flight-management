@@ -1,6 +1,7 @@
 #pragma once
 #include "Ticket.h"
 #include "Constants.h"
+#include "Menu.h"
 #include <cstring>
 #include <fstream>
 
@@ -38,7 +39,14 @@ struct Flight {
     Flight *next;
 
 
-
     Flight();
+    ~Flight();
+
+    void create_flight();
+    void update_departure_time();
+    void cancel_flight();
+
+    void input_flight(Flight &other);
+    void input_flight_update(Flight &other);
 
 };
