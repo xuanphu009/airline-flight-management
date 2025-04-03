@@ -1,7 +1,7 @@
 #pragma once
+
 #include "Constants.h"
 #include <iostream>
-<<<<<<< HEAD
 
 #if defined(_WIN32) || defined(_WIN64)
     #include <conio.h>
@@ -10,10 +10,6 @@
     #include <cstdlib>
 
 #endif
-=======
-#include <windows.h>
-#include "Flight.h"
->>>>>>> origin/dev
 
 namespace Menu {
     void gotoxy(int x, int y);

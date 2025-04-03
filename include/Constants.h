@@ -8,18 +8,6 @@
     #include <termios.h>
     #include <unistd.h>
 
-<<<<<<< HEAD
-    char _getch();
-#endif
-
-
-const int LEN_FLIGHT_ID = 15;
-const int LEN_DESTINATION = 16;
-const int LEN_LAST_NAME = 12, LEN_FIRST_NAME = 12;
-const int LEN_PLANE_ID = 15, LEN_PLANE_TYPE = 40, MAX_PLANE = 300;
-const int LEN_CMND = 15;
-const int SEATS_PER_PAGE = 10;
-=======
     char _getch() {
         struct termios oldt, newt;
         char ch;
@@ -40,7 +28,6 @@ extern const int LEN_CMND = 15;
 extern const int UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 13;
 extern const int SEATS_PER_PAGE = 10;
 extern const int BACKSPACE = 8; // Thêm dòng này
->>>>>>> origin/dev
 
 // extern const int LEN_FLIGHT_ID = 15, LEN_DESTINATION = 16;
 // extern const int LEN_LAST_NAME = 12, LEN_FIRST_NAME = 12;
@@ -82,11 +69,7 @@ extern const int BACKSPACE = 8; // Thêm dòng này
 //     }
 // }
 template <typename... Conds>
-<<<<<<< HEAD
 void enter(char *str, int index, int max_len, char &ch, Conds... conditions) {
-=======
-void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) {
->>>>>>> origin/dev
             //char *str : nhập str
             //int &index: nhập tại ví trị index của str
             //char &ch: nằm bên ngoài hàmm để kiểm soát nhập up/down/....
