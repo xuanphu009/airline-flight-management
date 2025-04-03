@@ -1,19 +1,31 @@
 #pragma once
 #include "Ticket.h"
 #include "Constants.h"
+#include "Menu.h"
 #include <cstring>
+#include <fstream>
 
 struct Flight {
-    char flight_code[LEN_FLIGHT_CODE];
+    char flight_id[LEN_FLIGHT_ID];
     struct date_departure {
-        char day[3], month[3], year[5];
+        unsigned short day, month, year;
+
+        friend std::ofstream &operator<<(std::ofstream &out, const date_departure &d) {
+            out << d.day << "/" << d.month << "/" << d.year;
+            return out; 
+        }
     } date_dep;
     struct time_departure {
-        char hour[3], minute[3];
+        unsigned short hour, minute;
+
+        friend std::ofstream &operator<<(std::ofstream &out, const time_departure &t) {
+            out << t.hour << ":" << t.minute;
+            return out; 
+        }
     } time_dep;
     
     char destination[LEN_DESTINATION]; 
-    char *flight_number = nullptr;
+    char *plane_id = nullptr;
     enum struct status {
         cancelled = 0,    // Hủy chuyến
         available = 1,    // Còn vé
@@ -27,7 +39,14 @@ struct Flight {
     Flight *next;
 
 
-
     Flight();
+    ~Flight();
+
+    void create_flight();
+    void update_departure_time();
+    void cancel_flight();
+
+    void input_flight(Flight &other);
+    void input_flight_update(Flight &other);
 
 };

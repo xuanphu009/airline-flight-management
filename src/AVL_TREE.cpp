@@ -1,4 +1,4 @@
-#include "include/AVL_TREE.h"
+#include "../include/AVL_TREE.h"
 
 
 Node::Node(Passenger _data) : data(_data), height(1), left(nullptr), right(nullptr) {}

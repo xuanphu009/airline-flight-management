@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/Users/buixuanphu/Documents/Code",
+                "/opt/homebrew/opt/llvm/include/c++/v1",
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include",
+                "/opt/homebrew/Cellar/llvm/19.1.7_1/include/c++/v1/__thread/support"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "/Users/buixuanphu/Documents/Code",
+                    "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks"
+            ],
+            "defines": [],
+            "compilerPath": "/opt/homebrew/opt/llvm/bin/clang++",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}

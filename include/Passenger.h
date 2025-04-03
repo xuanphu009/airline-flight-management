@@ -11,9 +11,7 @@ struct Passenger{
     // Ticket *used;
     
     Passenger();
-    bool valid_user() {
-        return CMND != '\0' && last_name != '\0' && first_name != '\0' && gender != nullptr;
-    }
+    bool valid_user();
     bool operator == (Passenger &other) {
         return strcmp(CMND, other.CMND) == 0 && strcmp(last_name, other.last_name) == 0 && strcmp(first_name, other.first_name) == 0 && *gender == *other.gender;
 

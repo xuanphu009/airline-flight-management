@@ -1,10 +1,18 @@
 #pragma once
-
+#include "Constants.h"
 #include <iostream>
-#include <windows.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+    #include <conio.h>
+    #include <windows.h>
+#else
+    #include <cstdlib>
+
+#endif
 
 namespace Menu {
     void gotoxy(int x, int y);
+    void notification();
     void show_navigation_instructions();
     void print_login_frame();
     void print_manager_menu();
@@ -33,8 +41,11 @@ namespace Menu {
     void print_cancel_ticket();
     void print_passenger_list();
     void print_available_flights();
-   //cac ham ben duoi can viet them
-    // void display_flight_list();
+
+
+    void display_flight_list();
+    void dispaly_plane_list();
+
     // void display_booked_flights();
     // void display_passenger_list();
     // void display_available_flights();
