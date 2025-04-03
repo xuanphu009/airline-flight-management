@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Constants.h"
+#include "Flight.h"
 #include <iostream>
 
 #if defined(_WIN32) || defined(_WIN64)

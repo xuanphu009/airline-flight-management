@@ -1,4 +1,4 @@
-#include "../include/Ticket.h"
+#include "include/Ticket.h"
 
 
 Ticket::Ticket()  {}

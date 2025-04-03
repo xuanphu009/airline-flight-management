@@ -68,42 +68,35 @@ extern const int BACKSPACE = 8; // Thêm dòng này
 //         }
 //     }
 // }
+
 template <typename... Conds>
-void enter(char *str, int index, int max_len, char &ch, Conds... conditions) {
-            //char *str : nhập str
-            //int &index: nhập tại ví trị index của str
-            //char &ch: nằm bên ngoài hàmm để kiểm soát nhập up/down/....
-            // auto... conditions: add điều kiện cho valid cho str
+void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) {
     while (true) {
-        ch = _getch();
+        ch = getch();
 
-        if (ch == '\x1B') { // phím mũi tên (ESC = 0x1B), bỏ 2 ký tự tiếp theo
-            _getch();
-            _getch();
-            continue;
+        // Xử lý phím mũi tên
+#ifdef _WIN32
+        if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+            ch = getch(); 
+            return; // Thoát ngay khi gặp UP/DOWN
         }
-        if (ch == '[' || ch == ']') { // chặn phím `[` và `]`
-            continue;
+#else
+        if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+            if (getch() == '[') { // Kiểm tra ký tự tiếp theo
+                ch = getch(); // Lấy mã thực tế của phím
+                return; // Thoát ngay khi gặp UP/DOWN
+            }
         }
-        if (ch == '\n' || ch == '\r') break; // enter, kết thúc
+#endif
 
+        if (ch == ENTER || ch == '\n') return; // ENTER trên macOS là '\n'
 
-<<<<<<< HEAD
-        if ((ch == '\b' || ch == 127) && index > 0) { // Nhấn Backspace
-            std::cout << "\b \b" << std::flush; // Xóa ký tự trên màn hình
-            str[--index] = '\0';
-            continue;
-        }
-       
-        else if (index < max_len - 1) { // Chưa vượt quá giới hạn
-=======
-        if (ch == BACKSPACE) { // Nhấn Backspace
+        if (ch == BACKSPACE || ch == 127) { // Trên macOS, BACKSPACE là 127
             if (index > 0) {
                 std::cout << "\b \b"; // Xóa ký tự trên màn hình
                 str[--index] = '\0';
             }
         } else if (index < max_len - 1) { // Chưa vượt quá giới hạn
->>>>>>> origin/dev
             if ((... && conditions(ch))) { // Fold expression kiểm tra nhiều điều kiện
                 std::cout << ch;
                 str[index++] = ch;
@@ -112,5 +105,4 @@ void enter(char *str, int index, int max_len, char &ch, Conds... conditions) {
         }
     }
 }
-
 
