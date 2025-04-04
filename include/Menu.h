@@ -33,7 +33,7 @@ namespace Menu {
     void cancel_ticket();
     void passenger_list();
     void available_flights();
-    void display_available_tickets(Flight *flight, int current_page, int max_pages, int start_idx, int end_idx, int current_column);
+    //void display_available_tickets(Flight *flight, int current_page, int max_pages, int start_idx, int end_idx, int current_column);
     void display_aircraft_statistics();
     void display_flight_statistics();
 

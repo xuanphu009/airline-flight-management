@@ -9,10 +9,7 @@
 
 int main() {
     Plane other;
-    // list_planes[0]->add_plane();
-    // list_planes[0]->add_plane();
-    // list_planes[0]->update_plane();
-    // list_planes[0]->delete_plane();
+    list_planes[0]->enter_plane();
     
     return 0;
 }

@@ -2,7 +2,7 @@
 #include "Flight.h"
 #include "Passenger.h"
 #include "Menu.h"
-#include "AVL_tree.h"
+#include "AVL_TREE.h"
 #include <cstring>
 #include <iostream>
 // #include <conio.h>
@@ -72,16 +72,31 @@ namespace Console {
                     enter(input->CMND, idx[column], LEN_CMND, ch);
                     break;
             }
-    
-            if (ch == UP && column > 0) {
-                --column;
-            } else if (ch == DOWN && column < 3) {
-                ++column;
-            } else if (ch == ENTER && input->valid_user()) {
-                // thiếu điều kiện
-                //in ra số lượng chuyến bay
-                break;
-            }
+            // if (ch == UP && column > 0) {
+            //     --column;
+            // } else if (ch == DOWN && column < 3) {
+            //     ++column;
+            // } else if (ch == ENTER && input->valid_user()) {
+            //     // thiếu điều kiện
+            //     //in ra số lượng chuyến bay
+            //     break;
+            // }
+            // thêm dòng lệnh này vào mỗi hàm nhập
+            #ifdef __APPLE__
+                if (ch == 27 && _getch() == '[') { // Nếu là ESC [
+                    ch = _getch(); // Lấy ký tự tiếp theo
+                }
+            #endif
+
+                if (ch == UP || ch == 'A') {
+                    if (column > 0) --column;
+                } else if (ch == DOWN || ch == 'B') {
+                    if (column < 3) ++column;
+                } else if (ch == ENTER && input->valid_user()) {
+                    break;
+                }
+
+            
         }
     }
     void flight_statistics() {
