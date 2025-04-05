@@ -1,18 +1,12 @@
 #include <iostream>
-#include "include/Plane.h"
-#include "include/Flight.h"
-#include "include/Passenger.h"
-#include "include/Ticket.h"
-#include "include/Menu.h"
+#include "include/Console.h"
 
 
 
 int main() {
-    Plane other;
-    // list_planes[0]->add_plane();
-    // list_planes[0]->add_plane();
-    // list_planes[0]->update_plane();
-    // list_planes[0]->delete_plane();
-    
+
+    Console test;
+    test.enter_available_flights();
+
     return 0;
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 // #include <conio.h>
 // #include <windows.h>
@@ -249,17 +250,6 @@ void Menu::cancel_flight() {
     show_navigation_instructions(); 
 }
 
-void Menu::display_flight_list(){
-    system("clear");
-    
-    std::cout << R"(
-                                ____________________________________________________________________________________
-                                |   Flight ID   |    Date    |  Time |    Destination   |    Plane ID     | Status |
-                                ________________|____________|_______|__________________|_________________|________|
-    )";
-    show_navigation_instructions();
-}
-
 
 
 void Menu::display_enter_user_information() {
@@ -312,7 +302,9 @@ void Menu::display_flight_list() {
     system("cls");
     std::cout << R"(
                          ______________________________________________________________________________________
-                        | Flight ID      | Destination      | Departure Date  | Departure Time |    Status     |
+                        |                                   FLIGHT LIST                                        |
+                        |______________________________________________________________________________________|
+                        | Flight ID      |     Plane ID     | Dep Date & Time |  Destination   |    Status     |
                         |________________|__________________|_________________|________________|_______________|
     )" << std::endl;
     
@@ -439,7 +431,7 @@ void Menu::display_available_tickets(Flight *flight, int current_page, int max_p
                         |                                                                                          |
                         |                 AVAILABLE TICKETS FOR FLIGHT ID:                                         |
                         |__________________________________________________________________________________________|
-                        |   Flight Number:                      |   Destination:                                   |
+                        |   Plane ID:                           |   Destination:                                   |
                         |__________________________________________________________________________________________|
                         |   Departure Date:                     |   Time:                                          |
                         |__________________________________________________________________________________________|
@@ -448,61 +440,61 @@ void Menu::display_available_tickets(Flight *flight, int current_page, int max_p
                         |   Seat Number   |                           Status                                       |
                         |_________________|________________________________________________________________________|)";
 
-    // // 📌 Hiển thị thông tin chuyến bay
-    // gotoxy(79, 3);  // Mã chuyến bay
-    // std::cout << flight->flight_id;
+    // 📌 Hiển thị thông tin chuyến bay
+    gotoxy(79, 3);  // Mã chuyến bay
+    std::cout << flight->flight_id;
 
-    // gotoxy(47, 5);  // Số hiệu chuyến bay
-    // std::cout << flight->flight_number;
+    gotoxy(47, 5);  // Số hiệu chuyến bay
+    std::cout << *flight->plane_id;
 
-    // gotoxy(85, 5);  // Điểm đến (Destination)
-    // std::cout << flight->destination;
+    gotoxy(85, 5);  // Điểm đến (Destination)
+    std::cout << flight->destination;
 
-    // gotoxy(48, 7);  // Ngày khởi hành
-    // std::cout << flight->date_dep;
+    gotoxy(48, 7);  // Ngày khởi hành
+    std::cout << flight->date_dep.day << "/" << flight->date_dep.month << "/" << flight->date_dep.year; 
 
-    // gotoxy(78, 7);  // Giờ khởi hành
-    // std::cout << flight->time_dep;
+    gotoxy(78, 7);  // Giờ khởi hành
+    std::cout << flight->time_dep.hour << ":" << flight->time_dep.minute;
 
-    // gotoxy(40, 9);  // Trạng thái chuyến bay
-    // switch (flight->cur_status) {
-    //     case Flight::status::cancelled:
-    //         std::cout << "Cancelled";
-    //         break;
-    //     case Flight::status::available:
-    //         std::cout << "Available";
-    //         break;
-    //     case Flight::status::sold_out:
-    //         std::cout << "Sold Out";
-    //         break;
-    //     case Flight::status::completed:
-    //         std::cout << "Completed";
-    //         break;
-    // }
+    gotoxy(40, 9);  // Trạng thái chuyến bay
+    switch (flight->cur_status) {
+        case Flight::status::cancelled:
+            std::cout << "Cancelled";
+            break;
+        case Flight::status::available:
+            std::cout << "Available";
+            break;
+        case Flight::status::sold_out:
+            std::cout << "Sold Out";
+            break;
+        case Flight::status::completed:
+            std::cout << "Completed";
+            break;
+    }
 
-    // // 📌 Hiển thị danh sách vé theo trang
-    // for (int i = start_idx; i < end_idx; i++) {
-    //     int row = 13 + (i - start_idx);
-    //     // Nếu đây là vé được chọn (current_column) thì in con trỏ ">>"
-    //     if ((i - start_idx) == current_column) {
-    //         gotoxy(30, row); // Vị trí in con trỏ, ví dụ cột 30
-    //         std::cout << ">>";
-    //     } else {
-    //         // Nếu không phải vé được chọn, in khoảng trắng để giữ định dạng
-    //         gotoxy(30, row);
-    //         std::cout << "  ";
-    //     }
-    //     gotoxy(35, row);  // Cột hiển thị số ghế
-    //     std::cout << std::setw(3) << flight->tickets[i].seat_number;
-    //     gotoxy(75, row);  // Cột hiển thị trạng thái ghế
-    //     std::cout << (flight->tickets[i].is_sold ? "SOLD OUT" : "AVAILABLE");
-    // }
+    // 📌 Hiển thị danh sách vé theo trang
+    for (int i = start_idx; i < end_idx; i++) {
+        int row = 13 + (i - start_idx);
+        // Nếu đây là vé được chọn (current_column) thì in con trỏ ">>"
+        if ((i - start_idx) == current_column) {
+            gotoxy(30, row); // Vị trí in con trỏ, ví dụ cột 30
+            std::cout << ">>";
+        } else {
+            // Nếu không phải vé được chọn, in khoảng trắng để giữ định dạng
+            gotoxy(30, row);
+            std::cout << "  ";
+        }
+        gotoxy(35, row);  // Cột hiển thị số ghế
+        std::cout << std::setw(3) << flight->tickets[i].seat;
+        gotoxy(75, row);  // Cột hiển thị trạng thái ghế
+        std::cout << (flight->tickets[i].CMND != nullptr ? "SOLD OUT" : "AVAILABLE");
+    }
 
-    // // 📌 Hiển thị điều hướng trang
-    // gotoxy(35, 26);
-    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    // gotoxy(35, 27);
-    // std::cout << "[^] Move Up          [v] Move Down";
+    // 📌 Hiển thị điều hướng trang
+    gotoxy(35, 26);
+    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    gotoxy(35, 27);
+    std::cout << "[^] Move Up          [v] Move Down";
 }
 
 
