@@ -1,10 +1,12 @@
 #pragma once
 #include "Constants.h"
-
-struct Ticket {
+#include <cstring>
+#include <fstream>
+#include <iostream>
+struct Ticket
+{
     unsigned int seat;
-    char CMND[LEN_CMND];
-    Ticket *next;
-    Ticket *prev;
+    char *CMND = nullptr;
     Ticket();
+    Ticket(unsigned int _seat, char *CMND);
 };

@@ -1,12 +1,9 @@
 #include <iostream>
-#include "include/Plane.h"
-#include "include/Flight.h"
-#include "include/Passenger.h"
-#include "include/Ticket.h"
-
+#include "include/Console.h"
 
 
 
 int main() {
-    return (0^0);
+    Console implement;
+    implement.start_the_program();
 }

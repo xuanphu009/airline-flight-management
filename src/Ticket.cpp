@@ -1,4 +1,4 @@
 #include "include/Ticket.h"
 
-
-Ticket::Ticket() : next(nullptr), prev(nullptr) {}
+Ticket::Ticket() {}
+Ticket::Ticket(unsigned int _seat, char *_CMND) : seat(_seat) { strcpy(CMND, _CMND); }
