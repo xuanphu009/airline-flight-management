@@ -1,6 +1,7 @@
 #pragma once
 #include "Constants.h"
 
+
 struct Plane
 {
     char flight_number[LEN_FLIGHT_NUMBER];
@@ -11,3 +12,4 @@ struct Plane
 };
 
 extern Plane *list_planes[MAX_PLANE]; // sô máy bay nội địa có
+

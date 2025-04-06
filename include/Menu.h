@@ -1,3 +1,4 @@
+
 #ifndef MENU_H
 #define MENU_H
 
@@ -14,6 +15,7 @@ public:
     void show_flight_manager_menu();
 
     // Aircraft Management
+
     void manage_aircrafts();
     void add_aircraft();
     void delete_aircraft();
@@ -47,4 +49,5 @@ public:
 };
 
 #endif 
+
 

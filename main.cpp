@@ -4,6 +4,9 @@
 
 
 int main() {
-    Console implement;
-    implement.start_the_program();
+    Console test;
+    test.enter_available_flights();
+
+    return 0;
 }
+
