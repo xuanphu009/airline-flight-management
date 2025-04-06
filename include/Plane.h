@@ -15,8 +15,6 @@ struct Plane
     void delete_plane();
     void update_plane();
     
-    void enter_plane();
-    void enter_plane_update();
 
 
     bool search_plane_id(char target[LEN_PLANE_ID]);
