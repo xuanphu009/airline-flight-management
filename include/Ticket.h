@@ -12,5 +12,4 @@ struct Ticket {
     Ticket(unsigned int _seat, char *CMND);
     
 
-
 };

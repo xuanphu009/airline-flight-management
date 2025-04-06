@@ -3,12 +3,12 @@
 #include "Menu.h"
 
 
-struct Plane {
+struct Plane
+{
     char plane_id[LEN_PLANE_ID];
     char plane_type[LEN_PLANE_TYPE];
     unsigned int number_of_seats;
     unsigned int number_of_flights_performed;
-    
     Plane();
 
     void add_plane();

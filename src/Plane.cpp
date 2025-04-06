@@ -1,5 +1,4 @@
 #include "../include/Plane.h"
-
 #include <cstring>
 #include <iostream>
 
@@ -26,7 +25,7 @@ void Plane::enter_plane(){
     int idx[4] = {}, column = 0;
 
     while (true) {
-        Menu::add_aircraft();
+        Menu::display_add_aircraft();
 
         Menu::gotoxy(57, 7);
         std::cout << other.plane_id;
@@ -40,7 +39,7 @@ void Plane::enter_plane(){
         if (other.number_of_flights_performed > 0){
             std::cout << other.number_of_flights_performed;
         }
-
+        
         switch (column) {
             case 0:
                 Menu::gotoxy(57 + idx[column], 7);
@@ -310,3 +309,4 @@ void Plane::enter_plane(){
                                                 
 
 // }
+
