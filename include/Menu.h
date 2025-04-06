@@ -8,44 +8,44 @@
 class Menu {
 public:
     void gotoxy(int x, int y);
-    void show_flight_manager_menu2(); 
-    void show_navigation_instructions();
-    void show_list_instructions();
-    void print_login_frame();
-    void show_flight_manager_menu();
+    void display_flight_manager_menu2(); 
+    void display_navigation_instructions();
+    void display_list_instructions();
+    void display_login_frame();
+    void display_flight_manager_menu();
 
     // Aircraft Management
 
-    void manage_aircrafts();
-    void add_aircraft();
-    void delete_aircraft();
-    void edit_aircraft_details();
-    void show_plane_list();
+    void display_manage_aircrafts();
+    void display_add_aircraft();
+    void display_delete_aircraft();
+    void display_edit_aircraft_details();
+    void display_plane_list();
 
         // Flight Management
-    void manage_flights();
-    void search_flight();
-    void create_new_flight();
-    void edit_flight_schedule();
-    void enter_flight_ID();
+    void display_manage_flights();
+    void display_search_flight();
+    void display_create_new_flight();
+    void display_edit_flight_schedule();
+    void display_enter_flight_ID();
 
     // Ticket Management
-    void book_ticket();
-    void cancel_ticket();
+    void display_book_ticket();
+    void display_cancel_ticket();
 
     // Passenger Information
-    void passenger_list();
+    void display_passenger_list();
 
     // Flight Queries
-    void available_flights();
-    void available_tickets();
+    void display_available_flights();
+    void display_available_tickets();
     void display_aircraft_statistics();
-    void show_flight_list();
+    void display_flight_list();
 
         // User Information
-    void enter_user_information();
-    void identification_information();
-    void enter_flight_details();
+    void display_enter_user_information();
+    void display_identification_information();
+    void display_enter_flight_details();
 };
 
 #endif 
