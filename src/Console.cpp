@@ -2,6 +2,9 @@
 #include <algorithm>
 
 
+Flight* Console::list = nullptr;
+Passenger* Console::input = nullptr;
+
 void Console::enter_available_tickets(Flight *flight) {
     int current_page = 0, current_column = 0;
     int max_pages = (*flight->total_seats) / SEATS_PER_PAGE + !!(*flight->total_seats % SEATS_PER_PAGE) - 1; // Số trang
@@ -90,5 +93,40 @@ void Console::enter_user_information() {
     }
 }
 void Console::enter_available_flights() {
-    Menu::display_flight_list();
+    char ch;
+    // std::cout << "hehe";
+    while(true) {
+        Menu::display_flight_list();
+        int i = 0;
+        Flight *tmp = list;
+        while(tmp != nullptr) {
+            Menu::gotoxy(26, 6 + i);
+            std::cout << tmp->flight_id;
+            Menu::gotoxy(43, 6 + i); 
+            std::cout << (tmp->plane_id);
+            Menu::gotoxy(43 + 19, 6 + i);
+            std::cout << tmp->date_dep.day << "/" << tmp->date_dep.month << "/" << tmp->date_dep.year << "|" << tmp->time_dep.hour << ":" << tmp->time_dep.minute;
+            Menu::gotoxy(43 + 19 + 18, 6 + i);  
+            std::cout << tmp->destination;
+            Menu::gotoxy(43 + 19 + 18 + 19, 6 + i);
+            switch (tmp->cur_status) {
+                case status::cancelled:
+                    std::cout << "cancelled";
+                    break;
+                case status::available:
+                    std::cout << "available";
+                    break;
+                case status::sold_out:
+                    std::cout << "sold out";
+                    break;
+                case status::completed:
+                    std::cout << "completed";
+                    break;
+            }
+            ++i;
+            tmp = tmp->next;
+
+        }
+        std::cin >> ch;
+    }   
 }

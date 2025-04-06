@@ -304,13 +304,13 @@ void Menu::display_flight_list() {
                          ______________________________________________________________________________________
                         |                                   FLIGHT LIST                                        |
                         |______________________________________________________________________________________|
-                        | Flight ID      |     Plane ID     | Dep Date & Time |  Destination   |    Status     |
-                        |________________|__________________|_________________|________________|_______________|
+                        | Flight ID      | Plane ID         | Dep Date & Time | Destination      | Status      |
+                        |________________|__________________|_________________|__________________|_____________|
     )" << std::endl;
     
 
     
-    show_navigation_instructions();
+    // show_navigation_instructions();
 }
 
 void Menu::book_ticket() { //C
@@ -458,16 +458,16 @@ void Menu::display_available_tickets(Flight *flight, int current_page, int max_p
 
     gotoxy(40, 9);  // Trạng thái chuyến bay
     switch (flight->cur_status) {
-        case Flight::status::cancelled:
+        case status::cancelled:
             std::cout << "Cancelled";
             break;
-        case Flight::status::available:
+        case status::available:
             std::cout << "Available";
             break;
-        case Flight::status::sold_out:
+        case status::sold_out:
             std::cout << "Sold Out";
             break;
-        case Flight::status::completed:
+        case status::completed:
             std::cout << "Completed";
             break;
     }

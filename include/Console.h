@@ -9,9 +9,9 @@
 #include "Menu.h"
 
 struct Console {
-    AVL_TREE manager;
-    Flight *list;
-    Passenger *input;
+    static Flight* list;    // Khai báo extern
+    static Passenger* input;
+    static AVL_TREE manager;
 
 
 
@@ -20,8 +20,6 @@ struct Console {
     //     Ticket new_ticket;
         
     // }
-
-
     void enter_available_tickets(Flight *flight);
     void enter_user_information();
     void enter_available_flights();
