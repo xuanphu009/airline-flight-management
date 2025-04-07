@@ -1,5 +1,5 @@
 #include <iostream>
-#include "include/Console.h"
+#include "../include/Console.h"
 #include <cstdlib>
 #include <ctime>
 #include <cstring>

@@ -1,16 +1,27 @@
 #include <iostream>
-#include <string>
-#include <conio.h>
-#include <windows.h>
 #include "../include/Menu.h"
 
-void Menu::gotoxy(int x, int y)
-{
+#if defined(_WIN32) || defined(_WIN64)
+    #include <windows.h>
+    #include <conio.h>
+
+    void Menu::gotoxy(int x, int y){
     COORD coord;
     coord.X = x; // col
     coord.Y = y; // row
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+#else
+    #include <stdlib.h>
+
+    void Menu::gotoxy(int x, int y){
+        std::cout << "\033[" << y + 1 << ";" << x + 1 << "H";
+
+    }
+#endif
+
+
+
 void Menu::display_navigation_instructions()
 {
     std::cout << R"(
@@ -34,7 +45,7 @@ void Menu::display_list_instructions()
 
 void Menu::display_login_frame()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         _________________________________________
                                        |                                         |
@@ -74,7 +85,7 @@ void Menu::display_flight_manager_menu()
 }
 void Menu::display_flight_manager_menu2()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                              ___________________________________________________________
                             |                                                           |
@@ -98,7 +109,7 @@ void Menu::display_flight_manager_menu2()
 }
 void Menu::display_manage_aircrafts()
 { // A
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |
@@ -118,31 +129,31 @@ void Menu::display_manage_aircrafts()
 }
 void Menu::display_add_aircraft()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
-                                        ________________________________________
-                                       |                                        |
-                                       |            ADD NEW AIRCRAFT            |
-                                       |________________________________________|
-                                       |                                        |
-                                       |   Aircraft ID:                         |
-                                       |________________________________________|
-                                       |                                        |
-                                       |   Aircraft Type:                       |
-                                       |________________________________________|
-                                       |                                        |
-                                       |   Number of Seats (>=20):              |
-                                       |________________________________________|
-                                       |                                        |
-                                       |   Flights Performed:                   |
-                                       |________________________________________|
+                                        __________________________________________________________
+                                       |                                                          |
+                                       |                       ADD NEW AIRCRAFT                   |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Aircraft ID:                                            |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Aircraft Type:                                          |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Number of Seats (>=20):                                 |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Flights Performed:                                      |
+                                       |__________________________________________________________|
 
     )";
 }
 
 void Menu::display_delete_aircraft()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                          ____________________________________________________
                                         |                                                    |
@@ -157,20 +168,20 @@ void Menu::display_delete_aircraft()
 }
 void Menu::display_search_flight()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                          ____________________________________________________
                                         |                                                    |
                                         |                  SEARCH FLIGHT                     |
                                         |____________________________________________________|
                                         |                                                    |
-                                        |  Enter Flight ID :                                 |
+                                        |  Enter Flight ID:                                  |
                                         |____________________________________________________|
                                         |                                                    |
                                         |  Enter Destination:                                |
                                         |____________________________________________________|
                                         |                                                    |
-                                        |  Enter Dep Data & Time :                           |
+                                        |  Enter Dep Date & Time:                            |
                                         |____________________________________________________|
                                         
                                        
@@ -178,30 +189,30 @@ void Menu::display_search_flight()
 }
 void Menu::display_edit_aircraft_details()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
-                                        ________________________________________
-                                       |                                        |
-                                       |         EDIT AIRCRAFT DETAILS          |
-                                       |________________________________________|
-                                       |                                        |
-                                       |  Enter Aircraft ID to edit:            |
-                                       |________________________________________|
-                                       |                                        |
-                                       |   Aircraft Type:                       |
-                                       |________________________________________|
-                                       |                                        |
-                                       |  Number of Seats (>=20):               |
-                                       |________________________________________|
-                                       |                                        |
-                                       |  Flights Performed:                    |
-                                       |________________________________________|
+                                        __________________________________________________________
+                                       |                                                          |
+                                       |                  EDIT AIRCRAFT DETAILS                   |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Enter Aircraft ID to edit:                              |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Aircraft Type:                                          |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Number of Seats (>=20):                                 |
+                                       |__________________________________________________________|
+                                       |                                                          |
+                                       |  Flights Performed:                                      |
+                                       |__________________________________________________________|
 
     )";
 }
 void Menu::display_manage_flights()
 { // B
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |
@@ -221,7 +232,7 @@ void Menu::display_manage_flights()
 }
 void Menu::display_create_new_flight()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ___________________________________________
                                        |                                           |
@@ -246,7 +257,7 @@ void Menu::display_create_new_flight()
 }
 void Menu::display_edit_flight_schedule()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         _______________________________________________
                                        |                                               |
@@ -266,14 +277,14 @@ void Menu::display_edit_flight_schedule()
 
 void Menu::display_enter_flight_ID()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |
                                        |            ENTER FLIGHT ID             |
                                        |________________________________________|
                                        |                                        |
-                                       |  Enter Flight ID :                     |
+                                       |  Enter Flight ID:                      |
                                        |________________________________________|
                                       
     )";
@@ -281,23 +292,23 @@ void Menu::display_enter_flight_ID()
 
 void Menu::display_enter_user_information()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ___________________________________________
                                        |                                           |
                                        |         ENTER USER INFORMATION            |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter Last Name:                       |
+                                       |  Enter Last Name:                         |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter First Name:                      |
+                                       |  Enter First Name:                        |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter Gender (Male: 1, Female: 0):     |
+                                       |  Enter Gender (Male: 1, Female: 0):       |
                                        |___________________________________________|
                                        |                                           |
-                                       |    Enter ID Card Number:                  |
+                                       |  Enter ID Card Number:                    |
                                        |___________________________________________|
 
     )";
@@ -305,20 +316,20 @@ void Menu::display_enter_user_information()
 
 void Menu::display_identification_information()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ___________________________________________
                                        |                                           |
                                        |       IDENTIFICATION INFORMATION          |
                                        |___________________________________________|
                                        |                                           |
-                                       |   Full Name:                              |
+                                       |  Full Name:                               |
                                        |___________________________________________|
                                        |                                           |
-                                       |   Gender:                                 |
+                                       |  Gender:                                  |
                                        |___________________________________________|
                                        |                                           |
-                                       |   ID Card Number:                         |
+                                       |  ID Card Number:                          |
                                        |___________________________________________|
 
     )";
@@ -326,67 +337,67 @@ void Menu::display_identification_information()
 
 void Menu::display_book_ticket()
 { // C
-    system("cls");
+    system("clear");
     std::cout << R"(
-									    ____________________________________________________________________________
-									   |                                                                            |
-									   |                               BOOK A TICKET                                |
-									   |____________________________________________________________________________|
-									   |                                                                            |
-                                       |  Enter Flight Date (dd/mm/yyyy):                                           |
-									   |____________________________________________________________________________|
-									   |                                                                            |
-									   |                               AVAILABLE FLIGHTS                            |
-									   |____________________________________________________________________________|
-									   |  Flight ID  |  Departure Time  |  Available Seats  |      Destination      |
-									   | ------------|------------------|-------------------|-----------------------|
-                                       |             |                  |                   |                       |       
-                                       |             |                  |                   |                       |
-                                       |             |                  |                   |                       |
-                                       |             |                  |                   |                       |
-                                       |             |                  |                   |                       |
-									   |_____________|__________________|___________________|_______________________|
-									   |                                                                            |
-                                       |  Enter Flight ID to book:                                                  |
-									   |____________________________________________________________________________|
-									   |                                                                            |
-                                       |  Enter Passenger's National ID card number :                               |
-									   |____________________________________________________________________________|
+									    ______________________________________________________________________________
+									   |                                                                              |
+									   |                               BOOK A TICKET                                  |
+									   |______________________________________________________________________________|
+									   |                                                                              |
+                                       |  Enter Flight Date (dd/mm/yyyy):                                             |
+									   |______________________________________________________________________________|
+									   |                                                                              |
+									   |                               AVAILABLE FLIGHTS                              |
+									   |______________________________________________________________________________|
+									   |    Flight ID    |  Departure Time  |  Available Seats  |    Destination      |
+									   |-----------------|------------------|-------------------|---------------------|
+                                       |                 |                  |                   |                     |       
+                                       |                 |                  |                   |                     |
+                                       |                 |                  |                   |                     |
+                                       |                 |                  |                   |                     |
+                                       |                 |                  |                   |                     |
+									   |_________________|__________________|___________________|_____________________|
+									   |                                                                              |
+                                       |  Enter Flight ID to book:                                                    |
+									   |______________________________________________________________________________|
+									   |                                                                              |
+                                       |  Enter Passenger's National ID card number :                                 |
+									   |______________________________________________________________________________|
 									   )";
 }
 
 void Menu::display_cancel_ticket()
 { // D
-    system("cls");
+    system("clear");
     std::cout << R"(
 		
-                                        ____________________________________________________________________________
-									   |                                                                            |
-									   |                              CANCEL TICKET                                 |
-									   |____________________________________________________________________________|
-									   |                                                                            |
-                                       |  Enter Passenger's National ID card number:                                |
-									   |____________________________________________________________________________|
-									   |                                                                            |
-									   |                              BOOKED FLIGHTS                                |
-									   |____________________________________________________________________________|
-									   |  Flight ID  |  Departure Time  |  Available Seats  |      Destination      |
-									   | ------------|------------------|-------------------|-----------------------|
-                                       |             |                  |                   |                       |       
-                                       |             |                  |                   |                       |
-                                       |             |                  |                   |                       |
-                                       |             |                  |                   |                       |
-                                       |             |                  |                   |                       |
-									   |_____________|__________________|___________________|_______________________|
-									   |                                                                            |
-                                       |  Enter Flight ID to cancel:                                                |
-									   |____________________________________________________________________________|
+                                        ______________________________________________________________________________
+									   |                                                                              |
+									   |                              CANCEL TICKET                                   |
+									   |______________________________________________________________________________|
+									   |                                                                              |
+                                       |  Enter Passenger's National ID card number:                                  |
+									   |______________________________________________________________________________|
+									   |                                                                              |
+									   |                              BOOKED FLIGHTS                                  |
+									   |______________________________________________________________________________|
+									   |    Flight ID    |  Departure Time  |  Available Seats  |    Destination      |
+									   |-----------------|------------------|-------------------|---------------------|
+                                       |                 |                  |                   |                     |       
+                                       |                 |                  |                   |                     |
+                                       |                 |                  |                   |                     |
+                                       |                 |                  |                   |                     |
+                                       |                 |                  |                   |                     |
+									   |_________________|__________________|___________________|_____________________|
+									   |                                                                              |
+                                       |  Enter Flight ID to cancel:                                                  |
+									   |______________________________________________________________________________|
 										)";
 }
 
 void Menu::display_passenger_list()
 { // E
-    system("cls");
+    system("clear");
     std::cout << R"(
 									    ____________________________________________________________________________
 									   |                                                                            |
@@ -407,20 +418,20 @@ void Menu::display_passenger_list()
 
 void Menu::display_available_flights()
 { // F
-    system("cls");
+    system("clear");
     std::cout << R"(
 			 _________________________________________________________
 			|                                                         |
             |     AVAILABLE FLIGHTS ON             TO                 |
             |_________________________________________________________|
-			|  Flight ID     | Departure Time | Available Seats       |
-			|----------------|----------------|-----------------------|
-			|                |                |                       |
-			|                |                |                       |
-			|                |                |                       |
-			|                |                |                       |
-			|                |                |                       |
-			|________________|________________|_______________________|
+			|    Flight ID    |  Departure Time |   Available Seats   |
+			|-----------------|-----------------|---------------------|
+			|                 |                 |                     |
+			|                 |                 |                     |
+			|                 |                 |                     |
+			|                 |                 |                     |
+			|                 |                 |                     |
+			|_________________|_________________|_____________________|
   )";
 }
 void Menu::display_available_tickets(int current_page, int max_pages) {
@@ -449,28 +460,28 @@ void Menu::display_available_tickets(int current_page, int max_pages) {
 
 void Menu::display_aircraft_statistics()
 { // h;
-    system("cls");
+    system("clear");
     std::cout << R"(
 									 _________________________________________________
 									|                                                 |
 									|        AIRCRAFT FLIGHT PERFORMANCE STATS        |
 									|_________________________________________________|
-									|  Aircraft ID  |        Flights Performed        |
-									|---------------|---------------------------------|
-                                    |               |                                 |
-                                    |               |                                 |
-                                    |               |                                 |
-                                    |               |                                 |
-                                    |               |                                 |
-									|_______________|_________________________________|
+									|   Aircraft ID    |        Flights Performed     |
+									|------------------|------------------------------|
+                                    |                  |                              |
+                                    |                  |                              |
+                                    |                  |                              |
+                                    |                  |                              |
+                                    |                  |                              |
+									|__________________|______________________________|
 									   )";
 }
 
 void Menu::display_enter_flight_details()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
-                ___________________________________________________
+                 ___________________________________________________
                 |         ENTER FLIGHT SEARCH DETAILS               |
                 |---------------------------------------------------|
                 |  Date of Departure (dd/mm/yyyy):                  |
@@ -499,14 +510,14 @@ void Menu::display_flight_list(int current_page, int max_pages) {
 }
 void Menu::display_plane_list()
 {
-    system("cls");
+    system("clear");
     std ::cout << R"(
-            ______________________________________________________________________________________
-		   |                                                                                      |
-           |                                   AIRPLANE LIST                                      |
-           |______________________________________________________________________________________|
-           | NO |   Aircraft ID  |                 Type                     |  Flights Performed  |
-           |----|----------------|------------------------------------------|---------------------|
+            _____________________________________________________________________________________
+		   |                                                                                     |
+           |                                   AIRPLANE LIST                                     |
+           |_____________________________________________________________________________________|
+           | NO |   Aircraft ID   |                 Type                     | Flights Performed |
+           |----|-----------------|------------------------------------------|-------------------|
                     
            )";
 }

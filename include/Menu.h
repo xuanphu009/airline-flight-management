@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <windows.h>
 
 namespace Menu {
     void gotoxy(int x, int y);
