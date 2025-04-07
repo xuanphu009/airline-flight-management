@@ -1,0 +1,18 @@
+# Ignore the .vscode folder
+.vscode/
+
+# Ignore build files
+/build/
+*.out
+*.exe
+*.o
+*.obj
+
+# Ignore IDE settings
+.idea/
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
