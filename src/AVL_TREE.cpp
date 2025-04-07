@@ -119,10 +119,15 @@ Node *AVL_TREE::erase(Node *x, Passenger data){
 }
 Node *AVL_TREE::search(Node *x, char *CMND) {
     if (x == nullptr) return nullptr;
-    if (strcmp(CMND, x->data.CMND) < 0)
+    std::cout << x->data.CMND << std::endl;
+    if (strcmp(CMND, x->data.CMND) < 0) {
+
        return search(x->left, CMND);
-    else if (strcmp(CMND, x->data.CMND) > 0)
+    }
+    else if (strcmp(CMND, x->data.CMND) > 0) {
+
        return search(x->right, CMND);
+    }
     else {
         return x;
     }

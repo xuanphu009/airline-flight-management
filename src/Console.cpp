@@ -21,6 +21,96 @@ unsigned int Console::count_flights() {
     return count;
 }
 
+void Console::start_program() {
+    int i = 0;
+    char ch;
+    while(true) {
+        Menu::display_login_frame();
+        Menu::gotoxy(25 + 29, 7 + i);
+        // ch = _getch();
+        if(i == 0) {
+            Menu::gotoxy(25 + 29, 7);
+            std::cout << ">>";
+            Menu::gotoxy(25 + 29, 10);
+            std::cout << "  ";
+        } else {    
+            Menu::gotoxy(25 + 29, 7);
+            std::cout << "  ";
+            Menu::gotoxy(25 + 29, 10);
+            std::cout << ">>";
+        }
+        // std::cout << ">>";
+        Menu::gotoxy(0, 0);
+        ch = _getch();
+        if(ch == UP && i > 0) --i;
+        else if(ch == DOWN && i < 1) ++i; 
+        else if(ch == ENTER) {
+            if(i == 0) {
+                enter_user_information();
+                input = nullptr;
+                continue;
+            } else {
+                enter_manager_menu();
+            }
+        }
+    }
+}
+void Console::enter_manager_menu() {
+    int i = 0;
+    char ch;
+    while(true) {
+        Menu::display_manager_menu();
+        Menu::gotoxy(25 + 29, 7 + i);
+        // ch = _getch();
+        if(i == 0) {
+            Menu::gotoxy(29, 6);
+            std::cout << ">>";
+            Menu::gotoxy(29, 9);
+            std::cout << "  ";
+            Menu::gotoxy(29, 12);
+            std::cout << "  ";
+        } else if (i == 1){    
+            Menu::gotoxy(29, 6);
+            std::cout << "  ";
+            Menu::gotoxy(29, 9);
+            std::cout << ">>";
+            Menu::gotoxy(29, 12);
+            std::cout << "  ";
+        } else if(i == 2) {
+            Menu::gotoxy(29, 6);
+            std::cout << "  ";
+            Menu::gotoxy(29, 9);
+            std::cout << "  ";
+            Menu::gotoxy(29, 12);
+            std::cout << ">>";
+        }
+        // std::cout << ">>";
+        Menu::gotoxy(0, 0);
+        ch = _getch();
+        if(ch == UP && i > 0) --i;
+        else if(ch == DOWN && i < 2) ++i; 
+        else if(ch == ENTER) {
+            if(i == 0) {
+                enter_plane_list();
+            } else if(i == 1) {
+                enter_available_flights();
+            } else if(i == 2) {
+                enter_plane_statistics();
+            }
+        }
+    }
+}
+
+void Console::enter_plane_statistics() {
+    char ch;
+    while (true)
+    {
+        Menu::display_plane_statistics();
+        ch = _getch();
+    }
+    
+}
+
 void Console::enter_available_tickets(Flight *flight) {
     int current_page = 0, current_column = 0;
     int max_pages = (*flight->total_seats) / SEATS_PER_PAGE + !!(*flight->total_seats % SEATS_PER_PAGE) - 1; // Số trang
@@ -91,12 +181,28 @@ void Console::enter_available_tickets(Flight *flight) {
         else if (key == DOWN && current_column < (end_idx - start_idx - 1))
             current_column++;  // Phím mũi tên xuống để chọn vé ở vị trí sau đó
         else if (key == ENTER) { // Phím ENTER
-            int selected = start_idx + current_column + 1;
-            flight->tickets[selected].seat = selected;
+            int selected = start_idx + current_column;
+            if(flight->tickets[selected].CMND != nullptr){
+                //hiện thông báo đã có người đăng kí
+                continue;
+            }
             flight->tickets[selected].CMND = input->CMND;
-            Node *test = manager.search(manager.get_root(), input->CMND);
-            if(test != nullptr) manager.insert(manager.get_root(), *input);
+
+            flight->tickets[selected].seat = selected;
+            // Node *test1 = manager.search(manager.root, nullptr);
+            // Sleep(2000);
+            Node *test = manager.search(manager.root, input->CMND);
+            // Node *test1 = manager.search(manager.root, nullptr);
+            // std::ofstream of("E:\\Repos\\DSA\\data\\Passenger\\hehe.txt");
+            // of 
+            if(test == nullptr) {
+                if(manager.root == nullptr) manager.root = manager.insert(manager.root, *input);
+                else manager.insert(manager.root, *input);
+            }
             //in ra mua thành công
+            Console::input = nullptr;
+            for(int i = 0; i < 100; ++i) std::cout <<( manager.root == nullptr ? "hehe" : "cc") << std::endl; 
+            // Sleep(10000 );
             break;
         }
     }
@@ -165,8 +271,11 @@ void Console::enter_user_information() {
             ++column;
         } else if (ch == ENTER && input->valid_user()) {
             // thiếu điều kiện
+            // std::cout << input->CMND << std::endl;
+            // Sleep(6000);
+        
             enter_available_flights();
-            break;
+            return;
         }
         // #ifdef __APPLE__
         //     if (ch == 27 && _getch() == '[') { // Nếu là ESC [
@@ -174,15 +283,23 @@ void Console::enter_user_information() {
         //     }
         // #endif
         // if (ch == UP || ch == 'A') {
-            //     if (column > 0) --column;
-            // } else if (ch == DOWN || ch == 'B') {
-            //     if (column < 3) ++column;
-            // } else if (ch == ENTER && input->valid_user()) {
-            //     break;
-            // }
+        // if (column > 0) --column;
+        // } else if (ch == DOWN || ch == 'B') {
+        //     if (column < 3) ++column;
+        // } else if (ch == ENTER && input->valid_user()) {
+        //     break;
+        // }
     
     }
 }
+void Console::enter_plane_list() {
+    char ch;
+    while(true) {
+        Menu::display_plane_list();
+        ch = _getch();
+    }
+}
+
 
 void Console::enter_available_flights() {
     
@@ -270,15 +387,24 @@ void Console::enter_available_flights() {
         } else if (ch == LEFT && cur_page > 0) {
             --cur_page;
             cur_row = 0;  // Reset chỉ số dòng khi chuyển trang
-        } else if (ch == ENTER) {
-            if(page_start->valid_user(input->CMND)) {
-                enter_available_tickets(page_start);
-                break;
-            } else {
-                //in thống váo không hợp lệ
+        } else if(ch == ESC) {
+            return;
+        }else if (ch == ENTER) {
+            Flight *selected_flight = page_start;
+            for (unsigned int j = 0; j < cur_row && selected_flight != nullptr; ++j) {
+                selected_flight = selected_flight->next;
             }
-            
-        }
+            if(input == nullptr) {
+
+            } else {
+                if(selected_flight->valid_user(input->CMND)) {
+                    enter_available_tickets(selected_flight);
+                    break;
+                } else {
+                    break;
+                }   
+            }
+        } 
     }
 }
 void Console::enter_plane_information(Plane &other){

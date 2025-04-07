@@ -23,7 +23,11 @@ struct Console {
         
     // }
     bool search_plane_id(char target[LEN_PLANE_ID]);
+    void enter_plane_statistics();
     unsigned int count_flights();
+    void start_program();
+    void enter_manager_menu();
+    void enter_plane_list();
     void enter_available_tickets(Flight *flight);
     void enter_user_information();
     void enter_available_flights();

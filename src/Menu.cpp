@@ -53,15 +53,21 @@ void Menu::display_login_frame()
                                        |               WHO ARE YOU ?             |
                                        |_________________________________________|
                                        |                                         | 
-                                       |              >   USER                   |                       	  
+                                       |                  USER                   |                       	  
                                        |_________________________________________|
                                        |                                         |  
                                        |                 MANAGER                 |      
                                        |_________________________________________|                                      
     )";
+    // 📌 Hiển thị điều hướng trang
+    gotoxy(35, 26);
+    std::cout << "[<] Previous Page    [>] Next Page  ";
+    gotoxy(35, 27);
+    std::cout << "[^] Move Up          [v] Move Down";
+    // show_navigation_instructions();
 }
 
-void Menu::display_flight_manager_menu()
+void Menu::display_manager_menu()
 {
     std::cout << R"(
                              ___________________________________________________________
@@ -69,10 +75,10 @@ void Menu::display_flight_manager_menu()
                             |                   FLIGHT MANAGEMENT SYSTEM                |
                             |___________________________________________________________|
                             |                                                           |
-                            |  [1] Update Airplane List                                 |
+                            |  [1] Update Plane List                                    |
                             |___________________________________________________________|
                             |                                                           |
-                            |  [2] Update Flights                                       |
+                            |  [2] Update Flight List                                   |
                             |___________________________________________________________|
                             |                                                           |
                             |  [3] Flight Statistics (Sorted by Most Flights)           |
@@ -193,13 +199,13 @@ void Menu::display_edit_aircraft_details()
     std::cout << R"(
                                         __________________________________________________________
                                        |                                                          |
-                                       |                  EDIT AIRCRAFT DETAILS                   |
+                                       |                  EDIT PLANE DETAILS                      |
                                        |__________________________________________________________|
                                        |                                                          |
-                                       |  Enter Aircraft ID to edit:                              |
+                                       |  Enter Plane ID to edit:                                 |
                                        |__________________________________________________________|
                                        |                                                          |
-                                       |  Aircraft Type:                                          |
+                                       |  Plane Type:                                             |
                                        |__________________________________________________________|
                                        |                                                          |
                                        |  Number of Seats (>=20):                                 |
@@ -308,7 +314,7 @@ void Menu::display_enter_user_information()
                                        |  Enter Gender (Male: 1, Female: 0):       |
                                        |___________________________________________|
                                        |                                           |
-                                       |  Enter ID Card Number:                    |
+                                       |  Enter CMND:                              |
                                        |___________________________________________|
 
     )";
@@ -458,22 +464,16 @@ void Menu::display_available_tickets(int current_page, int max_pages) {
     std::cout << "[^] Move Up          [v] Move Down";
 }
 
-void Menu::display_aircraft_statistics()
+void Menu::display_plane_statistics()
 { // h;
     system("cls");
     std::cout << R"(
 									 _________________________________________________
 									|                                                 |
-									|        AIRCRAFT FLIGHT PERFORMANCE STATS        |
+									|        PLANE FLIGHT PERFORMANCE STATS        |
 									|_________________________________________________|
-									|   Aircraft ID    |        Flights Performed     |
+									|   Plane ID       |        Flights Performed     |
 									|------------------|------------------------------|
-                                    |                  |                              |
-                                    |                  |                              |
-                                    |                  |                              |
-                                    |                  |                              |
-                                    |                  |                              |
-									|__________________|______________________________|
 									   )";
 }
 
@@ -512,12 +512,12 @@ void Menu::display_plane_list()
 {
     system("cls");
     std ::cout << R"(
-            _____________________________________________________________________________________
-		   |                                                                                     |
-           |                                   AIRPLANE LIST                                     |
-           |_____________________________________________________________________________________|
-           | NO |   Aircraft ID   |                 Type                     | Flights Performed |
-           |----|-----------------|------------------------------------------|-------------------|
+                         _____________________________________________________________________________________
+                        |                                                                                     |
+                        |                                      PLANE LIST                                     |
+                        |_____________________________________________________________________________________|
+                        |    Plane ID          |                 Plane Type               | Number Of Seats   |
+                        |______________________|__________________________________________|___________________|
                     
            )";
 }

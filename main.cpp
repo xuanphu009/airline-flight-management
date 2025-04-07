@@ -82,10 +82,10 @@ int main() {
     }
 
     while(true) {
-        test.enter_user_information();
+        test.start_program();
     }
 
-    // test.enter_available_flights();
+    // test.start_program();
 
     return 0;
 }

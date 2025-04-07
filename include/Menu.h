@@ -8,7 +8,7 @@ namespace Menu {
     void display_navigation_instructions();
     void display_list_instructions();
     void display_login_frame();
-    void display_flight_manager_menu();
+    void display_manager_menu();
 
     // Aircraft Management
 
@@ -35,7 +35,7 @@ namespace Menu {
     // Flight Queries
     void display_available_flights();
     void display_available_tickets(int current_page, int max_pages);
-    void display_aircraft_statistics();
+    void display_plane_statistics();
     void display_flight_list(int current_page, int max_pages);
 
         // User Information
