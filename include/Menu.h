@@ -1,59 +1,50 @@
 #pragma once
 
-#include "Constants.h"
-#include "Flight.h"
 #include <iostream>
+#include <windows.h>
 
-#if defined(_WIN32) || defined(_WIN64)
-    #include <conio.h>
-    #include <windows.h>
-#else
-    #include <cstdlib>
-
-#endif
-
-namespace Menu {
+class Menu {
+public:
     void gotoxy(int x, int y);
-    void notification();
-    void show_navigation_instructions();
-    void print_login_frame();
-    void print_manager_menu();
-    void manage_aircrafts();
-    void add_aircraft();
-    void delete_aircraft();
-    void edit_aircraft_details();
-    void manage_flights();
-    void create_new_flight();
-    void edit_flight_schedule();
-    void cancel_flight();
-    void display_enter_user_information();
-    void identification_information();
-    void display_flight_list(int current_page, int max_pages);
-    void book_ticket();
-    void cancel_ticket();
-    void passenger_list();
-    void available_flights();
+    void display_flight_manager_menu2(); 
+    void display_navigation_instructions();
+    void display_list_instructions();
+    void display_login_frame();
+    void display_flight_manager_menu();
+
+    // Aircraft Management
+
+    void display_manage_aircrafts();
+    void display_add_aircraft();
+    void display_delete_aircraft();
+    void display_edit_aircraft_details();
+    void display_plane_list();
+
+        // Flight Management
+    void display_manage_flights();
+    void display_search_flight();
+    void display_create_new_flight();
+    void display_edit_flight_schedule();
+    void display_enter_flight_ID();
+
+    // Ticket Management
+    void display_book_ticket();
+    void display_cancel_ticket();
+
+    // Passenger Information
+    void display_passenger_list();
+
+    // Flight Queries
+    void display_available_flights();
     void display_available_tickets(int current_page, int max_pages);
     void display_aircraft_statistics();
-    void display_flight_statistics();
+    void display_flight_list(int current_page, int max_pages);
 
-    void print_main_menu();
-    void print_manage_planes();
-    void print_manage_flights();
-    void print_ticket_booking();
-    void print_cancel_ticket();
-    void print_passenger_list();
-    void print_available_flights();
-
-
-    void display_flight_list();
-    void dispaly_plane_list();
-
-    // void display_booked_flights();
-    // void display_passenger_list();
-    // void display_available_flights();
-    // void display_available_tickets();
-    // void function();
+        // User Information
+    void display_enter_user_information();
+    void display_identification_information();
+    void display_enter_flight_details();
 };
+
 
 

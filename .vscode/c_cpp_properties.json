@@ -1,4 +1,22 @@
 {
+<<<<<<< HEAD
+  "configurations": [
+    {
+      "name": "windows-gcc-x64",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "compilerPath": "C:/TDM-GCC-64/bin/gcc.exe",
+      "cStandard": "${default}",
+      "cppStandard": "${default}",
+      "intelliSenseMode": "windows-gcc-x64",
+      "compilerArgs": [
+        ""
+      ]
+    }
+  ],
+  "version": 4
+=======
     "configurations": [
         {
             "name": "Win32",
@@ -17,4 +35,5 @@
         }
     ],
     "version": 4
+>>>>>>> 9da11757917de971f9714b8db7cd315d9df6ddd0
 }

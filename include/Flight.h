@@ -67,6 +67,7 @@ struct Flight {
     unsigned int *total_seats;
 
     // danh sách chuyến bay trỏ đến nhau
+
     Flight *next;
 
     Flight();
