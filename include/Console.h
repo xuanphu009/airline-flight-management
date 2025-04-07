@@ -10,10 +10,10 @@
 
 
 struct Console {
-    static Flight* list;    // Khai báo extern
-    static Passenger* input;
-    static AVL_TREE manager;
-    static Plane *list_planes[MAX_PLANE];
+    Flight* list = nullptr;    // Khai báo extern
+    Passenger* input = nullptr;
+    AVL_TREE manager;
+    Plane *list_planes[MAX_PLANE];
 
 
 

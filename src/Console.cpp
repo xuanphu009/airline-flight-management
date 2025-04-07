@@ -3,9 +3,9 @@
 #include <algorithm>
 
 
-Flight* Console::list = nullptr;
-Passenger* Console::input = nullptr;
-AVL_TREE Console::manager = AVL_TREE();
+// Flight* Console::list = nullptr;
+// Passenger* Console::input = nullptr;
+// AVL_TREE Console::manager = AVL_TREE();
 
 
 bool Console::search_plane_id(char target[LEN_PLANE_ID]){
