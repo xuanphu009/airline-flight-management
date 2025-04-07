@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <cstring>
+
+
 void generateRandomFlights(Flight *&test) {
     
     test = new Flight;

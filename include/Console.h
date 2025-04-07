@@ -1,24 +1,13 @@
-<<<<<<< HEAD
-
+#pragma once
 #include "Plane.h"
 #include "Flight.h"
 #include "Passenger.h"
+#include "AVL_TREE.h"
 #include "Ticket.h"
 #include "Menu.h"
 #include "Constants.h"
 #include <windows.h>
 
-void start_the_program() 
-
-#pragma once
-#include "Flight.h"
-#include "Passenger.h"
-#include "Menu.h"
-#include "AVL_tree.h"
-#include <cstring>
-#include <iostream>
-#include <conio.h>
-#include "Menu.h"
 
 struct Console {
     static Flight* list;    // Khai báo extern

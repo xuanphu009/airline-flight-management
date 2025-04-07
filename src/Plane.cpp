@@ -7,6 +7,6 @@ Plane::Plane(){
     plane_id[0] = '\0';
     plane_type[0] = '\0';
     number_of_seats = 0;
-    number_of_flights_performed = 0;
+    // number_of_flights_performed = 0;
 }
 

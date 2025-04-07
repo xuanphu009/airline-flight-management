@@ -3,8 +3,7 @@
 #include <iostream>
 #include <windows.h>
 
-class Menu {
-public:
+namespace Menu {
     void gotoxy(int x, int y);
     void display_flight_manager_menu2(); 
     void display_navigation_instructions();
@@ -44,7 +43,7 @@ public:
     void display_enter_user_information();
     void display_identification_information();
     void display_enter_flight_details();
-};
+}
 
 
 

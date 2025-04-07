@@ -2,7 +2,7 @@
 #include <string>
 #include <conio.h>
 #include <windows.h>
-#include "Menu.h"
+#include "../include/Menu.h"
 
 void Menu::gotoxy(int x, int y)
 {
