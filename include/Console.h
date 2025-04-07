@@ -6,7 +6,7 @@
 #include "Ticket.h"
 #include "Menu.h"
 #include "Constants.h"
-#include <windows.h>
+
 
 
 struct Console {
@@ -17,19 +17,21 @@ struct Console {
 
 
 
+
     // void buy_ticket(Passenger input, Flight *booking) {
     //     //in ra danh sách vé còn trống
     //     Ticket new_ticket;
         
     // }
-    bool search_plane_id(char target[LEN_PLANE_ID]);
+
     unsigned int count_flights();
     void enter_available_tickets(Flight *flight);
     void enter_user_information();
     void enter_available_flights();
 
-    void enter_plane_information(Plane &other);
-    void enter_plane_update(Plane &other);
+    void enter_plane_information();
+    void enter_plane_update();
+    void enter_plane_delete();
 };
 
 

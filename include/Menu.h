@@ -18,6 +18,14 @@ namespace Menu {
     void display_edit_aircraft_details();
     void display_plane_list();
 
+    void display_empty_aircraft_list();
+    void display_aircraft_exist();
+    void display_full_aircraft_list();
+    void display_success_add_aircraft();
+    void display_success_delete_aircraft();
+    void display_success_update_aircraft();
+    void display_aircraft_not_found();
+
         // Flight Management
     void display_manage_flights();
     void display_search_flight();
