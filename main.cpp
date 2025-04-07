@@ -65,7 +65,7 @@ void generateRandomFlights(Flight *&test) {
 int main() {
     srand(time(NULL)); // Khởi tạo seed ngẫu nhiên
     Console test;
-    for (int i = 0; i < 12; ++i) {
+    for (int i = 0; i < 30; ++i) {
         Flight *new_flight;
         generateRandomFlights(new_flight);
         
@@ -79,8 +79,11 @@ int main() {
         }
     }
 
+    while(true) {
+        test.enter_user_information();
+    }
 
-    test.enter_available_flights();
+    // test.enter_available_flights();
 
     return 0;
 }

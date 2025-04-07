@@ -20,6 +20,7 @@ struct Console {
     //     Ticket new_ticket;
         
     // }
+    unsigned int count_flights();
     void enter_available_tickets(Flight *flight);
     void enter_user_information();
     void enter_available_flights();

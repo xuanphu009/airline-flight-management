@@ -15,7 +15,8 @@ struct Node {
 };
 
 struct AVL_TREE {
-    Node * root = nullptr;
+    Node * root;
+    AVL_TREE() : root(nullptr) {}
     int get_height(Node *x);
     int max(int a, int b);
     int get_balance(Node *x);

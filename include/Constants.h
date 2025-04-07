@@ -27,7 +27,7 @@ constexpr int LEN_FLIGHT_ID = 15, LEN_DESTINATION = 16;
 constexpr int LEN_LAST_NAME = 12, LEN_FIRST_NAME = 12;
 constexpr int LEN_PLANE_ID = 15, LEN_PLANE_TYPE = 40, MAX_PLANE = 300;
 constexpr int LEN_CMND = 15;
-constexpr int UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 13;
+constexpr int UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 13, ESC = 27;
 constexpr int SEATS_PER_PAGE = 10, FLIGHTS_PER_PAGE = 10;
 constexpr int BACKSPACE = 8;
 
@@ -40,17 +40,17 @@ void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) {
 #ifdef _WIN32
         if (ch == -32 || ch == 224) { 
             ch = _getch(); 
-            return; 
+            break; // Thoát vòng lặp, không return
         }
 #else
-        if (ch == 27) { // ESC
+        if (ch == 27) {
             if (_getch() == '[') {
                 ch = _getch();
-                return;
+                break;
             }
         }
-        if (ch == ENTER || ch == '\n') return;
 #endif
+        if (ch == ENTER || ch == '\n') break;
 
         if (ch == BACKSPACE || ch == 127) {
             if (index > 0) {
@@ -58,7 +58,6 @@ void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) {
                 str[--index] = '\0';
             }
         } else if (index < max_len - 1) {
-            // Sử dụng fold expression để kiểm tra tất cả điều kiện
             if ((conditions(ch) && ...)) {
                 std::cout << ch;
                 str[index++] = ch;
