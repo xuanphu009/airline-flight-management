@@ -6,7 +6,7 @@
 #include "Ticket.h"
 #include "Menu.h"
 #include "Constants.h"
-#include <windows.h>
+
 
 
 struct Console {
@@ -14,6 +14,7 @@ struct Console {
     Passenger* input = nullptr;
     AVL_TREE manager;
     Plane *list_planes[MAX_PLANE];
+
 
 
 
@@ -32,8 +33,9 @@ struct Console {
     void enter_user_information();
     void enter_available_flights();
 
-    void enter_plane_information(Plane &other);
-    void enter_plane_update(Plane &other);
+    void enter_plane_information();
+    void enter_plane_update();
+    void enter_plane_delete();
 };
 
 

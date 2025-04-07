@@ -13,12 +13,18 @@
 }
 #else
     #include <stdlib.h>
+    #include <unistd.h>  
 
     void Menu::gotoxy(int x, int y){
-        std::cout << "\033[" << y + 1 << ";" << x + 1 << "H";
+        std::cout << "\033[" << y  << ";" << x << "H";
 
     }
+    // Định nghĩa lại Sleep cho Linux/macOS
+    void Sleep(long long time) {
+        usleep(time * 1000); // usleep nhận tham số là micro-giây (1 mili-giây = 1000 micro-giây)
+    }
 #endif
+
 
 
 
@@ -45,7 +51,7 @@ void Menu::display_list_instructions()
 
 void Menu::display_login_frame()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         _________________________________________
                                        |                                         |
@@ -91,7 +97,7 @@ void Menu::display_manager_menu()
 }
 void Menu::display_flight_manager_menu2()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                              ___________________________________________________________
                             |                                                           |
@@ -115,7 +121,7 @@ void Menu::display_flight_manager_menu2()
 }
 void Menu::display_manage_aircrafts()
 { // A
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |
@@ -135,7 +141,7 @@ void Menu::display_manage_aircrafts()
 }
 void Menu::display_add_aircraft()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         __________________________________________________________
                                        |                                                          |
@@ -159,7 +165,7 @@ void Menu::display_add_aircraft()
 
 void Menu::display_delete_aircraft()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                          ____________________________________________________
                                         |                                                    |
@@ -172,9 +178,80 @@ void Menu::display_delete_aircraft()
                                        
     )";
 }
+void Menu::display_aircraft_exist(){
+    system("clear");
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |    AIRCRAFT ID ALREALDY EXISTS   |
+                                            |__________________________________|
+         )";
+    Sleep(2000);
+}
+void Menu::display_empty_aircraft_list(){
+    system("clear");
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |    THE AIRCRAFT LIST IS EMPTY    |
+                                            |__________________________________|
+         )";
+    Sleep(2000);
+}
+void Menu::display_full_aircraft_list(){
+    system("clear");
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |    THE AIRCRAFT LIST IS FULL     |
+                                            |__________________________________|
+         )";
+    Sleep(2000);
+}
+void Menu::display_success_add_aircraft(){
+    system("clear");
+    std::cout << R"(
+                                             ___________________________________ 
+                                            |                                   |
+                                            |    SUCCESSFULLY ADDED AIRCRAFT    |
+                                            |___________________________________|
+        )";
+    Sleep(2000);
+}
+void Menu::display_success_delete_aircraft(){
+    system("clear");
+    std::cout << R"(
+                                             ___________________________________ 
+                                            |                                   |
+                                            |   SUCCESSFULLY DELETED AIRCRAFT   |
+                                            |___________________________________|
+        )";
+    Sleep(2000);
+}
+void Menu::display_success_update_aircraft(){
+    system("clear");
+    std::cout << R"(
+                                             ___________________________________ 
+                                            |                                   |
+                                            |   SUCCESSFULLY UPDATED AIRCRAFT   |
+                                            |___________________________________|
+        )";
+    Sleep(2000);
+}
+void Menu::display_aircraft_not_found(){
+    system("clear");
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |        AIRCRAFT NOT FOUND        |
+                                            |__________________________________|
+                )";
+    Sleep(2000);
+}
+
 void Menu::display_search_flight()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                          ____________________________________________________
                                         |                                                    |
@@ -195,7 +272,7 @@ void Menu::display_search_flight()
 }
 void Menu::display_edit_aircraft_details()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         __________________________________________________________
                                        |                                                          |
@@ -218,7 +295,7 @@ void Menu::display_edit_aircraft_details()
 }
 void Menu::display_manage_flights()
 { // B
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |
@@ -238,7 +315,7 @@ void Menu::display_manage_flights()
 }
 void Menu::display_create_new_flight()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ___________________________________________
                                        |                                           |
@@ -263,7 +340,7 @@ void Menu::display_create_new_flight()
 }
 void Menu::display_edit_flight_schedule()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         _______________________________________________
                                        |                                               |
@@ -283,7 +360,7 @@ void Menu::display_edit_flight_schedule()
 
 void Menu::display_enter_flight_ID()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |
@@ -298,7 +375,7 @@ void Menu::display_enter_flight_ID()
 
 void Menu::display_enter_user_information()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ___________________________________________
                                        |                                           |
@@ -322,7 +399,7 @@ void Menu::display_enter_user_information()
 
 void Menu::display_identification_information()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ___________________________________________
                                        |                                           |
@@ -343,7 +420,7 @@ void Menu::display_identification_information()
 
 void Menu::display_book_ticket()
 { // C
-    system("cls");
+    system("clear");
     std::cout << R"(
 									    ______________________________________________________________________________
 									   |                                                                              |
@@ -374,7 +451,7 @@ void Menu::display_book_ticket()
 
 void Menu::display_cancel_ticket()
 { // D
-    system("cls");
+    system("clear");
     std::cout << R"(
 		
                                         ______________________________________________________________________________
@@ -403,7 +480,7 @@ void Menu::display_cancel_ticket()
 
 void Menu::display_passenger_list()
 { // E
-    system("cls");
+    system("clear");
     std::cout << R"(
 									    ____________________________________________________________________________
 									   |                                                                            |
@@ -424,7 +501,7 @@ void Menu::display_passenger_list()
 
 void Menu::display_available_flights()
 { // F
-    system("cls");
+    system("clear");
     std::cout << R"(
 			 _________________________________________________________
 			|                                                         |
@@ -441,7 +518,7 @@ void Menu::display_available_flights()
   )";
 }
 void Menu::display_available_tickets(int current_page, int max_pages) {
-    system("cls");
+    system("clear");
     std::cout << R"(
                         ___________________________________________________________________________________________
                         |                                                                                          |
@@ -466,7 +543,7 @@ void Menu::display_available_tickets(int current_page, int max_pages) {
 
 void Menu::display_plane_statistics()
 { // h;
-    system("cls");
+    system("clear");
     std::cout << R"(
 									 _________________________________________________
 									|                                                 |
@@ -479,7 +556,7 @@ void Menu::display_plane_statistics()
 
 void Menu::display_enter_flight_details()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                  ___________________________________________________
                 |         ENTER FLIGHT SEARCH DETAILS               |
@@ -491,7 +568,7 @@ void Menu::display_enter_flight_details()
         )";
 }
 void Menu::display_flight_list(int current_page, int max_pages) {
-    system("cls");
+    system("clear");
     std::cout << R"(
                          ______________________________________________________________________________________
                         |                                   FLIGHT LIST                                        |
@@ -510,7 +587,7 @@ void Menu::display_flight_list(int current_page, int max_pages) {
 }
 void Menu::display_plane_list()
 {
-    system("cls");
+    system("clear");
     std ::cout << R"(
                          _____________________________________________________________________________________
                         |                                                                                     |
