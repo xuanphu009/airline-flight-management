@@ -95,7 +95,7 @@ void Menu::display_manager_menu()
                             
     )" << std::endl;
 }
-void Menu::display_flight_manager_menu2()
+void Menu::display_flight_manager_menu()
 {
     system("cls");
     std::cout << R"(
@@ -119,22 +119,22 @@ void Menu::display_flight_manager_menu2()
                             [TAB] Back to Main Menu                                  
                             [ESC] Exit System        )";
 }
-void Menu::display_manage_aircrafts()
+void Menu::display_manage_plane()
 { // A
     system("cls");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |
-                                       |          AIRCRAFT MANAGEMENT           |
+                                       |          PLANE MANAGEMENT              |
                                        |________________________________________|
                                        |                                        |
-                                       |         >    Add Aircraft              |
+                                       |              Add Plane                 |
                                        |________________________________________|
                                        |                                        |
-                                       |            Delete Aircraft             |
+                                       |              Delete Plane              |
                                        |________________________________________|
                                        |                                        |
-                                       |           Edit Aircraft Details        |
+                                       |              Edit Plane Details        |
                                        |________________________________________|
 
     )";
@@ -484,18 +484,18 @@ void Menu::display_passenger_list()
     std::cout << R"(
 									    ____________________________________________________________________________
 									   |                                                                            |
-									   |              PASSENGER LIST FOR FLIGHT                                     |
+									   |                     PASSENGER LIST FOR FLIGHT                              |
 									   |____________________________________________________________________________|
 									   |  Departure Date:                     Destination:                          |
 									   |____________________________________________________________________________|                                                                           |
-									   |   No.   | Ticket No.  |    ID Number    |      Full Name       |   Gender  |
-									   |---------|-------------|-----------------|----------------------|-----------|
-									   |         |             |                 |                      |           |
-                                       |         |             |                 |                      |           |
-                                       |         |             |                 |                      |           |
-                                       |         |             |                 |                      |           |
-                                       |         |             |                 |                      |           |
-									   |_________|_____________|_________________|______________________|___________|
+									   |  Ticket No.          |    CMND         |      Last Name       |   Gender   |
+									   |----------------------|-----------------|----------------------|------------|
+									   |                      |                 |                      |            |
+                                       |                      |                 |                      |            |
+                                       |                      |                 |                      |            |
+                                       |                      |                 |                      |            |
+                                       |                      |                 |                      |            |
+									   |______________________|_________________|______________________|____________|
 									   )";
 }
 
@@ -541,17 +541,23 @@ void Menu::display_available_tickets(int current_page, int max_pages) {
     std::cout << "[^] Move Up          [v] Move Down";
 }
 
-void Menu::display_plane_statistics()
+void Menu::display_plane_statistics(int current_page, int max_pages)
 { // h;
     system("cls");
+    //PLANE FLIGHT PERFORMANCE STATS
     std::cout << R"(
-									 _________________________________________________
-									|                                                 |
-									|        PLANE FLIGHT PERFORMANCE STATS        |
-									|_________________________________________________|
-									|   Plane ID       |        Flights Performed     |
-									|------------------|------------------------------|
-									   )";
+                         _____________________________________________________________________________________________
+                        |                                                                                            |
+                        |                         PLANE FLIGHT PERFORMANCE STATS                                     |
+                        |____________________________________________________________________________________________|
+                        |  Plane ID       |  Plane Type                                 |  Number Flights Performed  |
+                        |_________________|_____________________________________________|____________________________|
+									   )";       
+    // 📌 Hiển thị điều hướng trang
+    gotoxy(35, 26);
+    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    gotoxy(35, 27);
+    std::cout << "[^] Move Up          [v] Move Down";
 }
 
 void Menu::display_enter_flight_details()
@@ -585,16 +591,21 @@ void Menu::display_flight_list(int current_page, int max_pages) {
     std::cout << "[^] Move Up          [v] Move Down";
     // show_navigation_instructions();
 }
-void Menu::display_plane_list()
-{
+void Menu::display_plane_list(int current_page, int max_pages) {
     system("cls");
     std ::cout << R"(
                          _____________________________________________________________________________________
                         |                                                                                     |
                         |                                      PLANE LIST                                     |
                         |_____________________________________________________________________________________|
-                        |    Plane ID          |                 Plane Type               | Number Of Seats   |
+                        |  Plane ID            |  Plane Type                              |  Number Of Seats  |
                         |______________________|__________________________________________|___________________|
-                    
+
            )";
+    // 📌 Hiển thị điều hướng trang
+    gotoxy(35, 26);
+    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    gotoxy(35, 27);
+    std::cout << "[^] Move Up          [v] Move Down";
+    // show_navigation_instructions();
 }

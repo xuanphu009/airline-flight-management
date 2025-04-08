@@ -63,11 +63,44 @@ void generateRandomFlights(Flight *&test) {
     }
 
 }
+void generateRandomPlane(Plane *&plane) {
+    // Cấp phát bộ nhớ cho đối tượng Plane mới
+    plane = new Plane;
+
+    // Tạo mã máy bay với định dạng "PLxxx"
+    snprintf(plane->plane_id, LEN_FLIGHT_ID, "PL%03d", rand() % 900 + 100);
+
+    // Danh sách các loại máy bay mẫu
+    const char* planeTypes[] = {
+        "Boeing 737",
+        "Airbus A320",
+        "Embraer E190",
+        "Boeing 777",
+        "Airbus A380"
+    };
+    int num_types = sizeof(planeTypes) / sizeof(planeTypes[0]);
+
+    // Chọn ngẫu nhiên 1 loại máy bay từ danh sách và copy vào plane_type
+    snprintf(plane->plane_type, LEN_PLANE_TYPE, "%s", planeTypes[rand() % num_types]);
+
+    // Xác định số chỗ ngồi ngẫu nhiên, ví dụ trong khoảng 100 đến 300
+    plane->number_of_seats = rand() % 201 + 100;
+    plane->number_flights_performed = rand() % 201 + 100;
+}
+
 
 int main() {
     srand(time(NULL)); // Khởi tạo seed ngẫu nhiên
     Console test;
-    for (int i = 0; i < 30; ++i) {
+    for(int i = 0; i < 55; ++i) {
+        
+        generateRandomPlane(test.list_planes[i]);
+        
+    }
+    for(int i = 55; i < MAX_PLANE; ++i) {
+        test.list_planes[i] = nullptr;
+    }
+    for (int i = 0; i < 55; ++i) {
         Flight *new_flight;
         generateRandomFlights(new_flight);
         

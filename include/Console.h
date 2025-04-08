@@ -13,14 +13,13 @@ struct Console {
     Flight* list = nullptr;    // Khai báo extern
     Passenger* input = nullptr;
     AVL_TREE manager;
-    static Plane *list_planes[MAX_PLANE];
+    Plane *list_planes[MAX_PLANE];
 
     // void buy_ticket(Passenger input, Flight *booking) {
     //     //in ra danh sách vé còn trống
     //     Ticket new_ticket;
         
     // }
-    bool search_plane_id(char target[LEN_PLANE_ID]);
     void enter_plane_statistics();
     unsigned int count_flights();
     void start_program();
@@ -29,16 +28,18 @@ struct Console {
     void enter_available_tickets(Flight *flight);
     void enter_user_information();
     void enter_available_flights();
+    void enter_flight_manager_menu();
     
-    static void add_plane(const Plane &other);
-    static void delete_plane(const char *plane_id);
-    static void update_plane(const Plane &other);
-    static bool search_plane_id(const char *target);
-    static int get_plane_count();
+    void add_plane(const Plane &other);
+    void delete_plane(const char *plane_id);
+    void update_plane(const Plane &other);
+    bool search_plane_id(char *target);
+    int get_plane_count();
 
     void enter_plane_information();
     void enter_plane_update();
     void enter_plane_delete();
+    void enter_manage_plane();
 };
 
 
