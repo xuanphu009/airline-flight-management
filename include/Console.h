@@ -13,7 +13,7 @@ struct Console {
     Flight* list = nullptr;    // Khai báo extern
     Passenger* input = nullptr;
     AVL_TREE manager;
-    Plane *list_planes[MAX_PLANE];
+    // Plane *list_planes[MAX_PLANE] = {};
 
 
 
@@ -33,9 +33,9 @@ struct Console {
     void enter_user_information();
     void enter_available_flights();
 
-    void enter_plane_information();
-    void enter_plane_update();
-    void enter_plane_delete();
+    // void enter_plane_information();
+    // void enter_plane_update();
+    // void enter_plane_delete();
 };
 
 

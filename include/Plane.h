@@ -28,12 +28,12 @@ struct Plane {
         UPDATE_LIST_EMPTY,
     };
     
-    static add_plane_result add_plane(const Plane &other);
-    static delete_plane_result delete_plane(const char plane_id[LEN_PLANE_ID]);
-    static update_plane_result update_plane(const Plane &other);
+    // static add_plane_result add_plane(const Plane &other);
+    // static delete_plane_result delete_plane(const char plane_id[LEN_PLANE_ID]);
+    // static update_plane_result update_plane(const Plane &other);
     
 
-    static bool search_plane_id(const char target[LEN_PLANE_ID]);  
+    // static bool search_plane_id(const char target[LEN_PLANE_ID]);  
 
 
 };

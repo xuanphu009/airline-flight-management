@@ -392,253 +392,253 @@ void Console::enter_available_flights() {
         } 
     }
 }
-void Console::enter_plane_information(){
+// void Console::enter_plane_information(){
 
-    Plane other;
-    char ch;
-    int idx[4] = {}, column = 0;
+//     Plane other;
+//     char ch;
+//     int idx[4] = {}, column = 0;
 
-    while (true) {
-        Menu::display_add_aircraft();
+//     while (true) {
+//         Menu::display_add_aircraft();
 
-        Menu::gotoxy(56, 7);
-        std::cout << other.plane_id;
-        Menu::gotoxy(58, 10);
-        std::cout << other.plane_type;
-        Menu::gotoxy(67, 13);
-        if (other.number_of_seats > 0){
-            std::cout << other.number_of_seats;
-        }
-        Menu::gotoxy(62, 16);
-        if (other.number_flights_performed > 0){
-            std::cout << other.number_flights_performed;
-        }
+//         Menu::gotoxy(56, 7);
+//         std::cout << other.plane_id;
+//         Menu::gotoxy(58, 10);
+//         std::cout << other.plane_type;
+//         Menu::gotoxy(67, 13);
+//         if (other.number_of_seats > 0){
+//             std::cout << other.number_of_seats;
+//         }
+//         Menu::gotoxy(62, 16);
+//         if (other.number_flights_performed > 0){
+//             std::cout << other.number_flights_performed;
+//         }
         
-        switch (column) {
-            case 0:
-                Menu::gotoxy(56 + idx[column], 7);
-                enter(other.plane_id, idx[column], LEN_PLANE_ID + 1, ch,
-                    [&](char &c) { 
-                        if(c >= 'a' && c <= 'z') c -= 32;
-                        return (c >= 'A' && c <= 'Z'
-                            || c >= 48 && c <= 57);
-                    });
-                break;
-            case 1:
-                Menu::gotoxy(58 + idx[column], 10);
-                enter(other.plane_type, idx[column], LEN_PLANE_TYPE + 1, ch,
-                    [&](char &c) { 
-                        if(c >= 'a' && c <= 'z') c -= 32;
-                        return (c >= 'A' && c <= 'Z'
-                            || c >= 48 && c <= 57 || c == ' ');
-                    });
-                break;
-            case 2: {
-                Menu::gotoxy(67 + idx[column], 13);
-                char num_str[5];
-                enter(num_str, idx[column], 6, ch,
-                     [&](char &c) { return c >= 48 && c <= 57; });
-                other.number_of_seats = atoi(num_str);
-                break;
-            }
-            case 3:
-                Menu::gotoxy(62 + idx[column], 16);
-                char num_str[5];
-                enter(num_str, idx[column], 6, ch,
-                    [&](char &c) { return c >= 48 && c <= 57; });
-                other.number_flights_performed = atoi(num_str);
-                break;
-        }
+//         switch (column) {
+//             case 0:
+//                 Menu::gotoxy(56 + idx[column], 7);
+//                 enter(other.plane_id, idx[column], LEN_PLANE_ID + 1, ch,
+//                     [&](char &c) { 
+//                         if(c >= 'a' && c <= 'z') c -= 32;
+//                         return (c >= 'A' && c <= 'Z'
+//                             || c >= 48 && c <= 57);
+//                     });
+//                 break;
+//             case 1:
+//                 Menu::gotoxy(58 + idx[column], 10);
+//                 enter(other.plane_type, idx[column], LEN_PLANE_TYPE + 1, ch,
+//                     [&](char &c) { 
+//                         if(c >= 'a' && c <= 'z') c -= 32;
+//                         return (c >= 'A' && c <= 'Z'
+//                             || c >= 48 && c <= 57 || c == ' ');
+//                     });
+//                 break;
+//             case 2: {
+//                 Menu::gotoxy(67 + idx[column], 13);
+//                 char num_str[5];
+//                 enter(num_str, idx[column], 6, ch,
+//                      [&](char &c) { return c >= 48 && c <= 57; });
+//                 other.number_of_seats = atoi(num_str);
+//                 break;
+//             }
+//             case 3:
+//                 Menu::gotoxy(62 + idx[column], 16);
+//                 char num_str[5];
+//                 enter(num_str, idx[column], 6, ch,
+//                     [&](char &c) { return c >= 48 && c <= 57; });
+//                 other.number_flights_performed = atoi(num_str);
+//                 break;
+//         }
 
-        #ifdef __APPLE__
-                if (ch == '\x1B' && _getch() == '[') { // Nếu là ESC [
-                    ch = _getch(); // Lấy ký tự tiếp theo
-                }
-            #endif
+//         #ifdef __APPLE__
+//                 if (ch == '\x1B' && _getch() == '[') { // Nếu là ESC [
+//                     ch = _getch(); // Lấy ký tự tiếp theo
+//                 }
+//             #endif
 
-                if (ch == UP || ch == 'A') {
-                    if (column > 0) --column;
-                } 
-                else if (ch == DOWN || ch == 'B') {
-                    if (column < 3) ++column;
-                } 
-                else if (ch == ENTER) {
-                    if (column < 3){
-                        column++;
-                        continue;
-                    }
-                    else {
+//                 if (ch == UP || ch == 'A') {
+//                     if (column > 0) --column;
+//                 } 
+//                 else if (ch == DOWN || ch == 'B') {
+//                     if (column < 3) ++column;
+//                 } 
+//                 else if (ch == ENTER) {
+//                     if (column < 3){
+//                         column++;
+//                         continue;
+//                     }
+//                     else {
                         
-                        Plane::add_plane_result result = Plane::add_plane(other);
-                        switch(result){
-                            case Plane::ADD_PLANE_EXIST:
-                                // Nếu đã tồn tại mã hiệu máy bay này
-                                Menu::display_aircraft_exist();
+//                         Plane::add_plane_result result = Plane::add_plane(other);
+//                         switch(result){
+//                             case Plane::ADD_PLANE_EXIST:
+//                                 // Nếu đã tồn tại mã hiệu máy bay này
+//                                 Menu::display_aircraft_exist();
                                 
-                                other = Plane();
-                                return enter_plane_information();
-                            case Plane::ADD_LIST_FULL:
-                                Menu::display_full_aircraft_list();
+//                                 other = Plane();
+//                                 return enter_plane_information();
+//                             case Plane::ADD_LIST_FULL:
+//                                 Menu::display_full_aircraft_list();
                             
-                                return; // Khong the them may bay
-                            case Plane::ADD_SUCCESS:
-                                Menu::display_success_add_aircraft();
+//                                 return; // Khong the them may bay
+//                             case Plane::ADD_SUCCESS:
+//                                 Menu::display_success_add_aircraft();
                           
-                                return; // Them thanh cong may bay
-                        }
+//                                 return; // Them thanh cong may bay
+//                         }
                         
-                    }
-                }
-    }
-}
-void Console::enter_plane_update(){
-    Plane other;
-    char ch;
-    int idx[4] = {}, column = 0;
+//                     }
+//                 }
+//     }
+// }
+// void Console::enter_plane_update(){
+//     Plane other;
+//     char ch;
+//     int idx[4] = {}, column = 0;
 
-    while (true) {
-        Menu::display_edit_aircraft_details();
+//     while (true) {
+//         Menu::display_edit_aircraft_details();
 
-        Menu::gotoxy(70, 7);
-        std::cout << other.plane_id;
-        Menu::gotoxy(58, 10);
-        std::cout << other.plane_type;
-        Menu::gotoxy(67, 13);
-        if (other.number_of_seats > 0){
-            std::cout << other.number_of_seats;
-        }
-        Menu::gotoxy(62, 16);
-        if (other.number_flights_performed > 0){
-            std::cout << other.number_flights_performed;
-        }
+//         Menu::gotoxy(70, 7);
+//         std::cout << other.plane_id;
+//         Menu::gotoxy(58, 10);
+//         std::cout << other.plane_type;
+//         Menu::gotoxy(67, 13);
+//         if (other.number_of_seats > 0){
+//             std::cout << other.number_of_seats;
+//         }
+//         Menu::gotoxy(62, 16);
+//         if (other.number_flights_performed > 0){
+//             std::cout << other.number_flights_performed;
+//         }
         
-        switch (column) {
-            case 0:
+//         switch (column) {
+//             case 0:
                 
-                Menu::gotoxy(70 + idx[column], 7);
-                enter(other.plane_id, idx[column], LEN_PLANE_ID + 1, ch,
-                    [&](char &c) { 
-                        if(c >= 'a' && c <= 'z') c -= 32;
-                        return (c >= 'A' && c <= 'Z'
-                            || c >= 48 && c <= 57);
-                    });
-                break;
-            case 1:
-                Menu::gotoxy(58 + idx[column], 10);
-                enter(other.plane_type, idx[column], LEN_PLANE_TYPE + 1, ch,
-                    [&](char &c) { 
-                        if(c >= 'a' && c <= 'z') c -= 32;
-                        return (c >= 'A' && c <= 'Z'
-                            || c >= 48 && c <= 57 || c == ' ');
-                    });
-                break;
-            case 2: {
-                Menu::gotoxy(67 + idx[column], 13);
-                char num_str[5];
-                enter(num_str, idx[column], 6, ch,
-                     [&](char &c) { return c >= 48 && c <= 57; });
-                other.number_of_seats = atoi(num_str);
-                break;
-            }
-            case 3:
-                Menu::gotoxy(62 + idx[column], 16);
-                char num_str[5];
-                enter(num_str, idx[column], 6, ch,
-                    [&](char &c) { return c >= 48 && c <= 57; });
-                other.number_flights_performed = atoi(num_str);
-                break;
-        }
+//                 Menu::gotoxy(70 + idx[column], 7);
+//                 enter(other.plane_id, idx[column], LEN_PLANE_ID + 1, ch,
+//                     [&](char &c) { 
+//                         if(c >= 'a' && c <= 'z') c -= 32;
+//                         return (c >= 'A' && c <= 'Z'
+//                             || c >= 48 && c <= 57);
+//                     });
+//                 break;
+//             case 1:
+//                 Menu::gotoxy(58 + idx[column], 10);
+//                 enter(other.plane_type, idx[column], LEN_PLANE_TYPE + 1, ch,
+//                     [&](char &c) { 
+//                         if(c >= 'a' && c <= 'z') c -= 32;
+//                         return (c >= 'A' && c <= 'Z'
+//                             || c >= 48 && c <= 57 || c == ' ');
+//                     });
+//                 break;
+//             case 2: {
+//                 Menu::gotoxy(67 + idx[column], 13);
+//                 char num_str[5];
+//                 enter(num_str, idx[column], 6, ch,
+//                      [&](char &c) { return c >= 48 && c <= 57; });
+//                 other.number_of_seats = atoi(num_str);
+//                 break;
+//             }
+//             case 3:
+//                 Menu::gotoxy(62 + idx[column], 16);
+//                 char num_str[5];
+//                 enter(num_str, idx[column], 6, ch,
+//                     [&](char &c) { return c >= 48 && c <= 57; });
+//                 other.number_flights_performed = atoi(num_str);
+//                 break;
+//         }
 
-        #ifdef __APPLE__
-                if (ch == '\x1B' && _getch() == '[') { // Nếu là ESC [
-                    ch = _getch(); // Lấy ký tự tiếp theo
-                }
-            #endif
+//         #ifdef __APPLE__
+//                 if (ch == '\x1B' && _getch() == '[') { // Nếu là ESC [
+//                     ch = _getch(); // Lấy ký tự tiếp theo
+//                 }
+//             #endif
 
-                if (ch == UP || ch == 'A') {
-                    if (column > 0) --column;
-                } 
-                else if (ch == DOWN || ch == 'B') {
-                    if (column < 3) ++column;
-                } 
-                else if (ch == ENTER) {
-                    if (column < 3){
-                        column++;
-                        continue;
-                    }
-                    else {
-                        Plane::update_plane_result result = Plane::update_plane(other);
-                        switch(result){
-                            case Plane::UPDATE_NOT_FOUND:
-                                // Khong tim thay thi nhap thong tin lai
-                                Menu::display_aircraft_not_found();
+//                 if (ch == UP || ch == 'A') {
+//                     if (column > 0) --column;
+//                 } 
+//                 else if (ch == DOWN || ch == 'B') {
+//                     if (column < 3) ++column;
+//                 } 
+//                 else if (ch == ENTER) {
+//                     if (column < 3){
+//                         column++;
+//                         continue;
+//                     }
+//                     else {
+//                         Plane::update_plane_result result = Plane::update_plane(other);
+//                         switch(result){
+//                             case Plane::UPDATE_NOT_FOUND:
+//                                 // Khong tim thay thi nhap thong tin lai
+//                                 Menu::display_aircraft_not_found();
                            
-                                other = Plane();
-                                return enter_plane_update();
-                            case Plane::UPDATE_LIST_EMPTY:
-                                Menu::display_empty_aircraft_list();
+//                                 other = Plane();
+//                                 return enter_plane_update();
+//                             case Plane::UPDATE_LIST_EMPTY:
+//                                 Menu::display_empty_aircraft_list();
                               
-                                return; // Danh sach may bay rong
-                            case Plane::UPDATE_SUCCESS:
-                                Menu::display_success_update_aircraft();
+//                                 return; // Danh sach may bay rong
+//                             case Plane::UPDATE_SUCCESS:
+//                                 Menu::display_success_update_aircraft();
                                 
-                                return; // Update thanh cong may bay
-                        }
+//                                 return; // Update thanh cong may bay
+//                         }
                         
-                    }
-                }
-    }
-}
-void Console::enter_plane_delete(){
-    char plane_id[LEN_PLANE_ID + 1] = {'\0'}; // khai báo an toàn
-    char ch;
-    int idx = 0;
+//                     }
+//                 }
+//     }
+// }
+// void Console::enter_plane_delete(){
+//     char plane_id[LEN_PLANE_ID + 1] = {'\0'}; // khai báo an toàn
+//     char ch;
+//     int idx = 0;
 
-    while (true) {
-        Menu::display_delete_aircraft();
+//     while (true) {
+//         Menu::display_delete_aircraft();
         
-        Menu::gotoxy(73, 7);
-                enter(plane_id, idx, LEN_PLANE_ID + 1, ch,
-                    [&](char &c) { 
-                        if(c >= 'a' && c <= 'z') c -= 32;
-                        return (c >= 'A' && c <= 'Z'
-                            || c >= 48 && c <= 57);
-                    });
-        // Nếu vẫn chưa có ký tự thì tiếp tục vòng lặp
-        if (strlen(plane_id) == 0) continue;
+//         Menu::gotoxy(73, 7);
+//                 enter(plane_id, idx, LEN_PLANE_ID + 1, ch,
+//                     [&](char &c) { 
+//                         if(c >= 'a' && c <= 'z') c -= 32;
+//                         return (c >= 'A' && c <= 'Z'
+//                             || c >= 48 && c <= 57);
+//                     });
+//         // Nếu vẫn chưa có ký tự thì tiếp tục vòng lặp
+//         if (strlen(plane_id) == 0) continue;
         
-        #ifdef __APPLE__
-                if (ch == '\x1B' && _getch() == '[') { // Nếu là ESC [
-                    ch = _getch(); // Lấy ký tự tiếp theo
-                }
-            #endif
+//         #ifdef __APPLE__
+//                 if (ch == '\x1B' && _getch() == '[') { // Nếu là ESC [
+//                     ch = _getch(); // Lấy ký tự tiếp theo
+//                 }
+//             #endif
 
-                if (ch == UP || ch == 'A') {
-                    continue;
-                } 
-                else if (ch == DOWN || ch == 'B') {
-                    continue;
-                } 
-                else if (ch == ENTER) {
+//                 if (ch == UP || ch == 'A') {
+//                     continue;
+//                 } 
+//                 else if (ch == DOWN || ch == 'B') {
+//                     continue;
+//                 } 
+//                 else if (ch == ENTER) {
 
-                        Plane::delete_plane_result result = Plane::delete_plane(plane_id);
-                        switch(result){
-                            case Plane::DELETE_NOT_FOUND:
-                                // Khong tìm thấy máy bay, nhập lại
-                                Menu::display_aircraft_not_found();
+//                         Plane::delete_plane_result result = Plane::delete_plane(plane_id);
+//                         switch(result){
+//                             case Plane::DELETE_NOT_FOUND:
+//                                 // Khong tìm thấy máy bay, nhập lại
+//                                 Menu::display_aircraft_not_found();
     
-                                return enter_plane_delete();
-                            case Plane::DELETE_LIST_EMPTY:
-                                Menu::display_empty_aircraft_list();
+//                                 return enter_plane_delete();
+//                             case Plane::DELETE_LIST_EMPTY:
+//                                 Menu::display_empty_aircraft_list();
                                 
-                                return; // Danh sach may bay rong
-                            case Plane::DELETE_SUCCESS:
-                                Menu::display_success_delete_aircraft();
+//                                 return; // Danh sach may bay rong
+//                             case Plane::DELETE_SUCCESS:
+//                                 Menu::display_success_delete_aircraft();
                               
-                                return; // Delete thanh cong may bay
+//                                 return; // Delete thanh cong may bay
 
                         
-                        }
-                }
-    }
-}
+//                         }
+//                 }
+//     }
+// }
