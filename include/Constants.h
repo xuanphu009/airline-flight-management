@@ -33,7 +33,7 @@ constexpr int LEN_CMND = 15;
     constexpr int UP = 65, DOWN = 66, LEFT = 68, RIGHT = 67, ENTER = 10, BACKSPACE = 127, ESC = 27;
 #endif
 
-constexpr int SEATS_PER_PAGE = 10, FLIGHTS_PER_PAGE = 10, PLANES_PER_PAGE = 10;;
+constexpr int SEATS_PER_PAGE = 10, FLIGHTS_PER_PAGE = 10, PLANES_PER_PAGE = 10, PASSENGERS_PER_PAGE = 10;
 
 
 template <typename... Conds>
@@ -59,7 +59,7 @@ void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) {
                     }
                 }
         #endif
-        if (ch == ENTER || ch == '\n') return; // ENTER trên macOS là '\n'
+        if (ch == ENTER || ch == '\n' || ch == ESC) return; // ENTER trên macOS là '\n'
 
 
         if (ch == BACKSPACE) {

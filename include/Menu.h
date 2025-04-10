@@ -38,7 +38,7 @@ namespace Menu {
     void display_cancel_ticket();
 
     // Passenger Information
-    void display_passenger_list();
+    void display_passenger_list(int current_page, int max_pages);
 
     // Flight Queries
     void display_available_flights();

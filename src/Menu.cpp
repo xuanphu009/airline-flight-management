@@ -75,6 +75,7 @@ void Menu::display_login_frame()
 
 void Menu::display_manager_menu()
 {
+    system("cls");
     std::cout << R"(
                              ___________________________________________________________
                             |                                                           |
@@ -107,13 +108,10 @@ void Menu::display_flight_manager_menu()
                             |  [1] Update Flights                                       |
                             |___________________________________________________________|
                             |                                                           |
-                            |  [2] Cancel Ticket                                        |
+                            |  [2] Print Passenger List for a Flight                    |
                             |___________________________________________________________|
                             |                                                           |
-                            |  [3] Print Passenger List for a Flight                    |
-                            |___________________________________________________________|
-                            |                                                           |
-                            |  [4] View Available Seats for a Flight                    |
+                            |  [3] View Available Seats for a Flight                    |
                             |___________________________________________________________|
                                                                                       
                             [TAB] Back to Main Menu                                  
@@ -478,25 +476,30 @@ void Menu::display_cancel_ticket()
 										)";
 }
 
-void Menu::display_passenger_list()
+void Menu::display_passenger_list(int current_page, int max_pages)
 { // E
     system("cls");
+
     std::cout << R"(
-									    ____________________________________________________________________________
-									   |                                                                            |
-									   |                     PASSENGER LIST FOR FLIGHT                              |
-									   |____________________________________________________________________________|
-									   |  Departure Date:                     Destination:                          |
-									   |____________________________________________________________________________|                                                                           |
-									   |  Ticket No.          |    CMND         |      Last Name       |   Gender   |
-									   |----------------------|-----------------|----------------------|------------|
-									   |                      |                 |                      |            |
-                                       |                      |                 |                      |            |
-                                       |                      |                 |                      |            |
-                                       |                      |                 |                      |            |
-                                       |                      |                 |                      |            |
-									   |______________________|_________________|______________________|____________|
-									   )";
+                        ___________________________________________________________________________________________
+                        |                                                                                          |
+                        |                  PASSENGER LIST FOR FLIGHT FLIGHT ID:                                    |
+                        |__________________________________________________________________________________________|
+                        |   Plane ID:                           |   Destination:                                   |
+                        |__________________________________________________________________________________________|
+                        |   Departure Date:                     |   Time:                                          |
+                        |__________________________________________________________________________________________|
+                        |   Status:                                                                                |
+                        |__________________________________________________________________________________________|
+                        |  Last Name      |  First Name      |  CMND            |  Gender  |  Seat No.             |
+                        |_________________|__________________|__________________|__________|_______________________|)";
+
+
+    // 📌 Hiển thị điều hướng trang
+    gotoxy(35, 26);
+    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    gotoxy(35, 27);
+    std::cout << "[^] Move Up          [v] Move Down";
 }
 
 void Menu::display_available_flights()

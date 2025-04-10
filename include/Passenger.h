@@ -8,6 +8,7 @@ struct Passenger{
     char last_name[LEN_LAST_NAME];
     char first_name[LEN_FIRST_NAME];
     bool *gender;
+    int number_of_tickets;
     // Ticket *used;
     
     Passenger();
