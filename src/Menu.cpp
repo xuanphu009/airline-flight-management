@@ -565,15 +565,13 @@ void Menu::display_plane_statistics(int current_page, int max_pages)
 
 void Menu::display_enter_flight_details()
 {
-    system("cls");
+    // system("cls");
     std::cout << R"(
-                 ___________________________________________________
-                |         ENTER FLIGHT SEARCH DETAILS               |
-                |---------------------------------------------------|
-                |  Date of Departure (dd/mm/yyyy):                  |
-                |___________________________________________________|
-                |  Destination (e.g., New York):                    |
-                |___________________________________________________|
+                         _______________________________________________________________________________________
+                        |                |  Date & Time of Dep (dd/mm/yyyy hh:mm):                              |
+                        |  SEARCH FLIGHT |______________________________________________________________________|
+                        |                |  Destination (e.g., New York):                                       |
+                        |________________|______________________________________________________________________|
         )";
 }
 void Menu::display_flight_list(int current_page, int max_pages) {

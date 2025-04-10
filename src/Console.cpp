@@ -661,7 +661,9 @@ void Console::enter_available_flights() {
             }
             ++i;
             tmp = tmp->next;
-        }
+        }\
+        // Menu::gotoxy(35, 6 + FLIGHTS_PER_PAGE);  
+        Menu::display_enter_flight_details();
         
         // Nhận phím từ bàn phím
         ch = _getch();
@@ -678,6 +680,7 @@ void Console::enter_available_flights() {
         } else if(ch == ESC) {
             return;
         } else if (ch == ENTER) {
+            
             Flight *selected_flight = page_start;
             for (unsigned int j = 0; j < cur_row && selected_flight != nullptr; ++j) {
                 selected_flight = selected_flight->next;
