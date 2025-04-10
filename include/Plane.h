@@ -11,6 +11,6 @@ struct Plane {
 
     Plane();
 
-    
+    unsigned int get_total_seats();
 };
 

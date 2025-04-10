@@ -9,7 +9,7 @@
     #include <termios.h>
     #include <unistd.h>
 
-    char _getch() {
+    inline char _getch() {
         struct termios oldt, newt;
         char ch;
         tcgetattr(STDIN_FILENO, &oldt);
@@ -30,7 +30,7 @@ constexpr int LEN_CMND = 15;
 #if defined(_WIN32) || defined(_WIN64)
     constexpr int UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 13, BACKSPACE = 8, ESC = 27, TAB = 9;
 #else
-    constexpr int UP = 65, DOWN = 66, LEFT = 68, RIGHT = 67, ENTER = 10, BACKSPACE = 127, ESC = 27;
+    constexpr int UP = 65, DOWN = 66, LEFT = 68, RIGHT = 67, ENTER = 10, BACKSPACE = 127, ESC = 27, TAB = 9;
 #endif
 
 constexpr int SEATS_PER_PAGE = 10, FLIGHTS_PER_PAGE = 10, PLANES_PER_PAGE = 10, PASSENGERS_PER_PAGE = 10;

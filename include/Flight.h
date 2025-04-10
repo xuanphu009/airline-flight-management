@@ -71,7 +71,10 @@ struct Flight {
     Flight *next;
 
     Flight();
+    ~Flight();
 
     bool valid_user(char *CMND);
+    bool valid_time(int hour, int minute);
+    bool valid_date(int day, int month, int year);
 
 };

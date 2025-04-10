@@ -32,6 +32,15 @@ namespace Menu {
     void display_create_new_flight();
     void display_edit_flight_schedule();
     void display_enter_flight_ID();
+    void display_cancel_flight();
+
+    void display_flight_exist();
+    void display_success_create_flight();
+    void display_success_update_flight();
+    void display_success_cancel_flight();
+    void display_empty_flight_list();
+    void display_flight_not_found();
+    void display_cannot_cancel_flight();
 
     // Ticket Management
     void display_book_ticket();
