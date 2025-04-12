@@ -81,6 +81,7 @@ struct Flight {
     Flight *next;
 
     Flight();
+    ~Flight();
 
     bool valid_user(char *CMND);
     bool valid_time(int hour, int minute);

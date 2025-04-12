@@ -906,7 +906,6 @@ void Console::enter_plane_information() {
     }
 }
 
-
 void Console::enter_plane_update() {
     if (get_plane_count() == 0) {
         // Nếu danh sách máy bay rỗng, không thể sửa
@@ -1115,6 +1114,8 @@ void Console::merge_sort() {
         list_planes[i] = tmp;
     }
 }
+
+// Handle flight
 bool Console::search_flight_id(const char *flight_id){
     Flight *curr = list;
     while (curr != nullptr){
