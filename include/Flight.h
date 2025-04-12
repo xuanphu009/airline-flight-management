@@ -83,8 +83,8 @@ struct Flight {
     Flight();
 
     bool valid_user(char *CMND);
-
-
+    bool valid_time(int hour, int minute);
+    bool valid_date(int day, int month, int year);
     int* list_passengers(int &n);
     int* list_available_seats(int &n);
 };
