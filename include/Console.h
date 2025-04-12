@@ -31,10 +31,11 @@ struct Console {
     void enter_flight_manager_menu();
     void enter_passenger_list(Flight *flight);
     // void enter_available_tickets(Flight *flight);
-    
+    void enter_manage_flights();
     void count_passengers(Flight *flight, int &count);
     int *list_passengers(Flight *flight, int &n);
-    
+
+
     void enter_flight_id(int choice);
     Flight* find_info_next(Flight *cur, char *date_dep, char *destination);
 

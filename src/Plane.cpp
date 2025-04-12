@@ -14,10 +14,6 @@ unsigned int Plane::get_total_seats(){
     return (unsigned int ) number_of_seats;
 }
 
-unsigned int Plane::get_total_seats(){
-    return (unsigned int ) number_of_seats;
-}
-
 
 
 

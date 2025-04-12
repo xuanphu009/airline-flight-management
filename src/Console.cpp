@@ -160,11 +160,31 @@ void Console::enter_flight_manager_menu() {
         else if(ch == ENTER) {
             if(i == 1) enter_flight_id(1);
             else if(i == 2) enter_flight_id(2);
-            else if(i == 0) {
-                
-            }
+            else if(i == 0) enter_manage_flights();
         } else if(ch == ESC) return;
     }   
+}
+void Console::enter_manage_flights() {
+    char ch = '\0';
+    int i = 0;
+    while(true) {
+        Menu::display_manage_flights();
+        for(int j = 0; j < 3; ++j) {
+            Menu::gotoxy(25 + 19, 6 + 3*j);
+            if(j == i) std::cout << ">>";
+            else std::cout << "  "; 
+            
+        }
+        ch = _getch();
+        if(ch == UP && i > 0) --i;
+        else if(ch == DOWN && i < 2) ++i;
+        else if(ch == ESC) return;
+        else if(ch == ENTER) {
+            if(i == 0) enter_flight_information();
+            else if(i == 1) enter_flight_update();
+            else if(i == 2) enter_flight_cancel();
+        }
+    }
 }
 
 void Console::enter_flight_id(int choice) {
@@ -1375,7 +1395,7 @@ void Console::enter_flight_information(){
                         // Tạo thành công chuyến bay
                         return;
                     }
-                }
+                } else if(ch == ESC) return;
     }
 }
 void Console::enter_flight_update(){
@@ -1521,13 +1541,12 @@ void Console::enter_flight_update(){
                         return;
                     }
                         
-                }
+                } else if(ch == ESC) return;
         
     }
 }
-void Console::enter_flight_cancel(){
-    if (count_flights() == 0){
-        // Nếu danh sach chuyến bay rỗng, không thể xoá
+void Console::enter_flight_cancel() {
+    if (count_flights() == 0) {
         Menu::display_empty_flight_list();
         return;
     }
@@ -1535,57 +1554,37 @@ void Console::enter_flight_cancel(){
     char flight_id[LEN_FLIGHT_ID + 1] = {'\0'};
     char ch;
     int idx = 0;
+    Flight *targetFlight = nullptr;
 
     while (true) {
         Menu::display_cancel_flight();
         Menu::gotoxy(60, 7);
         std::cout << flight_id;
 
-        do {
-            enter(flight_id, idx, LEN_FLIGHT_ID + 1, ch,
-                [&](char &c) { 
-                    if (c >= 'a' && c <= 'z') c -= 32;
-                    return (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9');
-                });
+        enter(flight_id, idx, LEN_FLIGHT_ID + 1, ch,
+            [&](char &c) { 
+                if (c >= 'a' && c <= 'z') c -= 32;
+                return (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9');
+            });
 
-            // Kiểm tra nếu là phím mũi tên, không làm gì
-        #ifdef __APPLE__
-            if (ch == '\x1B') {
-                char next = _getch();
-                if (next == '[') {
-                    char arrow = _getch(); // A, B, C, D
-                    continue; // Bỏ qua mũi tên
-                }
+        if (ch == ENTER) {
+            targetFlight = list;
+            while (targetFlight) {
+                if (strcmp(targetFlight->flight_id, flight_id) == 0) break;
+                targetFlight = targetFlight->next;
             }
-        #else
-            if (ch == -32) {
-                _getch(); // Bỏ phím mũi tên
+
+            if (!targetFlight) {
+                Menu::display_flight_not_found();
                 continue;
+            } else if (targetFlight->cur_status == status::completed) {
+                Menu::display_cannot_cancel_flight();
+                return;
+            } else {
+                cancel_flight(flight_id);
+                Menu::display_success_cancel_flight();
+                return;
             }
-        #endif
-
-            break; // Không phải mũi tên thì thoát vòng lặp
-        } while (true);
-
-                if (ch == ENTER) {
-                    if (! search_flight_id(flight_id)){
-                        // Nếu không tìm thấy mã chuyến bay, yêu cầu nhập lại
-                        Menu::display_flight_not_found();
-                        return enter_flight_cancel();
-                    }
-                    else {
-                        // Đã tìm thấy mã hiệu máy bay
-                        if (cancel_flight(flight_id)){
-                            //Huỷ thành công
-                            Menu::display_success_cancel_flight();
-                        }
-                        else {
-                            // Không thể huỷ vì chuyến bay đã hoàn tất
-                            Menu::display_cannot_cancel_flight();
-                        }
-                        return;
-                    }       
-                        
-                }
-        }
+        } else if (ch == ESC) return;
+    }
 }
