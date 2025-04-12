@@ -30,12 +30,13 @@ struct Console {
     void enter_available_flights();
     void enter_flight_manager_menu();
     void enter_passenger_list(Flight *flight);
+    // void enter_available_tickets(Flight *flight);
     
     void count_passengers(Flight *flight, int &count);
     int *list_passengers(Flight *flight, int &n);
     
-    void enter_flight_id();
-
+    void enter_flight_id(int choice);
+    Flight* find_info_next(Flight *cur, char *date_dep, char *destination);
 
     void add_plane(const Plane &other);
     void delete_plane(const char *plane_id);
@@ -48,6 +49,8 @@ struct Console {
     void enter_plane_delete();
     void enter_manage_plane();
     void merge_sort();
+    
+    
 };
 
 
