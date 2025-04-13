@@ -19,6 +19,37 @@ Flight::Flight() {
 
     next = nullptr;
 }
+
+Flight::Flight(const Flight &other) {
+    // Sao chép flight_id và destination
+    strncpy(this->flight_id, other.flight_id, LEN_FLIGHT_ID);
+    this->flight_id[LEN_FLIGHT_ID - 1] = '\0'; // Đảm bảo null-terminated
+
+    strncpy(this->destination, other.destination, LEN_DESTINATION);
+    this->destination[LEN_DESTINATION - 1] = '\0';
+
+    // Cấp phát và sao chép plane_id
+    if (other.plane_id != nullptr) {
+        this->plane_id = new char[LEN_PLANE_ID];
+        strncpy(this->plane_id, other.plane_id, LEN_PLANE_ID);
+        this->plane_id[LEN_PLANE_ID - 1] = '\0';
+    } else {
+        this->plane_id = nullptr;
+    }
+
+    // Sao chép các trường còn lại
+    this->cur_status = other.cur_status;
+    this->date_dep = other.date_dep;
+    this->time_dep = other.time_dep;
+
+    this->total_seats = nullptr;
+    this->tickets = nullptr;
+
+
+    this->next = nullptr; // Không sao chép con trỏ liên kết
+}
+
+
 Flight::~Flight() {
     if (total_seats) {  // Kiểm tra NULL trước khi delete
         delete total_seats;

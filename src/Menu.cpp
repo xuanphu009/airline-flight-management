@@ -16,7 +16,7 @@
     #include <unistd.h>  
 
     void Menu::gotoxy(int x, int y){
-        std::cout << "\033[" << y  << ";" << x << "H";
+        std::cout << "\033[" << y + 1  << ";" << x + 1 << "H";
 
     }
     // Định nghĩa lại Sleep cho Linux/macOS
@@ -141,13 +141,13 @@ void Menu::display_add_aircraft()
     std::cout << R"(
                                         __________________________________________________________
                                        |                                                          |
-                                       |                       ADD NEW AIRCRAFT                   |
+                                       |                       ADD NEW PLANE                      |
                                        |__________________________________________________________|
                                        |                                                          |
-                                       |  Aircraft ID:                                            |
+                                       |  Plane ID:                                               |
                                        |__________________________________________________________|
                                        |                                                          |
-                                       |  Aircraft Type:                                          |
+                                       |  Plane Type:                                             |
                                        |__________________________________________________________|
                                        |                                                          |
                                        |  Number of Seats (>=20):                                 |
@@ -165,10 +165,10 @@ void Menu::display_delete_aircraft()
     std::cout << R"(
                                          ____________________________________________________
                                         |                                                    |
-                                        |                DELETE AIRCRAFT                     |
+                                        |                   DELETE PLANE                     |
                                         |____________________________________________________|
                                         |                                                    |
-                                        |  Enter Aircraft ID to delete:                      |
+                                        |  Enter Plane ID to delete:                         |
                                         |____________________________________________________|
                                         
                                        
@@ -179,7 +179,7 @@ void Menu::display_aircraft_exist(){
     std::cout << R"(
                                              __________________________________ 
                                             |                                  |
-                                            |    AIRCRAFT ID ALREALDY EXISTS   |
+                                            |     PLANE ID ALREALDY EXISTS     |
                                             |__________________________________|
          )";
     Sleep(2000);
@@ -189,7 +189,7 @@ void Menu::display_empty_aircraft_list(){
     std::cout << R"(
                                              __________________________________ 
                                             |                                  |
-                                            |    THE AIRCRAFT LIST IS EMPTY    |
+                                            |      THE PLANE LIST IS EMPTY     |
                                             |__________________________________|
          )";
     Sleep(2000);
@@ -199,7 +199,7 @@ void Menu::display_full_aircraft_list(){
     std::cout << R"(
                                              __________________________________ 
                                             |                                  |
-                                            |    THE AIRCRAFT LIST IS FULL     |
+                                            |      THE PLANE LIST IS FULL      |
                                             |__________________________________|
          )";
     Sleep(2000);
@@ -209,7 +209,7 @@ void Menu::display_success_add_aircraft(){
     std::cout << R"(
                                              ___________________________________ 
                                             |                                   |
-                                            |    SUCCESSFULLY ADDED AIRCRAFT    |
+                                            |      SUCCESSFULLY ADDED PLANE     |
                                             |___________________________________|
         )";
     Sleep(2000);
@@ -219,7 +219,7 @@ void Menu::display_success_delete_aircraft(){
     std::cout << R"(
                                              ___________________________________ 
                                             |                                   |
-                                            |   SUCCESSFULLY DELETED AIRCRAFT   |
+                                            |     SUCCESSFULLY DELETED PLANE    |
                                             |___________________________________|
         )";
     Sleep(2000);
@@ -229,7 +229,7 @@ void Menu::display_success_update_aircraft(){
     std::cout << R"(
                                              ___________________________________ 
                                             |                                   |
-                                            |   SUCCESSFULLY UPDATED AIRCRAFT   |
+                                            |     SUCCESSFULLY UPDATED PLANE    |
                                             |___________________________________|
         )";
     Sleep(2000);
@@ -239,7 +239,7 @@ void Menu::display_aircraft_not_found(){
     std::cout << R"(
                                              __________________________________ 
                                             |                                  |
-                                            |        AIRCRAFT NOT FOUND        |
+                                            |        PLANE ID NOT FOUND        |
                                             |__________________________________|
                 )";
     Sleep(2000);
