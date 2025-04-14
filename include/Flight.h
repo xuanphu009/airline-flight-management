@@ -80,7 +80,8 @@ struct Flight {
 
     Flight *next;
 
-    Flight();
+    Flight(); // Constructor mặc định
+    Flight(const Flight &other); // Copy constructor
     ~Flight();
 
     bool valid_user(char *CMND);

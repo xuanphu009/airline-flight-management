@@ -4,8 +4,8 @@
 
 
 Plane::Plane(){
-    plane_id[0] = '\0';
-    plane_type[0] = '\0';
+    memset(plane_id, 0, LEN_PLANE_ID);
+    memset(plane_type, 0, LEN_PLANE_TYPE);
     number_of_seats = 0;
     number_flights_performed = 0;
 }
