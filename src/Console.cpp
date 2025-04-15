@@ -1192,9 +1192,9 @@ void Console::enter_flight_information(){
     int column = 0;
     char date_str[11] = {}; // Mảng chứa chuỗi nhập ngày dd/mm/yyyy
     char time_str[6] = {}; // Mảng chứa chuỗi nhập thời gian hh:mm
-    int day, month, year;
+    int day, month, year; // Các biến này để lưu giá trị khi lấy từ chuỗi date_str
     int hour, minute;
-    int read;
+    int read; // Biến này để đọc xem có bao giá trị được tách ra khi dùng hàm sscanf
 
     while (true) {
         Menu::display_create_new_flight();
@@ -1205,16 +1205,8 @@ void Console::enter_flight_information(){
         Menu::gotoxy(52, 9);
         std::cout << other.plane_id;
         Menu::gotoxy(71, 12);
-        // if (other.date_dep.day != 0 && other.date_dep.month != 0 && other.date_dep.year != 0){
-        //     // kiểm tra ngày đã nhập
-        //     std::cout << other.date_dep;
-        // }
         std::cout << date_str;
         Menu::gotoxy(66, 15);
-        // if (other.time_dep.hour >= 0 || other.time_dep.minute >= 0){
-        //     // kiểm tra thời gian
-        //     std::cout << other.time_dep;
-        // } 
         std::cout << time_str;
         Menu::gotoxy(55, 18);
         std::cout << other.destination;
@@ -1245,10 +1237,12 @@ void Console::enter_flight_information(){
                     [&](char &c) {
                         return (c >= 48 && c <= 57 || c == '/');
                     });
-                   
+                
+                // Nhập xong trường ngày rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 3 số nguyên
                 read = 0;
                 read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
-                if (read == 3){
+                if (read == 3){ // Nếu tách được 3 số là day, month và year
+                    // chuẩn hoá lại cho đúng định dạng ngày
                     if (date_str[1] == '/'){
                         for (int i = idx[column]; i > 0; i--){
                             date_str[i] = date_str[i - 1];
@@ -1272,9 +1266,12 @@ void Console::enter_flight_information(){
                     [&](char &c) {
                         return ((c >= 48 && c <= 57) || c == ':');
                     });
+                
+                // Nhập xong trường thời gian rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 2 số nguyên
                 read = 0;
                 read = sscanf(time_str, "%d:%d", &hour, &minute);
-                if (read == 2){
+                if (read == 2){ // Nếu tách dược 2 số nguyên là hour và minute
+                    // Chuẩn hoá chuỗi lại cho đúng định dạng
                     if (time_str[1] == ':'){
                         for (int i = idx[column]; i > 0; i--){
                             time_str[i] = time_str[i - 1];
@@ -1319,7 +1316,6 @@ void Console::enter_flight_information(){
                     Menu::display_flight_exist();
                     memset(other.flight_id, 0, LEN_FLIGHT_ID);
                     idx[0] = 0;
-                    column = 0;
                     continue;
                 }
                 else {
@@ -1334,29 +1330,31 @@ void Console::enter_flight_information(){
             else {
                 // Hiện tại đang ở dòng cuối cùng
                 // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_id) == 0 || strlen(other.destination) == 0){
+                if (strlen(other.plane_id) == 0){
+                    column = 1;
                     continue;
                 }
-                // Nếu trường ngày và giờ chưa hợp lệ, thông báo lỗi ra màn hình và reset trường ngày hoặc giờ
+                if (strlen(other.destination) == 0){
+                    column = 4;
+                    continue;
+                }
+                // Nếu trường ngày hợp lệ tiến hành gán nó vào Flight other
                 if (other.valid_date(day, month, year)){
                     other.date_dep.day = day;
                     other.date_dep.month = month;
                     other.date_dep.year = year;
                 }
-                else {
-                    // memset(date_str, 0, 11);
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ sẽ dịch về vị trí cũ vừa nhập
                     column = 2;
-                    // idx[column] = 0;
                     continue;
                 }
+                // Nếu trường thời gian hợp lệ tiến hành gán nó vào Flight other
                 if (other.valid_time(hour, minute)){
                     other.time_dep.hour = hour;
                     other.time_dep.minute = minute;
                 }
-                else {
-                    // memset(time_str, 0, 6);
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ sẽ về vị trí cũ vừa nhập
                     column = 3;
-                    // idx[column] = 0;
                     continue;
                 }
                 // Đã nhập xong tất cả các trường, tiến hành tạo chuyến bay mới
@@ -1386,6 +1384,9 @@ void Console::enter_flight_update(){
     int idx[3] = {0}, column = 0;
     char date_str[11] = {}; // Mảng chứa chuỗi nhập ngày dd/mm/yyyy
     char time_str[6] = {}; // Mảng chứa chuỗi nhập thời gian hh:mm
+    int day, month, year; // Các biến này để lưu giá trị khi lấy từ chuỗi date_str
+    int hour, minute;
+    int read; // Biến này để đọc xem có bao giá trị được tách ra khi dùng hàm sscanf
 
     while (true) {
         Menu::display_edit_flight_schedule();
@@ -1394,15 +1395,9 @@ void Console::enter_flight_update(){
         Menu::gotoxy(59, 6);
         std::cout << flight_id;
         Menu::gotoxy(75, 9);
-        if (new_date.day != 0 && new_date.month != 0 && new_date.year != 0){
-            // kiểm tra ngày đã nhập
-            std::cout << new_date;
-        } 
+        std::cout << date_str;
         Menu::gotoxy(70, 12);
-        if (new_time.hour >= 0 || new_time.minute >= 0){
-            // kiểm tra thời gian
-            std::cout << new_time;
-        }
+        std::cout << time_str;
         
         // Nhập liệu theo các trường (cột)
         switch (column) {
@@ -1417,58 +1412,59 @@ void Console::enter_flight_update(){
                 break;
             }         
             case 1: {
-                int day, month, year;
-                int read = 0;
-                bool validInput = false; // Biến kiểm tra đầu vào hợp lệ
-            
-                do {
-                    Menu::gotoxy(75, 9);
-                    std::cout << "          "; // Xóa nội dung cũ trước khi nhập mới
-                    idx[column] = 0; // Reset chỉ số nhập
-                    memset(date_str, 0, 11); // reset chuỗi nhập ngày
-
-                    Menu::gotoxy(75 + idx[column], 9);
-                    enter(date_str, idx[column], 11, ch,
-                        [&](char &c) {
-                            return ((c >= '0' && c <= '9') || c == '/');
+                Menu::gotoxy(71 + idx[column], 12);
+                enter(date_str, idx[column], 11, ch,
+                    [&](char &c) {
+                        return (c >= 48 && c <= 57 || c == '/');
                     });
-                    Flight temp;
-                    read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
-                    validInput = (read == 3 && temp.valid_date(day, month, year));
-            
-                    if (validInput) {
-                        new_date.day = day;
-                        new_date.month = month;
-                        new_date.year = year;
-                    }
-                } while (!validInput); // Lặp lại khi nhập sai
-                break;
-            }
                 
-            case 2: {
-                int hour, minute;
-                int read = 0;
-                bool validInput = false; // Biến kiểm tra đầu vào hợp lệ
-            
-                do {
-                    Menu::gotoxy(70, 12);
-                    std::cout << "     "; // Xóa nội dung cũ trước khi nhập mới
-                    idx[column] = 0; // Reset chỉ số nhập
-                    memset(time_str, 0, 5); // reset chuỗi nhập thời gian
-                    Menu::gotoxy(70 + idx[column], 12);
-                    enter(time_str, idx[column], 6, ch,
-                        [&](char &c) {
-                            return ((c >= '0' && c <= '9') || c == ':');
-                    });
-                    Flight temp;
-                    read = sscanf(time_str, "%d:%d", &hour, &minute);
-                    validInput = (read == 2 && temp.valid_time(hour, minute));
-            
-                    if (validInput) {
-                        new_time.hour = hour;
-                        new_time.minute = minute;
+                // Nhập xong trường ngày rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 3 số nguyên
+                read = 0;
+                read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
+                if (read == 3){ // Nếu tách được 3 số là day, month và year
+                    // chuẩn hoá lại cho đúng định dạng ngày
+                    if (date_str[1] == '/'){
+                        for (int i = idx[column]; i > 0; i--){
+                            date_str[i] = date_str[i - 1];
+                        }
+                        date_str[0] = '0';
+                        idx[column]++;
                     }
-                } while (!validInput); // Lặp lại khi nhập sai
+                    if (date_str[4] == '/'){
+                        for (int i = idx[column]; i > 3; i--){
+                            date_str[i] = date_str[i - 1];
+                        }
+                        date_str[3] = '0';
+                        idx[column]++;
+                    }
+                }
+                break;
+            }     
+            case 2: {
+                Menu::gotoxy(66 + idx[column], 15);
+                enter(time_str, idx[column], 6, ch,
+                    [&](char &c) {
+                        return ((c >= 48 && c <= 57) || c == ':');
+                    });
+                
+                // Nhập xong trường thời gian rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 2 số nguyên
+                read = 0;
+                read = sscanf(time_str, "%d:%d", &hour, &minute);
+                if (read == 2){ // Nếu tách dược 2 số nguyên là hour và minute
+                    // Chuẩn hoá chuỗi lại cho đúng định dạng
+                    if (time_str[1] == ':'){
+                        for (int i = idx[column]; i > 0; i--){
+                            time_str[i] = time_str[i - 1];
+                        }
+                        time_str[0] = '0';
+                        idx[column]++;
+                    }
+                    if (time_str[4] == '\0'){
+                        time_str[4] = time_str[3];
+                        time_str[3] = '0';
+                        idx[column]++;
+                    }
+                }
                 break;
             }
 
@@ -1492,7 +1488,6 @@ void Console::enter_flight_update(){
                     Menu::display_flight_not_found();         
                     memset(flight_id, 0, LEN_FLIGHT_ID);
                     idx[0] = 0;
-                    column = 0;
                     continue;
                 }
                 else{
@@ -1505,6 +1500,27 @@ void Console::enter_flight_update(){
                 continue;
             }
             else {
+                // Hiện tại đang ở dòng cuối cùng
+                Flight temp;
+                // Nếu trường ngày hợp lệ tiến hành gán nó vào new_date
+                if (temp.valid_date(day, month, year)){
+                    new_date.day = day;
+                    new_date.month = month;
+                    new_date.year = year;
+                }
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
+                    column = 2;
+                    continue;
+                }
+                // Nếu trường thời gian hợp lệ tiến hành gán nó vào new_time
+                if (temp.valid_time(hour, minute)){
+                    new_time.hour = hour;
+                    new_time.minute = minute;
+                }
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
+                    column = 2;
+                    continue;
+                }
                 // Nhập liệu thành công
                 update_flight(flight_id, new_date, new_time);
                 Menu::display_success_update_flight();

@@ -119,12 +119,11 @@ int main() {
     // }
 
     // // test.start_program();
-    Console con;
-    con.enter_flight_information();
-    con.enter_flight_information();
-    con.enter_flight_update();
-    con.enter_flight_update();
-    con.enter_flight_cancel();
+    Console test;
+    test.enter_flight_information();
+    test.enter_flight_information();
+    test.enter_flight_update();
+    test.enter_flight_cancel();
     return 0;
 
 }
