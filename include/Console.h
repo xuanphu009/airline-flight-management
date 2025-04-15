@@ -59,6 +59,13 @@ struct Console {
     void enter_flight_information();
     void enter_flight_update();
     void enter_flight_cancel();
+
+    // Daniel
+
+    void enter_flight_id_for_available_tickets();
+    void display_available_tickets(Flight &flight, int current_page, int &max_pages);
+    Flight *create_sample_flight();
+
 };
 
 

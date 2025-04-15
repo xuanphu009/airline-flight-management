@@ -9,8 +9,8 @@ Flight::Flight() {
     plane_id = new char[LEN_PLANE_ID];
     plane_id[0] = '\0';
 
-    date_dep = {0, 0, 0}; // hoặc ngày nào đó hợp lệ
-    time_dep = {0, 0};
+    date_dep = {0, 0, 0};
+    time_dep = {-1, -1};
 
     cur_status = status::available;
 
@@ -73,7 +73,7 @@ bool Flight::valid_time(int hour, int minute) {
     return hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59;
 }
 bool Flight::valid_date(int day, int month, int year) {
-    if (year < 1)
+    if (year <= 1900) // Máy bay ra đời vào khoảng thế kỉ XIX - XX
         return false;
 
     if (month < 1 || month > 12)
