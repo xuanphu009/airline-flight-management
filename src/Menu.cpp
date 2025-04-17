@@ -441,7 +441,7 @@ void Menu::display_cancel_flight()
 }
 void Menu::display_enter_flight_ID()
 {
-    system("cls");
+    system("clear");
     std::cout << R"(
                                         ________________________________________
                                        |                                        |

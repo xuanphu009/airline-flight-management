@@ -37,6 +37,18 @@ void Console::start_program() {
         // std::cout << ">>";
         Menu::gotoxy(0, 0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); 
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && i > 0) --i;
         else if(ch == DOWN && i < 1) ++i; 
         else if(ch == ENTER) {
@@ -82,6 +94,18 @@ void Console::enter_manager_menu() {
         // std::cout << ">>";
         Menu::gotoxy(0, 0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); 
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && i > 0) --i;
         else if(ch == DOWN && i < 2) ++i; 
         else if(ch == ENTER) {
@@ -128,6 +152,17 @@ void Console::enter_plane_statistics() {
         Menu::gotoxy(0, 0);
         std::cout << "number_of_planes:" << number_of_planes;
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); 
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
         
         if(ch == UP && cur_row > 0) --cur_row;
         else if(ch == DOWN && cur_row + cur_page*PLANES_PER_PAGE < number_of_planes - 1) ++cur_row;
@@ -155,6 +190,18 @@ void Console::enter_flight_manager_menu() {
         }
         Menu::gotoxy(0,0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); 
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == TAB) {
             break;
         } else if(ch == UP && i > 0) --i;
@@ -298,6 +345,17 @@ void Console::enter_passenger_list(Flight *flight) {
         }
 
         char key = _getch();
+        #ifdef _WIN32
+                if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    key = _getch(); 
+                }
+        #else
+                if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        key = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
 
         // Xử lý các phím điều hướng
         if (key == ESC) break;
@@ -394,6 +452,17 @@ void Console::enter_available_tickets(Flight *flight) {
             std::cout << (flight->tickets[i].CMND != nullptr ? "SOLD OUT" : "AVAILABLE");
         }
         char key = _getch(); // Nhận phím nhập vào
+        #ifdef _WIN32
+                if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    key = _getch(); 
+                }
+        #else
+                if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        key = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
 
         if (key == ESC) break;  // ESC để thoát
         else if (key == LEFT && current_page > 0)
@@ -513,6 +582,18 @@ void Console::enter_manage_plane() {
 
         }
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); 
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == TAB) {
             return;
         } else if(ch == UP && i > 0) --i;
@@ -561,7 +642,18 @@ void Console::enter_plane_list() {
         Menu::gotoxy(0, 0);
         // std::cout << "number_of_planes:" << number_of_planes;
         ch = _getch();
-        
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); 
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && cur_row > 0) --cur_row;
         else if(ch == DOWN && cur_row + cur_page*PLANES_PER_PAGE < number_of_planes - 1) ++cur_row;
         else if(ch == RIGHT && cur_page < max_page) {
@@ -650,12 +742,24 @@ void Console::enter_available_flights() {
             }
             ++i;
             tmp = tmp->next;
-        }\
+        }
         // Menu::gotoxy(35, 6 + FLIGHTS_PER_PAGE);  
         Menu::display_enter_flight_details();
         
         // Nhận phím từ bàn phím
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); 
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+        
         if (ch == UP && cur_row > 0) {
             --cur_row;
         } else if (ch == DOWN && cur_row + 1 < count_on_page) {
