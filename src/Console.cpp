@@ -38,7 +38,7 @@ void Console::start_program() {
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    ch = _getch(); 
+                    ch = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -95,7 +95,7 @@ void Console::enter_manager_menu() {
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    ch = _getch(); 
+                    ch = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -153,7 +153,7 @@ void Console::enter_plane_statistics() {
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    ch = _getch(); 
+                    ch = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -191,7 +191,7 @@ void Console::enter_flight_manager_menu() {
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    ch = _getch(); 
+                    ch = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -224,6 +224,18 @@ void Console::enter_manage_flights() {
             
         }
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && i > 0) --i;
         else if(ch == DOWN && i < 2) ++i;
         else if(ch == ESC) return;
@@ -352,7 +364,7 @@ void Console::enter_passenger_list(Flight *flight) {
         char key = _getch();
         #ifdef _WIN32
                 if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    key = _getch(); 
+                    key = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -465,7 +477,7 @@ void Console::enter_available_tickets(Flight *flight) {
         char key = _getch(); // Nhận phím nhập vào
         #ifdef _WIN32
                 if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    key = _getch(); 
+                    key = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -591,7 +603,7 @@ void Console::enter_manage_plane() {
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    ch = _getch(); 
+                    ch = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -651,7 +663,7 @@ void Console::enter_plane_list() {
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                    ch = _getch(); 
+                    ch = _getch(); // Lấy mã thực tế của phím
                 }
         #else
                 if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
@@ -768,6 +780,17 @@ void Console::enter_available_flights() {
         } else {
             Menu::gotoxy(0, 0);
             ch = _getch();
+            #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+            #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+            #endif
         }
 
         if (ch == UP && cur_row > 0) {
@@ -1003,7 +1026,16 @@ void Console::enter_plane_information() {
             else {
                 // Hiện tại đang ở dòng cuối cùng
                 // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_type) == 0 || other.number_of_seats == 0 || other.number_flights_performed == 0){
+                if (strlen(other.plane_type)){
+                    column = 1;
+                    continue;
+                }
+                if (other.number_of_seats == 0){
+                    column = 2;
+                    continue;
+                }
+                if (other.number_flights_performed == 0){
+                    column = 3;
                     continue;
                 }
                 // Đã nhập xong tất cả các trường, tiến hành thêm máy bay
@@ -1120,7 +1152,16 @@ void Console::enter_plane_update() {
             else {
                 // Hiện tại đang ở dòng cuối cùng
                 // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_type) == 0 || other.number_of_seats == 0 || other.number_flights_performed == 0){
+                if (strlen(other.plane_type) == 0){
+                    column = 1;
+                    continue;
+                }
+                if (other.number_of_seats == 0){
+                    column = 2;
+                    continue;
+                }
+                if (other.number_flights_performed == 0){
+                    column = 3;
                     continue;
                 }
                 // Khi đã nhập đủ thông tin, tiến hành cập nhật
@@ -1318,7 +1359,7 @@ void Console::update_flight(const char *flight_id, const date_departure &new_dat
         curr = curr->next;
     }
 }
-bool Console::cancel_flight(const char *flight_id){
+void Console::cancel_flight(const char *flight_id){
     Flight *curr = list;
 
     while (curr != nullptr){
@@ -1326,12 +1367,12 @@ bool Console::cancel_flight(const char *flight_id){
             if (curr->cur_status != status::completed){
                 // Neu chua hoan tat thi huy ve
                 curr->cur_status = status::cancelled;
-                return true;
+                return;
             }
         }
         curr = curr->next;
     }
-    return false;
+    return;
 }
 
 void Console::enter_flight_information(){
@@ -1562,7 +1603,7 @@ void Console::enter_flight_update(){
                 break;
             }         
             case 1: {
-                Menu::gotoxy(71 + idx[column], 12);
+                Menu::gotoxy(75 + idx[column], 9);
                 enter(date_str, idx[column], 11, ch,
                     [&](char &c) {
                         return (c >= 48 && c <= 57 || c == '/');
@@ -1591,7 +1632,7 @@ void Console::enter_flight_update(){
                 break;
             }     
             case 2: {
-                Menu::gotoxy(66 + idx[column], 15);
+                Menu::gotoxy(70 + idx[column], 12);
                 enter(time_str, idx[column], 6, ch,
                     [&](char &c) {
                         return ((c >= 48 && c <= 57) || c == ':');
@@ -1642,6 +1683,7 @@ void Console::enter_flight_update(){
                 }
                 else{
                     column++;
+                    continue;
                 }
             }
             
@@ -1659,7 +1701,7 @@ void Console::enter_flight_update(){
                     new_date.year = year;
                 }
                 else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
-                    column = 2;
+                    column = 1;
                     continue;
                 }
                 // Nếu trường thời gian hợp lệ tiến hành gán nó vào new_time
