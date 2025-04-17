@@ -223,6 +223,7 @@ void Console::enter_manage_flights() {
             else std::cout << "  "; 
             
         }
+        Menu::gotoxy(0, 0);
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
@@ -360,7 +361,7 @@ void Console::enter_passenger_list(Flight *flight) {
             std::cout << ticketIndex + 1;
 
         }
-
+        Menu::gotoxy(0, 0);
         char key = _getch();
         #ifdef _WIN32
                 if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
@@ -474,6 +475,7 @@ void Console::enter_available_tickets(Flight *flight) {
             Menu::gotoxy(69, row);  // Cột hiển thị trạng thái ghế
             std::cout << (flight->tickets[ticketIndex].CMND != nullptr ? "SOLD OUT" : "AVAILABLE");
         }
+        Menu::gotoxy(0, 0);
         char key = _getch(); // Nhận phím nhập vào
         #ifdef _WIN32
                 if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
@@ -600,6 +602,7 @@ void Console::enter_manage_plane() {
             }
 
         }
+        Menu::gotoxy(0, 0);
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
@@ -659,7 +662,6 @@ void Console::enter_plane_list() {
 
         }
         Menu::gotoxy(0, 0);
-        // std::cout << "number_of_planes:" << number_of_planes;
         ch = _getch();
         #ifdef _WIN32
                 if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
@@ -896,13 +898,14 @@ void Console::delete_plane(const char *plane_id) {
     for (int i = 0; i < MAX_PLANE && list_planes[i] != nullptr; i++) {
         if (strcmp(list_planes[i]->plane_id, plane_id) == 0) {
             delete list_planes[i];
-            for (int j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
+            int j;
+            for (j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
                 list_planes[j] = list_planes[j + 1];
             }
+            list_planes[j] = nullptr;
             return;
         }
     }
-
 }
 
 void Console::update_plane(const Plane &other) {
@@ -937,18 +940,18 @@ void Console::enter_plane_information() {
 
         // Hiển thị thông tin đã nhập
         Menu::gotoxy(52, 6);
-        std::cout << std::setw(LEN_PLANE_ID) << std::left << other.plane_id;
+        std::cout << other.plane_id;
 
         Menu::gotoxy(54, 9);
-        std::cout << std::setw(LEN_PLANE_TYPE) << std::left << other.plane_type;
+        std::cout << other.plane_type;
         Menu::gotoxy(66, 12);
         if (other.number_of_seats > 0) {
-            std::cout << std::setw(6) << std::left << num_str_seat;
+            std::cout << num_str_seat;
         }
 
         Menu::gotoxy(61, 15);
         if (other.number_flights_performed > 0) {
-            std::cout << std::setw(6) << std::left << num_str;
+            std::cout << num_str;
         }
 
 
@@ -1026,7 +1029,7 @@ void Console::enter_plane_information() {
             else {
                 // Hiện tại đang ở dòng cuối cùng
                 // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_type)){
+                if (strlen(other.plane_type) == 0){
                     column = 1;
                     continue;
                 }
