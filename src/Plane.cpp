@@ -18,4 +18,3 @@ unsigned int Plane::get_total_seats(){
 
 
 
-

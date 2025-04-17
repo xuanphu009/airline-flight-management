@@ -368,13 +368,13 @@ void Menu::display_manage_flights()
                                        |            FLIGHT MANAGEMENT           |
                                        |________________________________________|
                                        |                                        |
-                                       |     >     Create New Flight            |
+                                       |        Create New Flight               |
                                        |________________________________________|
                                        |                                        |
                                        |        Edit Flight Departure Time      |
                                        |________________________________________|
                                        |                                        |
-                                       |             Cancel Flight              |
+                                       |        Cancel Flight                   |
                                        |________________________________________|
 
     )";
@@ -651,7 +651,7 @@ void Menu::display_enter_flight_details()
     // system("clear");
     std::cout << R"(
                          _______________________________________________________________________________________
-                        |                |  Date & Time of Dep (dd/mm/yyyy hh:mm):                              |
+                        |                |  Date of Dep (dd/mm/yyyy):                                           |
                         |  SEARCH FLIGHT |______________________________________________________________________|
                         |                |  Destination (e.g., New York):                                       |
                         |________________|______________________________________________________________________|

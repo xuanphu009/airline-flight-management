@@ -37,7 +37,7 @@ constexpr int SEATS_PER_PAGE = 10, FLIGHTS_PER_PAGE = 10, PLANES_PER_PAGE = 10, 
 
 
 template <typename... Conds>
-void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) {
+void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) noexcept {
     //char *str : nhập str            
     //int &index: nhập tại ví trị index của str
    //char &ch: nằm bên ngoài hàmm để kiểm soát nhập up/down/....      

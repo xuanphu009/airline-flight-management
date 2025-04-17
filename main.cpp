@@ -118,8 +118,16 @@ int main() {
         test.start_program();
     }
 
-    // test.start_program();
+    // // test.start_program();
+    // Console con;
+    // con.enter_flight_information();
 
+    // con.enter_flight_information();
+
+ 
+    // con.enter_flight_update();
+    // con.enter_flight_update();
+    
     return 0;
 
 }
