@@ -36,6 +36,18 @@ void Console::start_program() {
         // std::cout << ">>";
         Menu::gotoxy(0, 0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && i > 0) --i;
         else if(ch == DOWN && i < 1) ++i; 
         else if(ch == ENTER) {
@@ -81,6 +93,18 @@ void Console::enter_manager_menu() {
         // std::cout << ">>";
         Menu::gotoxy(0, 0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && i > 0) --i;
         else if(ch == DOWN && i < 2) ++i; 
         else if(ch == ENTER) {
@@ -127,6 +151,17 @@ void Console::enter_plane_statistics() {
         Menu::gotoxy(0, 0);
         std::cout << "number_of_planes:" << number_of_planes;
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
         
         if(ch == UP && cur_row > 0) --cur_row;
         else if(ch == DOWN && cur_row + cur_page*PLANES_PER_PAGE < number_of_planes - 1) ++cur_row;
@@ -154,6 +189,18 @@ void Console::enter_flight_manager_menu() {
         }
         Menu::gotoxy(0,0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == TAB) {
             break;
         } else if(ch == UP && i > 0) --i;
@@ -176,7 +223,20 @@ void Console::enter_manage_flights() {
             else std::cout << "  "; 
             
         }
+        Menu::gotoxy(0, 0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && i > 0) --i;
         else if(ch == DOWN && i < 2) ++i;
         else if(ch == ESC) return;
@@ -301,8 +361,19 @@ void Console::enter_passenger_list(Flight *flight) {
             std::cout << ticketIndex + 1;
 
         }
-
+        Menu::gotoxy(0, 0);
         char key = _getch();
+        #ifdef _WIN32
+                if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    key = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        key = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
 
         // Xử lý các phím điều hướng
         if (key == ESC) break;
@@ -404,7 +475,19 @@ void Console::enter_available_tickets(Flight *flight) {
             Menu::gotoxy(69, row);  // Cột hiển thị trạng thái ghế
             std::cout << (flight->tickets[ticketIndex].CMND != nullptr ? "SOLD OUT" : "AVAILABLE");
         }
+        Menu::gotoxy(0, 0);
         char key = _getch(); // Nhận phím nhập vào
+        #ifdef _WIN32
+                if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    key = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        key = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
 
         if (key == ESC) break;  // ESC để thoát
         else if (key == LEFT && current_page > 0)
@@ -519,7 +602,20 @@ void Console::enter_manage_plane() {
             }
 
         }
+        Menu::gotoxy(0, 0);
         ch = _getch();
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == TAB) {
             return;
         } else if(ch == UP && i > 0) --i;
@@ -566,9 +662,19 @@ void Console::enter_plane_list() {
 
         }
         Menu::gotoxy(0, 0);
-        // std::cout << "number_of_planes:" << number_of_planes;
         ch = _getch();
-        
+        #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+        #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+        #endif
+
         if(ch == UP && cur_row > 0) --cur_row;
         else if(ch == DOWN && cur_row + cur_page*PLANES_PER_PAGE < number_of_planes - 1) ++cur_row;
         else if(ch == RIGHT && cur_page < max_page) {
@@ -676,6 +782,17 @@ void Console::enter_available_flights() {
         } else {
             Menu::gotoxy(0, 0);
             ch = _getch();
+            #ifdef _WIN32
+                if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    ch = _getch(); // Lấy mã thực tế của phím
+                }
+            #else
+                if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        ch = _getch(); // Lấy mã thực tế của phím
+                    }
+                }
+            #endif
         }
 
         if (ch == UP && cur_row > 0) {
@@ -781,13 +898,14 @@ void Console::delete_plane(const char *plane_id) {
     for (int i = 0; i < MAX_PLANE && list_planes[i] != nullptr; i++) {
         if (strcmp(list_planes[i]->plane_id, plane_id) == 0) {
             delete list_planes[i];
-            for (int j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
+            int j;
+            for (j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
                 list_planes[j] = list_planes[j + 1];
             }
+            list_planes[j] = nullptr;
             return;
         }
     }
-
 }
 
 void Console::update_plane(const Plane &other) {
@@ -821,26 +939,26 @@ void Console::enter_plane_information() {
         Menu::display_add_aircraft();
 
         // Hiển thị thông tin đã nhập
-        Menu::gotoxy(53, 6);
-        std::cout << std::setw(LEN_PLANE_ID) << std::left << other.plane_id;
+        Menu::gotoxy(52, 6);
+        std::cout << other.plane_id;
 
-        Menu::gotoxy(55, 9);
-        std::cout << std::setw(LEN_PLANE_TYPE) << std::left << other.plane_type;
-        Menu::gotoxy(67, 12);
+        Menu::gotoxy(54, 9);
+        std::cout << other.plane_type;
+        Menu::gotoxy(66, 12);
         if (other.number_of_seats > 0) {
-            std::cout << std::setw(6) << std::left << num_str_seat;
+            std::cout << num_str_seat;
         }
 
-        Menu::gotoxy(62, 15);
+        Menu::gotoxy(61, 15);
         if (other.number_flights_performed > 0) {
-            std::cout << std::setw(6) << std::left << num_str;
+            std::cout << num_str;
         }
 
 
         // Nhập liệu theo các trường (cột)
         switch (column) {
             case 0:
-                Menu::gotoxy(53 + idx[column], 6);
+                Menu::gotoxy(52 + idx[column], 6);
                 enter(other.plane_id, idx[column], LEN_PLANE_ID, ch,
                     [&](char &c) {
                         if (c >= 'a' && c <= 'z') c -= 32;
@@ -849,7 +967,7 @@ void Console::enter_plane_information() {
                 
                 break;
             case 1:
-                Menu::gotoxy(55 + idx[column], 9);
+                Menu::gotoxy(54 + idx[column], 9);
                 enter(other.plane_type, idx[column], LEN_PLANE_TYPE, ch,
                     [&](char &c) { 
                         if (c >= 'a' && c <= 'z')
@@ -859,7 +977,7 @@ void Console::enter_plane_information() {
 
                 break;
             case 2: {
-                Menu::gotoxy(67 + idx[column], 12);
+                Menu::gotoxy(66 + idx[column], 12);
                 
                 enter(num_str_seat, idx[column], 5, ch,
                     [&](char &c) { return (c >= '0' && c <= '9'); });
@@ -867,7 +985,7 @@ void Console::enter_plane_information() {
                 break;
             }
             case 3:
-                Menu::gotoxy(62 + idx[column], 15);
+                Menu::gotoxy(61 + idx[column], 15);
                 
                 enter(num_str, idx[column], 5, ch,
                     [&](char &c) { return (c >= '0' && c <= '9'); });
@@ -911,7 +1029,16 @@ void Console::enter_plane_information() {
             else {
                 // Hiện tại đang ở dòng cuối cùng
                 // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_type) == 0 || other.number_of_seats == 0 || other.number_flights_performed == 0){
+                if (strlen(other.plane_type) == 0){
+                    column = 1;
+                    continue;
+                }
+                if (other.number_of_seats == 0){
+                    column = 2;
+                    continue;
+                }
+                if (other.number_flights_performed == 0){
+                    column = 3;
                     continue;
                 }
                 // Đã nhập xong tất cả các trường, tiến hành thêm máy bay
@@ -946,15 +1073,15 @@ void Console::enter_plane_update() {
         Menu::display_edit_aircraft_details();
 
         // Hiển thị thông tin đã nhập
-        Menu::gotoxy(67, 6);
+        Menu::gotoxy(66, 6);
         std::cout << other.plane_id;
-        Menu::gotoxy(55, 9);
+        Menu::gotoxy(54, 9);
         std::cout << other.plane_type;
-        Menu::gotoxy(67, 12);
+        Menu::gotoxy(66, 12);
         if (other.number_of_seats > 0) {
             std::cout << other.number_of_seats;
         }
-        Menu::gotoxy(62, 15);
+        Menu::gotoxy(61, 15);
         if (other.number_flights_performed > 0) {
             std::cout << other.number_flights_performed;
         }
@@ -962,7 +1089,7 @@ void Console::enter_plane_update() {
         // Nhập liệu theo các trường (cột)
         switch (column) {
             case 0:
-                Menu::gotoxy(67 + idx[column], 6);
+                Menu::gotoxy(66 + idx[column], 6);
                 enter(other.plane_id, idx[column], LEN_PLANE_ID, ch,
                     [&](char &c) { 
                         if (c >= 'a' && c <= 'z')
@@ -971,7 +1098,7 @@ void Console::enter_plane_update() {
                     });
                 break;
             case 1:
-                Menu::gotoxy(55 + idx[column], 9);
+                Menu::gotoxy(54 + idx[column], 9);
                 enter(other.plane_type, idx[column], LEN_PLANE_TYPE, ch,
                     [&](char &c) { 
                         if (c >= 'a' && c <= 'z')
@@ -980,7 +1107,7 @@ void Console::enter_plane_update() {
                     });
                 break;
             case 2: {
-                Menu::gotoxy(67 + idx[column], 12);
+                Menu::gotoxy(66 + idx[column], 12);
 
                 enter(num_str_seat, idx[column], 5, ch,
                     [&](char &c) { return (c >= '0' && c <= '9'); });
@@ -988,7 +1115,7 @@ void Console::enter_plane_update() {
                 break;
             }
             case 3:
-                Menu::gotoxy(62 + idx[column], 15);
+                Menu::gotoxy(61 + idx[column], 15);
 
                 enter(num_str, idx[column], 5, ch,
                     [&](char &c) { return (c >= '0' && c <= '9'); });
@@ -1028,7 +1155,16 @@ void Console::enter_plane_update() {
             else {
                 // Hiện tại đang ở dòng cuối cùng
                 // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_type) == 0 || other.number_of_seats == 0 || other.number_flights_performed == 0){
+                if (strlen(other.plane_type) == 0){
+                    column = 1;
+                    continue;
+                }
+                if (other.number_of_seats == 0){
+                    column = 2;
+                    continue;
+                }
+                if (other.number_flights_performed == 0){
+                    column = 3;
                     continue;
                 }
                 // Khi đã nhập đủ thông tin, tiến hành cập nhật
@@ -1060,7 +1196,7 @@ void Console::enter_plane_delete() {
 
         // Hiển thị giao diện nhập xoá máy bay
         Menu::display_delete_aircraft();
-        Menu::gotoxy(70, 6);
+        Menu::gotoxy(69, 6);
         std::cout << plane_id;
 
         // Vòng lặp nhập mã máy bay
@@ -1226,7 +1362,7 @@ void Console::update_flight(const char *flight_id, const date_departure &new_dat
         curr = curr->next;
     }
 }
-bool Console::cancel_flight(const char *flight_id){
+void Console::cancel_flight(const char *flight_id){
     Flight *curr = list;
 
     while (curr != nullptr){
@@ -1234,12 +1370,12 @@ bool Console::cancel_flight(const char *flight_id){
             if (curr->cur_status != status::completed){
                 // Neu chua hoan tat thi huy ve
                 curr->cur_status = status::cancelled;
-                return true;
+                return;
             }
         }
         curr = curr->next;
     }
-    return false;
+    return;
 }
 
 void Console::enter_flight_information(){
@@ -1250,32 +1386,29 @@ void Console::enter_flight_information(){
     int column = 0;
     char date_str[11] = {}; // Mảng chứa chuỗi nhập ngày dd/mm/yyyy
     char time_str[6] = {}; // Mảng chứa chuỗi nhập thời gian hh:mm
+    int day, month, year; // Các biến này để lưu giá trị khi lấy từ chuỗi date_str
+    int hour, minute;
+    int read; // Biến này để đọc xem có bao giá trị được tách ra khi dùng hàm sscanf
 
     while (true) {
         Menu::display_create_new_flight();
 
         // Hiện thị thông tin đã nhập
-        Menu::gotoxy(54, 6);
+        Menu::gotoxy(53, 6);
         std::cout << other.flight_id;
-        Menu::gotoxy(53, 9);
+        Menu::gotoxy(52, 9);
         std::cout << other.plane_id;
-        Menu::gotoxy(72, 12);
-        if (other.date_dep.day != 0 && other.date_dep.month != 0 && other.date_dep.year != 0){
-            // kiểm tra ngày đã nhập
-            std::cout << other.date_dep;
-        } 
-        Menu::gotoxy(67, 15);
-        if (other.time_dep.hour >= 0 || other.time_dep.minute >= 0){
-            // kiểm tra thời gian
-            std::cout << other.time_dep;
-        } 
-        Menu::gotoxy(56, 18);
+        Menu::gotoxy(71, 12);
+        std::cout << date_str;
+        Menu::gotoxy(66, 15);
+        std::cout << time_str;
+        Menu::gotoxy(55, 18);
         std::cout << other.destination;
 
         // Nhập liệu theo các trường (cột)
         switch (column) {
             case 0:
-                Menu::gotoxy(54 + idx[column], 6);
+                Menu::gotoxy(53 + idx[column], 6);
                 enter(other.flight_id, idx[column], LEN_FLIGHT_ID, ch,
                     [&](char &c) { 
                         if(c >= 'a' && c <= 'z') c -= 32;
@@ -1284,7 +1417,7 @@ void Console::enter_flight_information(){
                     });
                 break;
             case 1:
-                Menu::gotoxy(53 + idx[column], 9);
+                Menu::gotoxy(52 + idx[column], 9);
                 enter(other.plane_id, idx[column], LEN_PLANE_ID, ch,
                     [&](char &c) { 
                         if(c >= 'a' && c <= 'z') c -= 32;
@@ -1293,62 +1426,63 @@ void Console::enter_flight_information(){
                     });
                 break;
             case 2: {
-                int day, month, year;
-                int read = 0;
-                bool validInput = false; // Biến kiểm tra đầu vào hợp lệ
-            
-                do {
-                    Menu::gotoxy(72, 12);
-                    std::cout << "          "; // Xóa nội dung cũ trước khi nhập mới
-                    idx[column] = 0; // Reset chỉ số nhập
-                    memset(date_str, 0, 11); // reset chuỗi nhập ngày
-
-                    Menu::gotoxy(72 + idx[column], 12);
-                    enter(date_str, idx[column], 11, ch,
-                        [&](char &c) {
-                            return ((c >= '0' && c <= '9') || c == '/');
+                Menu::gotoxy(71 + idx[column], 12);
+                enter(date_str, idx[column], 11, ch,
+                    [&](char &c) {
+                        return (c >= 48 && c <= 57 || c == '/');
                     });
-            
-                    read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
-                    validInput = (read == 3 && other.valid_date(day, month, year));
-            
-                    if (validInput) {
-                        other.date_dep.day = day;
-                        other.date_dep.month = month;
-                        other.date_dep.year = year;
+                
+                // Nhập xong trường ngày rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 3 số nguyên
+                read = 0;
+                read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
+                if (read == 3){ // Nếu tách được 3 số là day, month và year
+                    // chuẩn hoá lại cho đúng định dạng ngày
+                    if (date_str[1] == '/'){
+                        for (int i = idx[column]; i > 0; i--){
+                            date_str[i] = date_str[i - 1];
+                        }
+                        date_str[0] = '0';
+                        idx[column]++;
                     }
-                } while (!validInput); // Lặp lại khi nhập sai
+                    if (date_str[4] == '/'){
+                        for (int i = idx[column]; i > 3; i--){
+                            date_str[i] = date_str[i - 1];
+                        }
+                        date_str[3] = '0';
+                        idx[column]++;
+                    }
+                }
                 break;
             }     
             case 3: {
-                int hour, minute;
-                int read = 0;
-                bool validInput = false; // Biến kiểm tra đầu vào hợp lệ
-            
-                do {
-                    Menu::gotoxy(67, 15);
-                    std::cout << "     "; // Xóa nội dung cũ trước khi nhập mới
-                    idx[column] = 0; // Reset chỉ số nhập
-                    memset(time_str, 0, 6); // reset chuỗi nhập thời gian
-
-                    Menu::gotoxy(67 + idx[column], 15);
-                    enter(time_str, idx[column], 6, ch,
-                        [&](char &c) {
-                            return ((c >= '0' && c <= '9') || c == ':');
+                Menu::gotoxy(66 + idx[column], 15);
+                enter(time_str, idx[column], 6, ch,
+                    [&](char &c) {
+                        return ((c >= 48 && c <= 57) || c == ':');
                     });
-            
-                    read = sscanf(time_str, "%d:%d", &hour, &minute);
-                    validInput = (read == 2 && other.valid_time(hour, minute));
-            
-                    if (validInput) {
-                        other.time_dep.hour = hour;
-                        other.time_dep.minute = minute;
+                
+                // Nhập xong trường thời gian rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 2 số nguyên
+                read = 0;
+                read = sscanf(time_str, "%d:%d", &hour, &minute);
+                if (read == 2){ // Nếu tách dược 2 số nguyên là hour và minute
+                    // Chuẩn hoá chuỗi lại cho đúng định dạng
+                    if (time_str[1] == ':'){
+                        for (int i = idx[column]; i > 0; i--){
+                            time_str[i] = time_str[i - 1];
+                        }
+                        time_str[0] = '0';
+                        idx[column]++;
                     }
-                } while (!validInput); // Lặp lại khi nhập sai
+                    if (time_str[4] == '\0'){
+                        time_str[4] = time_str[3];
+                        time_str[3] = '0';
+                        idx[column]++;
+                    }
+                }
                 break;
             }    
             case 4:
-                Menu::gotoxy(56 + idx[column], 18);
+                Menu::gotoxy(55 + idx[column], 18);
                 enter(other.destination, idx[column], LEN_DESTINATION, ch,
                     [&](char &c) { 
                         if(c >= 'a' && c <= 'z') c -= 32;
@@ -1376,7 +1510,6 @@ void Console::enter_flight_information(){
                     Menu::display_flight_exist();
                     memset(other.flight_id, 0, LEN_FLIGHT_ID);
                     idx[0] = 0;
-                    column = 0;
                     continue;
                 }
                 else {
@@ -1391,7 +1524,31 @@ void Console::enter_flight_information(){
             else {
                 // Hiện tại đang ở dòng cuối cùng
                 // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_id) == 0 || strlen(other.destination) == 0){
+                if (strlen(other.plane_id) == 0){
+                    column = 1;
+                    continue;
+                }
+                if (strlen(other.destination) == 0){
+                    column = 4;
+                    continue;
+                }
+                // Nếu trường ngày hợp lệ tiến hành gán nó vào Flight other
+                if (other.valid_date(day, month, year)){
+                    other.date_dep.day = day;
+                    other.date_dep.month = month;
+                    other.date_dep.year = year;
+                }
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ sẽ dịch về vị trí cũ vừa nhập
+                    column = 2;
+                    continue;
+                }
+                // Nếu trường thời gian hợp lệ tiến hành gán nó vào Flight other
+                if (other.valid_time(hour, minute)){
+                    other.time_dep.hour = hour;
+                    other.time_dep.minute = minute;
+                }
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ sẽ về vị trí cũ vừa nhập
+                    column = 3;
                     continue;
                 }
                 // Đã nhập xong tất cả các trường, tiến hành tạo chuyến bay mới
@@ -1421,28 +1578,25 @@ void Console::enter_flight_update(){
     int idx[3] = {0}, column = 0;
     char date_str[11] = {}; // Mảng chứa chuỗi nhập ngày dd/mm/yyyy
     char time_str[6] = {}; // Mảng chứa chuỗi nhập thời gian hh:mm
+    int day, month, year; // Các biến này để lưu giá trị khi lấy từ chuỗi date_str
+    int hour, minute;
+    int read; // Biến này để đọc xem có bao giá trị được tách ra khi dùng hàm sscanf
 
     while (true) {
         Menu::display_edit_flight_schedule();
 
         // Hiện thị thông tin đã nhập
-        Menu::gotoxy(60, 6);
+        Menu::gotoxy(59, 6);
         std::cout << flight_id;
-        Menu::gotoxy(76, 9);
-        if (new_date.day != 0 && new_date.month != 0 && new_date.year != 0){
-            // kiểm tra ngày đã nhập
-            std::cout << new_date;
-        } 
-        Menu::gotoxy(71, 12);
-        if (new_time.hour >= 0 || new_time.minute >= 0){
-            // kiểm tra thời gian
-            std::cout << new_time;
-        }
+        Menu::gotoxy(75, 9);
+        std::cout << date_str;
+        Menu::gotoxy(70, 12);
+        std::cout << time_str;
         
         // Nhập liệu theo các trường (cột)
         switch (column) {
             case 0: {
-                Menu::gotoxy(60 + idx[column], 6);
+                Menu::gotoxy(59 + idx[column], 6);
                 enter(flight_id, idx[column], LEN_FLIGHT_ID, ch,
                     [&](char &c) { 
                         if(c >= 'a' && c <= 'z') c -= 32;
@@ -1452,58 +1606,59 @@ void Console::enter_flight_update(){
                 break;
             }         
             case 1: {
-                int day, month, year;
-                int read = 0;
-                bool validInput = false; // Biến kiểm tra đầu vào hợp lệ
-            
-                do {
-                    Menu::gotoxy(76, 9);
-                    std::cout << "          "; // Xóa nội dung cũ trước khi nhập mới
-                    idx[column] = 0; // Reset chỉ số nhập
-                    memset(date_str, 0, 11); // reset chuỗi nhập ngày
-
-                    Menu::gotoxy(76 + idx[column], 9);
-                    enter(date_str, idx[column], 11, ch,
-                        [&](char &c) {
-                            return ((c >= '0' && c <= '9') || c == '/');
+                Menu::gotoxy(75 + idx[column], 9);
+                enter(date_str, idx[column], 11, ch,
+                    [&](char &c) {
+                        return (c >= 48 && c <= 57 || c == '/');
                     });
-                    Flight temp;
-                    read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
-                    validInput = (read == 3 && temp.valid_date(day, month, year));
-            
-                    if (validInput) {
-                        new_date.day = day;
-                        new_date.month = month;
-                        new_date.year = year;
-                    }
-                } while (!validInput); // Lặp lại khi nhập sai
-                break;
-            }
                 
-            case 2: {
-                int hour, minute;
-                int read = 0;
-                bool validInput = false; // Biến kiểm tra đầu vào hợp lệ
-            
-                do {
-                    Menu::gotoxy(71, 12);
-                    std::cout << "     "; // Xóa nội dung cũ trước khi nhập mới
-                    idx[column] = 0; // Reset chỉ số nhập
-                    memset(time_str, 0, 5); // reset chuỗi nhập thời gian
-                    Menu::gotoxy(71 + idx[column], 12);
-                    enter(time_str, idx[column], 6, ch,
-                        [&](char &c) {
-                            return ((c >= '0' && c <= '9') || c == ':');
-                    });
-                    Flight temp;
-                    read = sscanf(time_str, "%d:%d", &hour, &minute);
-                    validInput = (read == 2 && temp.valid_time(hour, minute));
-            
-                    if (validInput) {
-                        new_time.hour = hour;
-                        new_time.minute = minute;
+                // Nhập xong trường ngày rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 3 số nguyên
+                read = 0;
+                read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
+                if (read == 3){ // Nếu tách được 3 số là day, month và year
+                    // chuẩn hoá lại cho đúng định dạng ngày
+                    if (date_str[1] == '/'){
+                        for (int i = idx[column]; i > 0; i--){
+                            date_str[i] = date_str[i - 1];
+                        }
+                        date_str[0] = '0';
+                        idx[column]++;
                     }
-                } while (!validInput); // Lặp lại khi nhập sai
+                    if (date_str[4] == '/'){
+                        for (int i = idx[column]; i > 3; i--){
+                            date_str[i] = date_str[i - 1];
+                        }
+                        date_str[3] = '0';
+                        idx[column]++;
+                    }
+                }
+                break;
+            }     
+            case 2: {
+                Menu::gotoxy(70 + idx[column], 12);
+                enter(time_str, idx[column], 6, ch,
+                    [&](char &c) {
+                        return ((c >= 48 && c <= 57) || c == ':');
+                    });
+                
+                // Nhập xong trường thời gian rồi tiến hành lấy dữ liệu từ chuỗi nhập đó gán váo 2 số nguyên
+                read = 0;
+                read = sscanf(time_str, "%d:%d", &hour, &minute);
+                if (read == 2){ // Nếu tách dược 2 số nguyên là hour và minute
+                    // Chuẩn hoá chuỗi lại cho đúng định dạng
+                    if (time_str[1] == ':'){
+                        for (int i = idx[column]; i > 0; i--){
+                            time_str[i] = time_str[i - 1];
+                        }
+                        time_str[0] = '0';
+                        idx[column]++;
+                    }
+                    if (time_str[4] == '\0'){
+                        time_str[4] = time_str[3];
+                        time_str[3] = '0';
+                        idx[column]++;
+                    }
+                }
                 break;
             }
 
@@ -1527,11 +1682,11 @@ void Console::enter_flight_update(){
                     Menu::display_flight_not_found();         
                     memset(flight_id, 0, LEN_FLIGHT_ID);
                     idx[0] = 0;
-                    column = 0;
                     continue;
                 }
                 else{
                     column++;
+                    continue;
                 }
             }
             
@@ -1540,6 +1695,27 @@ void Console::enter_flight_update(){
                 continue;
             }
             else {
+                // Hiện tại đang ở dòng cuối cùng
+                Flight temp;
+                // Nếu trường ngày hợp lệ tiến hành gán nó vào new_date
+                if (temp.valid_date(day, month, year)){
+                    new_date.day = day;
+                    new_date.month = month;
+                    new_date.year = year;
+                }
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
+                    column = 1;
+                    continue;
+                }
+                // Nếu trường thời gian hợp lệ tiến hành gán nó vào new_time
+                if (temp.valid_time(hour, minute)){
+                    new_time.hour = hour;
+                    new_time.minute = minute;
+                }
+                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
+                    column = 2;
+                    continue;
+                }
                 // Nhập liệu thành công
                 update_flight(flight_id, new_date, new_time);
                 Menu::display_success_update_flight();
@@ -1566,7 +1742,7 @@ void Console::enter_flight_cancel() {
 
     while (true) {
         Menu::display_cancel_flight();
-        Menu::gotoxy(60, 6);
+        Menu::gotoxy(59, 6);
         std::cout << flight_id;
 
         while (true) {
@@ -1614,20 +1790,8 @@ void Console::enter_flight_cancel() {
                 Menu::display_success_cancel_flight();
                 return;
             }
-        }
-        else {
-                // Đã tìm thấy mã hiệu máy bay
-                // Nếu máy bay chua hoàn tất thì mới huỷ
-                if (cancel_flight(flight_id)){ 
-                    //Huỷ thành công
-                    Menu::display_success_cancel_flight();
-                }
-                else {
-                    // Không thể huỷ vì chuyến bay đã hoàn tất
-                    Menu::display_cannot_cancel_flight();
-                }
-                return;
-            }       
                 
         }
     }
+}
+

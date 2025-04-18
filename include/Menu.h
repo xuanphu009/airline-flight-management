@@ -18,6 +18,7 @@ namespace Menu {
     void display_edit_aircraft_details();
     void display_plane_list(int current_page, int max_pages);
 
+    // Plane notifications
     void display_empty_aircraft_list();
     void display_aircraft_exist();
     void display_full_aircraft_list();
@@ -34,6 +35,7 @@ namespace Menu {
     void display_enter_flight_ID();
     void display_cancel_flight();
 
+    // Flight notifications
     void display_flight_exist();
     void display_success_create_flight();
     void display_success_update_flight();

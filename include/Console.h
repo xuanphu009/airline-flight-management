@@ -54,13 +54,20 @@ struct Console {
     //Handle flight
     void create_flight(const Flight &other);
     void update_flight(const char *flight_id, const date_departure &new_date, const time_departure &new_time);
-    bool cancel_flight(const char *flight_id);
+    void cancel_flight(const char *flight_id);
     bool search_flight_id(const char *flight_id);
     Plane* get_plane_by_id(const char* plane_id);
 
     void enter_flight_information();
     void enter_flight_update();
     void enter_flight_cancel();
+
+    // Daniel
+
+    void enter_flight_id_for_available_tickets();
+    void display_available_tickets(Flight &flight, int current_page, int &max_pages);
+    Flight *create_sample_flight();
+
 };
 
 
