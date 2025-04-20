@@ -6,54 +6,26 @@
 struct date_departure {
     int day, month, year;
 
-    char* to_string() {
-        char* ans = new char[11]; // Cấp phát động
-        snprintf(ans, 11, "%02d/%02d/%04d", day, month, year);
-        return ans;
-    }
+    char* to_string();
 
     // Overload for std::ofstream
-    friend std::ofstream& operator<<(std::ofstream &out, const date_departure &x) {
-        if (x.day < 10) out << "0";
-        out << x.day << "/";
-        if (x.month < 10) out << "0";
-        out << x.month << "/";
-        out << x.year;
-        return out;
-    }
+    friend std::ofstream& operator<<(std::ofstream &out, const date_departure &x);
 
-    bool operator == (const date_departure &x) {
-        return this->day == x.day && this->month == x.month && this->year == x.year;
-    } 
-
+    bool operator == (const date_departure &x);
     // Overload for std::ostream (e.g., std::cout)
-    friend std::ostream& operator<<(std::ostream &out, const date_departure &x) {
-        if (x.day < 10) out << "0";
-        out << x.day << "/";
-        if (x.month < 10) out << "0";
-        out << x.month << "/";
-        out << x.year;
-        return out;
-    }
+    friend std::ostream& operator<<(std::ostream &out, const date_departure &x);
+
+    // Overload for std::istream
+    friend std::istream& operator>>(std::istream &in, date_departure &x);
+
 };
 struct time_departure {
     int hour, minute;
-
+    char* to_string();
     // Overload for std::ofstream
-    friend std::ofstream& operator<<(std::ofstream &out, const time_departure &t) {
-        if (t.hour < 10) out << "0";
-        out << t.hour << ":";
-        if (t.minute < 10) out << "0";
-        out << t.minute;
-        return out;
-    }
-    friend std::ostream& operator<<(std::ostream &out, const time_departure &t) {
-        if (t.hour < 10) out << "0";
-        out << t.hour << ":";
-        if (t.minute < 10) out << "0";
-        out << t.minute;
-        return out;
-    }
+    friend std::ofstream& operator<<(std::ofstream &out, const time_departure &t);
+    friend std::ostream& operator<<(std::ostream &out, const time_departure &t);
+    friend std::istream& operator>>(std::istream &in, time_departure &t);
 };
 
 enum struct status {
@@ -82,11 +54,15 @@ struct Flight {
 
     Flight(); // Constructor mặc định
     Flight(const Flight &other); // Copy constructor
-    ~Flight();
+    // ~Flight();
 
     bool valid_user(char *CMND);
     bool valid_time(int hour, int minute);
     bool valid_date(int day, int month, int year);
     int* list_passengers(int &n);
     int* list_available_seats(int &n);
+    void set_status(status x);
+    friend std::ostream& operator<<(std::ostream &out, const Flight &other);
+    friend std::ofstream& operator<<(std::ofstream &out, const Flight &other);
+    friend std::ifstream& operator>>(std::ifstream &in, Flight &other);
 };

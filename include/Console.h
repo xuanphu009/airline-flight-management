@@ -6,13 +6,16 @@
 #include "Ticket.h"
 #include "Menu.h"
 #include "Constants.h"
+#include <fstream>
+#include <filesystem>
+#include <windows.h>
 
-
+namespace fs = std::filesystem;
 
 struct Console {
     Flight* list = nullptr;    // Khai báo extern
     Passenger* input = nullptr;
-    AVL_TREE manager;
+    AVL_TREE manager = AVL_TREE();
     Plane *list_planes[MAX_PLANE];
 
     // void buy_ticket(Passenger input, Flight *booking) {
@@ -20,6 +23,20 @@ struct Console {
     //     Ticket new_ticket;
         
     // }
+
+    void processing();
+
+    
+    void load_planes_from_folder();
+    
+    void load_passengers_from_folder();
+
+    void load_flights_from_folder();
+    void load_flights_before_view();
+
+    bool is_completed(date_departure *x, time_departure *y);
+
+
     void enter_plane_statistics();
     unsigned int count_flights();
     void start_program();
@@ -30,6 +47,11 @@ struct Console {
     void enter_available_flights();
     void enter_flight_manager_menu();
     void enter_passenger_list(Flight *flight);
+
+
+    void enter_the_tickets_of_you() {
+        
+    }
     // void enter_available_tickets(Flight *flight);
     void enter_manage_flights();
     void count_passengers(Flight *flight, int &count);
@@ -52,21 +74,16 @@ struct Console {
     void merge_sort();
     
     //Handle flight
-    void create_flight(const Flight &other);
+    void create_flight(Flight &other);
     void update_flight(const char *flight_id, const date_departure &new_date, const time_departure &new_time);
     void cancel_flight(const char *flight_id);
     bool search_flight_id(const char *flight_id);
-    Plane* get_plane_by_id(const char* plane_id);
+    int get_plane_by_id(const char* plane_id);
 
     void enter_flight_information();
     void enter_flight_update();
     void enter_flight_cancel();
 
-    // Daniel
-
-    void enter_flight_id_for_available_tickets();
-    void display_available_tickets(Flight &flight, int current_page, int &max_pages);
-    Flight *create_sample_flight();
 
 };
 

@@ -6,7 +6,7 @@ namespace Menu {
     void gotoxy(int x, int y);
     void display_flight_manager_menu(); 
     void display_navigation_instructions();
-    void display_list_instructions();
+    void display_list_instructions(int current_page, int max_pages);
     void display_login_frame();
     void display_manager_menu();
 
@@ -16,7 +16,7 @@ namespace Menu {
     void display_add_aircraft();
     void display_delete_aircraft();
     void display_edit_aircraft_details();
-    void display_plane_list(int current_page, int max_pages);
+    void display_plane_list();
 
     // Plane notifications
     void display_empty_aircraft_list();
@@ -49,18 +49,19 @@ namespace Menu {
     void display_cancel_ticket();
 
     // Passenger Information
-    void display_passenger_list(int current_page, int max_pages);
+    void display_passenger_list();
 
     // Flight Queries
     void display_available_flights();
-    void display_available_tickets(int current_page, int max_pages);
-    void display_plane_statistics(int current_page, int max_pages);
-    void display_flight_list(int current_page, int max_pages);
+    void display_available_tickets();
+    void display_plane_statistics();
+    void display_flight_list();
 
         // User Information
     void display_enter_user_information();
     void display_identification_information();
     void display_enter_flight_details();
+    void display_the_tickets_of_user();
 }
 
 

@@ -14,6 +14,20 @@ unsigned int Plane::get_total_seats(){
     return (unsigned int ) number_of_seats;
 }
 
+std::ofstream& operator<<(std::ofstream &out, const Plane &other) {
+    out << other.plane_id << std::endl
+    << other.plane_type << std::endl
+    << other.number_of_seats << std::endl
+    << other.number_flights_performed << std::endl;
+    return out;
+}
+std::ifstream& operator>>(std::ifstream &in, Plane &other) {
+    in >> other.plane_id
+    >> other.plane_type
+    >> other.number_of_seats
+    >> other.number_flights_performed;
+    return in;
+}
 
 
 

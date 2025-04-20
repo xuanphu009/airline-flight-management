@@ -27,6 +27,7 @@ constexpr int LEN_FLIGHT_ID = 15, LEN_DESTINATION = 16;
 constexpr int LEN_LAST_NAME = 12, LEN_FIRST_NAME = 12;
 constexpr int LEN_PLANE_ID = 15, LEN_PLANE_TYPE = 40, MAX_PLANE = 300; 
 constexpr int LEN_CMND = 15;
+
 #if defined(_WIN32) || defined(_WIN64)
     constexpr int UP = 0x48, DOWN = 0x50, LEFT = 0x4B, RIGHT = 0x4D, ENTER = 13, BACKSPACE = 8, ESC = 27, TAB = 9;
 #else
@@ -59,7 +60,7 @@ void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) no
                     }
                 }
         #endif
-        if (ch == ENTER || ch == '\n' || ch == ESC) return; // ENTER trên macOS là '\n'
+        if (ch == ENTER || ch == '\n' || ch == ESC || ch == TAB) return; // ENTER trên macOS là '\n'
 
 
         if (ch == BACKSPACE) {

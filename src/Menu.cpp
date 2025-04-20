@@ -36,15 +36,13 @@ void Menu::display_navigation_instructions()
 
     )";
 }
-void Menu::display_list_instructions()
+void Menu::display_list_instructions(int current_page, int max_pages)
 {
     std::cout << R"(
-        
-         [<] Previous Page    [>] Next Page    [ESC] Exit        Page:  |    
-
-             [^] Move Up                     [v] Move Down        
-        
-    )";
+                                [<] Previous Page    [>] Next Page    [ESC] Exit     Page: )"
+                                            << current_page << "|" << max_pages << R"(
+                                [^] Move Up          [v] Move Down
+)";
 }
 
 void Menu::display_login_frame()
@@ -559,7 +557,7 @@ void Menu::display_cancel_ticket()
 										)";
 }
 
-void Menu::display_passenger_list(int current_page, int max_pages)
+void Menu::display_passenger_list()
 { // E
     system("cls");
 
@@ -575,14 +573,24 @@ void Menu::display_passenger_list(int current_page, int max_pages)
                         |   Status:                                                                                |
                         |__________________________________________________________________________________________|
                         |  Last Name      |  First Name      |  CMND            |  Gender  |  Seat No.             |
-                        |_________________|__________________|__________________|__________|_______________________|)";
+                        |_________________|__________________|__________________|__________|_______________________|
+                        
+
+
+
+
+
+
+
+
+
+
+                    
+)";
 
 
     // 📌 Hiển thị điều hướng trang
-    gotoxy(35, 26);
-    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    gotoxy(35, 27);
-    std::cout << "[^] Move Up          [v] Move Down";
+
 }
 
 void Menu::display_available_flights()
@@ -603,7 +611,7 @@ void Menu::display_available_flights()
 			|_________________|_________________|_____________________|
   )";
 }
-void Menu::display_available_tickets(int current_page, int max_pages) {
+void Menu::display_available_tickets() {
     system("cls");
     std::cout << R"(
                         ___________________________________________________________________________________________
@@ -617,17 +625,30 @@ void Menu::display_available_tickets(int current_page, int max_pages) {
                         |   Status:                                                                                |
                         |__________________________________________________________________________________________|
                         |   Seat Number   |                           Status                                       |
-                        |_________________|________________________________________________________________________|)";
+                        |_________________|________________________________________________________________________|
+
+
+
+
+
+
+
+
+
+
+                    
+               
+)";
 
 
     // 📌 Hiển thị điều hướng trang
-    gotoxy(35, 26);
-    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    gotoxy(35, 27);
-    std::cout << "[^] Move Up          [v] Move Down";
+    // gotoxy(35, 26);
+    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    // gotoxy(35, 27);
+    // std::cout << "[^] Move Up          [v] Move Down";
 }
 
-void Menu::display_plane_statistics(int current_page, int max_pages)
+void Menu::display_plane_statistics()
 { // h;
     system("cls");
     //PLANE FLIGHT PERFORMANCE STATS
@@ -638,12 +659,24 @@ void Menu::display_plane_statistics(int current_page, int max_pages)
                         |____________________________________________________________________________________________|
                         |  Plane ID       |  Plane Type                                 |  Number Flights Performed  |
                         |_________________|_____________________________________________|____________________________|
+
+
+
+
+
+
+
+
+
+
+                    
+
 									   )";       
     // 📌 Hiển thị điều hướng trang
-    gotoxy(35, 26);
-    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    gotoxy(35, 27);
-    std::cout << "[^] Move Up          [v] Move Down";
+    // gotoxy(35, 26);
+    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    // gotoxy(35, 27);
+    // std::cout << "[^] Move Up          [v] Move Down";
 }
 
 void Menu::display_enter_flight_details()
@@ -657,25 +690,36 @@ void Menu::display_enter_flight_details()
                         |________________|______________________________________________________________________|
         )";
 }
-void Menu::display_flight_list(int current_page, int max_pages) {
+void Menu::display_flight_list() {
     system("cls");
     std::cout << R"(
                          ______________________________________________________________________________________
+                        |                                                                                      |
                         |                                   FLIGHT LIST                                        |
                         |______________________________________________________________________________________|
                         | Flight ID      | Plane ID         | Dep Date & Time | Destination      | Status      |
                         |________________|__________________|_________________|__________________|_____________|
+
+
+
+
+
+
+
+
+
+
     )" << std::endl;    
     
-
+    // show_
     // 📌 Hiển thị điều hướng trang
-    gotoxy(35, 26);
-    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    gotoxy(35, 27);
-    std::cout << "[^] Move Up          [v] Move Down";
+    // gotoxy(35, 26);
+    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    // gotoxy(35, 27);
+    // std::cout << "[^] Move Up          [v] Move Down";
     // show_navigation_instructions();
 }
-void Menu::display_plane_list(int current_page, int max_pages) {
+void Menu::display_plane_list() {
     system("cls");
     std ::cout << R"(
                          _____________________________________________________________________________________
@@ -685,11 +729,45 @@ void Menu::display_plane_list(int current_page, int max_pages) {
                         |  Plane ID            |  Plane Type                              |  Number Of Seats  |
                         |______________________|__________________________________________|___________________|
 
+
+
+
+
+
+
+
+
+
+
+                    
+
            )";
     // 📌 Hiển thị điều hướng trang
-    gotoxy(35, 26);
-    std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    gotoxy(35, 27);
-    std::cout << "[^] Move Up          [v] Move Down";
+    // gotoxy(35, 26);
+    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
+    // gotoxy(35, 27);
+    // std::cout << "[^] Move Up          [v] Move Down";
     // show_navigation_instructions();
+}
+
+void Menu::display_the_tickets_of_user() {
+    system("cls");
+    std::cout << R"(
+                         ______________________________________________________________________________________
+                        |                                                                                      |
+                        |                               The Tickets Of Youuuu!!!                               |
+                        |______________________________________________________________________________________|
+                        | Flight ID      | Plane ID         | Dep Date & Time | Destination      | Status      |
+                        |________________|__________________|_________________|__________________|_____________|
+
+
+
+
+
+
+
+
+
+
+    )" << std::endl;    
 }

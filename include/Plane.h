@@ -1,6 +1,7 @@
 #pragma once
 #include "Constants.h"
 #include "Menu.h"
+#include <fstream>
 
 
 struct Plane {
@@ -12,5 +13,7 @@ struct Plane {
     Plane();
 
     unsigned int get_total_seats();
+    friend std::ofstream& operator<<(std::ofstream &out, const Plane &other);
+    friend std::ifstream& operator>>(std::ifstream &in, Plane &other);
 };
 

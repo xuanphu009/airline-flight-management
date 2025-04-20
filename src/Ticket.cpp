@@ -2,4 +2,4 @@
 
 
 Ticket::Ticket()  {}
-Ticket::Ticket(unsigned int _seat, char *_CMND) : seat(_seat) {strcpy(CMND, _CMND);}
+Ticket::Ticket(char *_CMND) {strcpy(CMND, _CMND);}

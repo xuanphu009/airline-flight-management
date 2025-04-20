@@ -13,8 +13,8 @@ struct Passenger{
     
     Passenger();
     bool valid_user();
-    bool operator == (Passenger &other) {
-        return strcmp(CMND, other.CMND) == 0 && strcmp(last_name, other.last_name) == 0 && strcmp(first_name, other.first_name) == 0 && *gender == *other.gender;
-
-    }
+    bool operator == (Passenger &other);
+    friend std::ofstream& operator<<(std::ofstream &out, const Passenger &other);
+    friend std::ostream& operator<<(std::ostream &out, const Passenger &other);
+    friend std::ifstream& operator>>(std::ifstream &in, Passenger &other);
 };

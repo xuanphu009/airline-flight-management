@@ -18,7 +18,66 @@ Flight::Flight() {
 
     next = nullptr;
 }
+char* time_departure::to_string() {
+    char* ans = new char[6]; // Cấp phát động
+    snprintf(ans, 6, "%02d:%02d", hour, minute);
+    return ans;
+}
 
+char* date_departure::to_string() {
+    char* ans = new char[11]; // Cấp phát động
+    snprintf(ans, 11, "%02d/%02d/%04d", day, month, year);
+    return ans;
+}
+
+std::ostream& operator<<(std::ostream &out, const date_departure &x) {
+    if (x.day < 10) out << "0";
+    out << x.day << "/";
+    if (x.month < 10) out << "0";
+    out << x.month << "/";
+    out << x.year;
+    return out;
+}
+
+// Overload for std::istream
+std::istream& operator>>(std::istream &in, date_departure &x) {
+    char delimiter1, delimiter2;
+    in >> x.day >> delimiter1 >> x.month >> delimiter2 >> x.year;
+    return in;
+}
+std::ofstream& operator<<(std::ofstream &out, const date_departure &x) {
+    if (x.day < 10) out << "0";
+    out << x.day << " / ";
+    if (x.month < 10) out << "0";
+    out << x.month << " / ";
+    out << x.year;
+    return out;
+}
+
+bool date_departure::operator == (const date_departure &x) {
+    return this->day == x.day && this->month == x.month && this->year == x.year;
+} 
+
+
+std::ofstream& operator<<(std::ofstream &out, const time_departure &t) {
+    if (t.hour < 10) out << "0";
+    out << t.hour << " : ";
+    if (t.minute < 10) out << "0";
+    out << t.minute;
+    return out;
+}
+std::ostream& operator<<(std::ostream &out, const time_departure &t) {
+    if (t.hour < 10) out << "0";
+    out << t.hour << ":";
+    if (t.minute < 10) out << "0";
+    out << t.minute;
+    return out;
+}
+std::istream& operator>>(std::istream &in, time_departure &t) {
+    char delimiter;
+    in >> t.hour >> delimiter >> t.minute;
+    return in;
+}
 Flight::Flight(const Flight &other) {
     // Sao chép flight_id và destination
     strncpy(this->flight_id, other.flight_id, LEN_FLIGHT_ID);
@@ -49,17 +108,6 @@ Flight::Flight(const Flight &other) {
 }
 
 
-Flight::~Flight() {
-    if (total_seats) {  // Kiểm tra NULL trước khi delete
-        delete total_seats;
-        total_seats = nullptr;
-    }
-    
-    if (tickets) {  // Kiểm tra NULL trước khi delete[]
-        delete[] tickets;
-        tickets = nullptr;
-    }
-}
 
 
 bool Flight::valid_user(char *CMND) {
@@ -130,4 +178,99 @@ int* Flight::list_available_seats(int &n) {
         }
     }
     return ans;
+}
+
+// void Flight::set_status(status x);
+std::ostream& operator<<(std::ostream &out, const Flight &other) {
+    out << other.flight_id << std::endl
+    << other.plane_id << std::endl
+    << other.destination << std::endl
+    << other.date_dep << std::endl
+    << other.time_dep << std::endl
+    << *other.total_seats << std::endl;
+    switch (other.cur_status) {
+        case status::cancelled:
+            out << "cancelled";
+            break;
+        case status::available:
+            out << "available";
+            break;
+        case status::sold_out:
+            out << "sold out";
+            break;
+        case status::completed:
+            out << "completed";
+            break;
+    }
+    out << std::endl;
+
+    for(int i = 0; i < *other.total_seats; ++i) {
+        if(other.tickets[i].CMND != nullptr) {
+            out << i << " " << other.tickets[i].CMND << std::endl;
+        }
+    }
+    return out;
+}
+std::ofstream& operator<<(std::ofstream &out, const Flight &other) {
+    out << other.flight_id << std::endl
+    << other.plane_id << std::endl
+    << other.destination << std::endl
+    << other.date_dep << std::endl
+    << other.time_dep << std::endl
+    << *other.total_seats << std::endl;
+    switch (other.cur_status) {
+        case status::cancelled:
+            out << "cancelled";
+            break;
+        case status::available:
+            out << "available";
+            break;
+        case status::sold_out:
+            out << "sold out";
+            break;
+        case status::completed:
+            out << "completed";
+            break;
+    }
+    out << std::endl;
+
+    for(int i = 0; i < *other.total_seats; ++i) {
+        if(other.tickets[i].CMND != nullptr) {
+            out << i << " " << other.tickets[i].CMND << std::endl;
+        }
+    }
+    return out;
+}
+std::ifstream& operator>>(std::ifstream &in, Flight &other) {
+    other.plane_id = new char[LEN_FLIGHT_ID];
+    other.total_seats = new unsigned int;
+    in >> other.flight_id
+       >> other.plane_id 
+       >> other.destination
+       >> other.date_dep
+       >> other.time_dep
+       >> *other.total_seats;
+
+    std::string st;
+    in >> st;
+    if (st == "cancelled")     other.cur_status = status::cancelled;
+    else if (st == "available") other.cur_status = status::available;
+    else if (st == "sold")     other.cur_status = status::sold_out, in.ignore();
+    else if (st == "completed") other.cur_status = status::completed;
+
+    // Allocate memory for tickets array
+    other.tickets = new Ticket[*other.total_seats];
+    for (unsigned int i = 0; i < *other.total_seats; ++i) {
+        other.tickets[i].CMND = nullptr; // Initialize all tickets to nullptr
+    }
+
+    // Read ticket data (seat index and CMND)
+    int idx;
+    char CMND[LEN_CMND];
+    while (in >> idx >> CMND) {
+        other.tickets[idx].CMND = new char[LEN_CMND];
+        strcpy(other.tickets[idx].CMND, CMND); // Copy CMND into the ticket
+    }
+
+    return in;
 }
