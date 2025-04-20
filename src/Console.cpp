@@ -46,9 +46,9 @@ void Console::load_flights_from_folder() {
         auto p = entry.path();
         if (p.extension() == ".txt") {
             files[idx++] = p.filename().string();
-            Menu::gotoxy(0, 0);
-            std::cout << p.filename().string() << std::endl;
-            Sleep(2000);
+            // Menu::gotoxy(0, 0);
+            // std::cout << p.filename().string() << std::endl;
+            // Sleep(2000);
         }
     }
 
@@ -77,8 +77,8 @@ void Console::load_flights_from_folder() {
         // }
         in >> *f;
         in.close();
-        std::cout << *f << std::endl;
-        Sleep(2000);
+        // std::cout << *f << std::endl;
+        // Sleep(2000);
         if(f->cur_status == status::cancelled || f->cur_status == status::completed) {
             for(int i = 0; i < *f->total_seats; ++i) {
                 if(f->tickets[i].CMND != nullptr) {
@@ -126,8 +126,8 @@ void Console::load_flights_from_folder() {
     
     delete[] files;
     list = head;
-    std::cout << (list != nullptr ? "hehehe" : "huhuhu") << std::endl;
-    Sleep(2000);
+    // std::cout << (list != nullptr ? "hehehe" : "huhuhu") << std::endl;
+    // Sleep(2000);
 }
 bool Console::is_completed(date_departure *x, time_departure *y) {
     tm t = {};
@@ -1030,17 +1030,17 @@ void Console::enter_available_flights() {
             }
             tmp = tmp->next;
         }
-        Menu::gotoxy(70, 6 + 7);
+        Menu::gotoxy(70, 6 + 7 + 7);
         std::cout << dep_date;
-        Menu::gotoxy(74, 6 + 7 + 2);
+        Menu::gotoxy(74, 6 + 7 + 7 + 2);
         std::cout << destination;
 
         if (cur_row >= count_on_page && cur_row <= count_on_page + 1) {
             if (cur_row == count_on_page) {
-                Menu::gotoxy(70, 6 + 7 + 7);
+                Menu::gotoxy(70 + idx[0], 6 + 7 + 7);
                 enter(dep_date, idx[0], 11, ch, [](char c) { return true; });
             } else if (cur_row == count_on_page + 1) {
-                Menu::gotoxy(74, 6 + 7 + 7 + 2);
+                Menu::gotoxy(74 + idx[1], 6 + 7 + 7 + 2);
                 enter(destination, idx[1], LEN_DESTINATION, ch, [](char c) { return true; });
             }
         } else {
@@ -1114,6 +1114,8 @@ void Console::enter_available_flights() {
                 number_of_pages = filtered_pages_count;
                 cur_page = 0;
                 cur_row = 0;
+                Menu::display_flight_list();
+                Menu::display_enter_flight_details();
                 continue;
             } else {
                 Flight *selected_flight = page_start;
@@ -1169,7 +1171,13 @@ bool Console::search_plane_id(char *target) {
 void Console::add_plane(const Plane &other) {
 
     int i = 0;
-    while (i < MAX_PLANE && list_planes[i] != nullptr) i++;
+    while (i < MAX_PLANE && list_planes[i] != nullptr) {
+        i++;
+        if(list_planes[i]->plane_id == other.plane_id) {
+            //in ra thông báo có rồi;
+            return;
+        }
+    }
 
 
     list_planes[i] = new Plane();
@@ -1321,47 +1329,34 @@ void Console::enter_plane_information() {
             }
         } 
         else if (ch == ENTER) {
-            if (column == 0) {
-                // Kiểm tra mã máy bay khi nhấn ENTER ở trường mã máy bay
-                if (search_plane_id(other.plane_id)) {
-                    // Nếu đã tồn tại mã máy bay, thông báo lỗi và reset lại trường mã
-                    Menu::display_aircraft_exist();
-                    memset(other.plane_id, 0, sizeof(other.plane_id));
-                    idx[0] = 0;
-                    column = 0;
-                    Menu::display_add_aircraft();
-                    continue;
-                } else {
-                    column++;
-                    continue;
-                }
-            }
-            else if (column < 3) {
-                // Chưa hoàn tất nhập liệu cho các trường, chuyển sang trường tiếp theo
-                ++column;
+            // Hiện tại đang ở dòng cuối cùng
+            // Nếu các trường dữ liệu còn trống, không cho kết thúc
+            if (search_plane_id(other.plane_id)) {
+                // Nếu đã tồn tại mã máy bay, thông báo lỗi và reset lại trường mã
+                Menu::display_aircraft_exist();
+                // memset(other.plane_id, 0, sizeof(other.plane_id));
+                // idx[0] = 0;
+                column = 0;
+                Menu::display_add_aircraft();
                 continue;
             }
-            else {
-                // Hiện tại đang ở dòng cuối cùng
-                // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_type) == 0){
-                    column = 1;
-                    continue;
-                }
-                if (other.number_of_seats < 20){
-                    column = 2;
-                    continue;
-                }
-                if (other.number_flights_performed < 0){
-                    column = 3;
-                    continue;
-                }
-                // Đã nhập xong tất cả các trường, tiến hành thêm máy bay
-                add_plane(other);
-                Menu::display_success_add_aircraft();
-                Menu::display_add_aircraft();
-                // return;
+            if (strlen(other.plane_type) == 0){
+                column = 1;
+                continue;
             }
+            if (other.number_of_seats < 20){
+                column = 2;
+                continue;
+            }
+            if (other.number_flights_performed < 0){
+                column = 3;
+                continue;
+            }
+            // Đã nhập xong tất cả các trường, tiến hành thêm máy bay
+            add_plane(other);
+            Menu::display_success_add_aircraft();
+            Menu::display_add_aircraft();
+            // return;
         }
         else if (ch == ESC) {
             // Nếu nhấn ESC, thoát khỏi hàm nhập liệu
@@ -1383,7 +1378,7 @@ void Console::enter_plane_update() {
     int column = 0;
     char num_str_seat[5] = {}; // Chuỗi nhập số ghế của máy bay
     char num_str[5] = {}; // Chuỗi nhâp số lần bay của máy bay
-    bool planeIdValidated = false; // Cờ xác nhận mã máy bay đã được kiểm tra
+    // bool planeIdValidated = false; // Cờ xác nhận mã máy bay đã được kiểm tra
 
     Menu::display_edit_aircraft_details();
     while (true) {
@@ -1450,46 +1445,35 @@ void Console::enter_plane_update() {
         } 
         else if (ch == ENTER) {
             // Ở trường mã máy bay (column 0) thì cần kiểm tra xác nhận nếu chưa được xác thực
-            if (column == 0 && !planeIdValidated) {
-                if (!search_plane_id(other.plane_id)) {
-                    // Nếu không tìm thấy mã máy bay, thông báo lỗi và reset lại trường mã
-                    Menu::display_aircraft_not_found();
-                    memset(other.plane_id, 0, sizeof(other.plane_id));
-                    idx[0] = 0;
-                    // Giữ nguyên column = 0 để nhập lại mã máy bay
-                    Menu::display_edit_aircraft_details();
-                    continue;
-                } else {
-                    planeIdValidated = true;
-                    ++column; // Chuyển sang trường tiếp theo
-                    continue;
-                }
-            } 
-            else if (column < 3) {
-                ++column;
+
+            if (!search_plane_id(other.plane_id)) {
+                // Nếu không tìm thấy mã máy bay, thông báo lỗi và reset lại trường mã
+                Menu::display_aircraft_not_found();
+                // memset(other.plane_id, 0, sizeof(other.plane_id));
+                // idx[0] = 0;
+                // Giữ nguyên column = 0 để nhập lại mã máy bay
+                Menu::display_edit_aircraft_details();
                 continue;
             }
-            else {
-                // Hiện tại đang ở dòng cuối cùng
-                // Nếu các trường dữ liệu còn trống, không cho kết thúc
-                if (strlen(other.plane_type) == 0){
-                    column = 1;
-                    continue;
-                }
-                if (other.number_of_seats == 0){
-                    column = 2;
-                    continue;
-                }
-                if (other.number_flights_performed == 0){
-                    column = 3;
-                    continue;
-                }
-                // Khi đã nhập đủ thông tin, tiến hành cập nhật
-                Console::update_plane(other);
-                Menu::display_success_update_aircraft();
-                Menu::display_edit_aircraft_details();
-                // return;
+            // Hiện tại đang ở dòng cuối cùng
+            // Nếu các trường dữ liệu còn trống, không cho kết thúc
+            if (strlen(other.plane_type) == 0){
+                column = 1;
+                continue;
             }
+            if (other.number_of_seats == 0){
+                column = 2;
+                continue;
+            }
+            if (other.number_flights_performed == 0){
+                column = 3;
+                continue;
+            }
+            // Khi đã nhập đủ thông tin, tiến hành cập nhật
+            Console::update_plane(other);
+            Menu::display_success_update_aircraft();
+            Menu::display_edit_aircraft_details();
+            // return;
         } 
         else if (ch == ESC) {
             // Nếu nhấn ESC, thoát khỏi chế độ sửa
@@ -1652,23 +1636,12 @@ void Console::create_flight(Flight &other) {
 
     Flight *p = list;
     for(; p->next != nullptr && strcmp(new_node->flight_id, p->next->flight_id) > 0; p = p->next);
+    new_node->next = p->next;
+    p->next = new_node;
 
+    list = list->next;
+    delete []tmp;
 
-
-
-    if (list == nullptr || strcmp(new_node->flight_id, list->flight_id) < 0) {
-        new_node->next = list;
-        list = new_node;
-    } else {
-        Flight* prev = list;
-        Flight* curr = list->next;
-        while (curr != nullptr && strcmp(new_node->flight_id, curr->flight_id) > 0) {
-            prev = curr;
-            curr = curr->next;
-        }
-        new_node->next = curr;
-        prev->next = new_node;
-    }
 
     new_node->cur_status = status::available;
     // list_planes[idx]->number_flights_performed++; // Increment flight count for the plane
@@ -1749,7 +1722,7 @@ void Console::cancel_flight(const char *flight_id) {
 
 void Console::enter_flight_information() {
     Flight *other = new Flight; // Use unique_ptr for automatic cleanup
-    char ch;
+    char ch = '\0';
     int idx[5] = {0};
     int column = 0;
     char date_str[11] = "\0", time_str[6] = "\0";
@@ -1809,9 +1782,10 @@ void Console::enter_flight_information() {
                 if (search_flight_id(other->flight_id)) {
                     Menu::display_flight_exist();
                     Menu::display_create_new_flight();
-                    memset(other->flight_id, 0, LEN_FLIGHT_ID);
-                    idx[0] = 0;
+                    // memset(other->flight_id, 0, LEN_FLIGHT_ID);
+                    // idx[0] = 0;
                     // Menu::display_create_new_flight();
+                    ch = '\0';
                     continue;
                 } else {
                     ++column;
@@ -1821,8 +1795,9 @@ void Console::enter_flight_information() {
                     Menu::display_aircraft_not_found();
                     Menu::display_create_new_flight();
                     // Menu::display_create_new_flight();
-                    memset(other->plane_id, 0, LEN_PLANE_ID);
-                    idx[1] = 0;
+                    ch = '\0';
+                    // memset(other->plane_id, 0, LEN_PLANE_ID);
+                    // idx[1] = 0;
                     continue;
                 } else {
                     ++column;
@@ -1831,6 +1806,31 @@ void Console::enter_flight_information() {
                 ++column;
                 continue;
             } else {
+                bool failed = false;
+                if (search_flight_id(other->flight_id)) {
+                    Menu::display_flight_exist();
+                    // Menu::display_create_new_flight();
+                    // memset(other->flight_id, 0, LEN_FLIGHT_ID);
+                    // idx[0] = 0;
+                    // Menu::display_create_new_flight();
+                    // continue;
+                    failed = true;
+                }
+                if (!search_plane_id(other->plane_id)) {
+                    Menu::display_aircraft_not_found();
+                    // Menu::display_create_new_flight();
+                    // Menu::display_create_new_flight();
+                    // memset(other->plane_id, 0, LEN_PLANE_ID);
+                    // idx[1] = 0;
+                    // continue;
+                    failed = true;
+                }
+                if(failed) {
+                    ch = '\0';
+                    Menu::display_create_new_flight();
+                    continue;
+                }
+                if (strlen(other->flight_id) == 0) { column = 0; continue; }
                 if (strlen(other->plane_id) == 0) { column = 1; continue; }
                 if (strlen(other->destination) == 0) { column = 4; continue; }
                 if (!other->valid_date(day, month, year)) { column = 2; continue; }
@@ -1857,6 +1857,8 @@ void Console::enter_flight_information() {
                 create_flight(*other);
                 Menu::display_success_create_flight();
                 Menu::display_create_new_flight();
+                // other =  new Flight;
+                ch = '\0';
                 // delete[]other;
                 // return; // unique_ptr automatically deletes other
             }
@@ -1876,7 +1878,7 @@ void Console::enter_flight_update(){
     date_departure new_date = {0, 0, 0};
     time_departure new_time = {-1, -1};
 
-    char ch;
+    char ch = '\0';
     int idx[3] = {0}, column = 0;
     char date_str[11] = {}; // Mảng chứa chuỗi nhập ngày dd/mm/yyyy
     char time_str[6] = {}; // Mảng chứa chuỗi nhập thời gian hh:mm
@@ -1978,58 +1980,50 @@ void Console::enter_flight_update(){
             }
         } 
         else if (ch == ENTER) {
-            if (column == 0){
-                if (! search_flight_id(flight_id)){
-                    // Nếu không tìm thấy mã chuyến bay, thông báo lỗi và reset lại trường mã
-                    Menu::display_flight_not_found();      
-                    Menu::display_edit_flight_schedule();   
-                    memset(flight_id, 0, LEN_FLIGHT_ID);
-                    idx[0] = 0;
-                    continue;
-                }
-                else{
-                    column++;
-                    continue;
-                }
-            }
-            
-            else if (column < 2){
-                column++;
+            if (! search_flight_id(flight_id)){
+                // Nếu không tìm thấy mã chuyến bay, thông báo lỗi và reset lại trường mã
+                Menu::display_flight_not_found();      
+                Menu::display_edit_flight_schedule();   
+                // memset(flight_id, 0, LEN_FLIGHT_ID);
+                // idx[0] = 0;
+                ch = '\0';
                 continue;
             }
-            else {
-                // Hiện tại đang ở dòng cuối cùng
-                Flight temp;
-                // Nếu trường ngày hợp lệ tiến hành gán nó vào new_date
-                if (temp.valid_date(day, month, year)){
-                    new_date.day = day;
-                    new_date.month = month;
-                    new_date.year = year;
-                }
-                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
-                    column = 1;
-                    continue;
-                }
-                // Nếu trường thời gian hợp lệ tiến hành gán nó vào new_time
-                if (temp.valid_time(hour, minute)){
-                    new_time.hour = hour;
-                    new_time.minute = minute;
-                }
-                else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
-                    column = 2;
-                    continue;
-                }
-                if(is_completed(&new_date, &new_time)) {
-                    //in ra thông báo không hợp lê
-                    continue;
-                }
-                // Nhập liệu thành công
-                update_flight(flight_id, new_date, new_time);
-                Menu::display_success_update_flight();
-                Menu::display_edit_flight_schedule();
-                // Update thành công ngày, giờ chuyến bay
-                // return;
-            }      
+            // Hiện tại đang ở dòng cuối cùng
+            Flight temp;
+            if(strlen(flight_id) == 0) {
+                column = 0;
+                continue;
+            }
+            // Nếu trường ngày hợp lệ tiến hành gán nó vào new_date
+            if (temp.valid_date(day, month, year)){
+                new_date.day = day;
+                new_date.month = month;
+                new_date.year = year;
+            }
+            else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
+                column = 1;
+                continue;
+            }
+            // Nếu trường thời gian hợp lệ tiến hành gán nó vào new_time
+            if (temp.valid_time(hour, minute)){
+                new_time.hour = hour;
+                new_time.minute = minute;
+            }
+            else { // Nếu lỗi thông báo lỗi và tiến hành nhập lại, con trỏ về vị trí cũ vừa nhập
+                column = 2;
+                continue;
+            }
+            if(is_completed(&new_date, &new_time)) {
+                //in ra thông báo không hợp lê
+                continue;
+            }
+            // Nhập liệu thành công
+            update_flight(flight_id, new_date, new_time);
+            Menu::display_success_update_flight();
+            Menu::display_edit_flight_schedule();
+            // Update thành công ngày, giờ chuyến bay
+            // return;
         }
         else if (ch == ESC) {
             // Nếu nhấn ESC, thoát khỏi chế độ sửa
@@ -2087,6 +2081,7 @@ void Console::enter_flight_cancel() {
                 // Nếu không tìm thấy mã chuyến bay, hiện thị thông báo và cho phép nhập lại
                 Menu::display_flight_not_found();
                 Menu::display_cancel_flight();
+                ch = '\0';
                 continue;
             // } else if (targetFlight->cur_status == status::completed) {
             //     Menu::display_cannot_cancel_flight();
@@ -2095,6 +2090,7 @@ void Console::enter_flight_cancel() {
                 cancel_flight(flight_id);
                 Menu::display_success_cancel_flight();
                 Menu::display_cancel_flight();
+                ch = '\0';
                 // return;
             }
                 

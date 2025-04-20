@@ -67,18 +67,18 @@ struct Console {
     bool search_plane_id(char *target);
     int get_plane_count();
 
+    void merge_sort();
+    void enter_manage_plane();
     void enter_plane_information();
     void enter_plane_update();
     void enter_plane_delete();
-    void enter_manage_plane();
-    void merge_sort();
     
+    int get_plane_by_id(const char* plane_id);
+    bool search_flight_id(const char *flight_id);
     //Handle flight
     void create_flight(Flight &other);
     void update_flight(const char *flight_id, const date_departure &new_date, const time_departure &new_time);
     void cancel_flight(const char *flight_id);
-    bool search_flight_id(const char *flight_id);
-    int get_plane_by_id(const char* plane_id);
 
     void enter_flight_information();
     void enter_flight_update();
