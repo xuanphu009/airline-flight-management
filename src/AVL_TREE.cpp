@@ -131,8 +131,8 @@ Node *AVL_TREE::search(Node *x, char *CMND) {
         return nullptr;
     Node* cur = x; // Fixed to use parameter x instead of root
     while (cur != nullptr) {
-        if (cur->data.CMND == nullptr)
-            return nullptr;
+        // if (cur->data.CMND == nullptr)
+        //     return nullptr;
         int cmp = std::strcmp(CMND, cur->data.CMND);
         if (cmp == 0) {
             return cur;

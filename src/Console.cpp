@@ -790,17 +790,20 @@ void Console::enter_user_information() {
             // thiếu điều kiện
             // std::cout << input->CMND << std::endl;
             // Sleep(6000);
-            Node *tmp = nullptr;
-            // strlen > 0 và gán search(...) vào tmp, rồi mới so sánh != nullptr
-            tmp = manager.search(manager.root, input->CMND);
+            // Node *tmp = nullptr;
+            // // strlen > 0 và gán search(...) vào tmp, rồi mới so sánh != nullptr
+            // tmp = manager.search(manager.root, input->CMND);
             // Menu::gotoxy(0,0);
             // std::cout << (tmp == nullptr ? "HEHE" : "HUHU") << std::endl;
             // std::cout << input->CMND;
-            Sleep(2000);
+            // Sleep(2000);
 
-            if (tmp  != nullptr) {
+            if (strlen(input->CMND) > 0) {
                 // tìm thấy user cũ: cập nhật lại input
-                input = &tmp->data;
+                Node *tmp = nullptr;
+                // strlen > 0 và gán search(...) vào tmp, rồi mới so sánh != nullptr
+                tmp = manager.search(manager.root, input->CMND);
+                if(tmp != nullptr) input = &tmp->data;
                 // (nếu bạn dùng tmp_gender để hiện giới tính, cập nhật ở đây)
                 // tmp_gender[0] = input->gender ? (*input->gender ? '1':'0') : '\0';
             }
@@ -1078,7 +1081,7 @@ void Console::enter_available_flights() {
             --cur_page;
             cur_row = 0;
         } else if (ch == ESC) {
-            Console::input == nullptr;
+            Console::input = nullptr;
             delete[] pages;
             return;
         } else if (ch == ENTER) {
