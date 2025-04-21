@@ -584,18 +584,18 @@ void Console::enter_passenger_list(Flight *flight) {
             if (test != nullptr) { // Kiểm tra test khác nullptr
                 test->data.number_of_tickets--;
                 std::ofstream out("data/Passenger/" + std::string(test->data.CMND) + ".txt");
-                out << input;
+                out << *input;
                 if (test->data.number_of_tickets == 0) {
                     std::filesystem::remove("data/Passenger/" + std::string(test->data.CMND) + ".txt");
                     manager.root = manager.erase(manager.root, test->data); // Cập nhật root
                 }
                 flight->tickets[ticketIndex].CMND = nullptr; // Sửa chỉ số ở đây
             }
-            std::ofstream out("data/Flights/" + std::string(flight->flight_id) + ".txt");
-            out << flight;
             if(n == 1) {
                 flight->cur_status = status::available;
             }
+            std::ofstream out("data/Flights/" + std::string(flight->flight_id) + ".txt");
+            out << *flight;
             break;
         }
     }
@@ -718,12 +718,12 @@ void Console::enter_available_tickets(Flight *flight) {
             out << *input;
 
 
-            out = std::ofstream("data/Flights/" + std::string(flight->flight_id) + ".txt");
-            out << *flight;
-
             if(n == 1) {
                 flight->cur_status = status::sold_out;
             } 
+            out = std::ofstream("data/Flights/" + std::string(flight->flight_id) + ".txt");
+            out << *flight;
+
 
 
             // Console::input = nullptr;
@@ -1207,7 +1207,7 @@ void Console::delete_plane(const char *plane_id) {
                 list_planes[j] = list_planes[j + 1];
                 std::ofstream out("data/Planes/"+ std::string(list_planes[j]->plane_id) + ".txt",std::ios::app);
                 out << j << std::endl;
-                out << list_planes[j];
+                out << *list_planes[j];
             }
             list_planes[j] = nullptr;
 
