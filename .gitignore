@@ -1,9 +1,8 @@
-# Bỏ thư mục VS Code
+# VSCode folder
 .vscode/
 
-# Bỏ thư mục data
+# Thư mục dữ liệu
 data/
 
-# File log hoặc tạm
-*.log
-*.tmp
+# File hệ thống macOS
+.DS_Store
