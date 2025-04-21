@@ -18,14 +18,7 @@ std::ofstream& operator<<(std::ofstream &out, const Passenger &other) {
     << other.number_of_tickets << std::endl;
     return out;
 }
-std::ostream& operator<<(std::ostream &out, const Passenger &other) {
-    out << other.CMND << std::endl
-    << other.last_name << std::endl
-    << other.first_name << std::endl
-    << *other.gender << std::endl
-    << other.number_of_tickets << std::endl;
-    return out;
-}
+
 std::ifstream& operator>>(std::ifstream &in, Passenger &other) {
     other.gender = new bool;
     in >> other.CMND
@@ -34,4 +27,12 @@ std::ifstream& operator>>(std::ifstream &in, Passenger &other) {
     >> *other.gender
     >> other.number_of_tickets;
     return in;
+}
+std::ostream& operator<<(std::ostream &out, const Passenger &other) {
+    out << other.CMND << std::endl
+    << other.last_name << std::endl
+    << other.first_name << std::endl
+    << *other.gender << std::endl
+    << other.number_of_tickets << std::endl;
+    return out;
 }

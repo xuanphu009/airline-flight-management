@@ -151,9 +151,11 @@ void Console::load_passengers_from_folder() {
             std::string path = entry.path().filename().string();
             std::ifstream in("data/Passenger/"+ path);
             Passenger data; in >> data;
+
+            std::cout << data << std::endl;
             // Menu::gotoxy(0,0);
             // std::cout << path << std::endl;
-            // Sleep(10000);
+            Sleep(2000);
             manager.root = manager.insert(manager.root, data);
         }
     }
@@ -230,7 +232,6 @@ void Console::start_program() {
         else if(ch == ENTER) {
             if(i == 0) {
                 enter_user_information();
-                input = nullptr;
                 Menu::display_login_frame();
                 continue;
             } else {
@@ -472,9 +473,12 @@ void Console::enter_flight_id(int choice) {
 
 void Console::enter_passenger_list(Flight *flight) {
     int n = 0;
+
     // Lấy danh sách chỉ số vé có người đặt (mảng được cấp phát động)
     int *seat_indices = flight->list_passengers(n);  
-
+    if(n == 0) {
+        //thông báo không có hành khách
+    }
     int cur_row = 0, cur_page = 0;
     int max_page = (n + PASSENGERS_PER_PAGE - 1) / PASSENGERS_PER_PAGE - 1;
 
@@ -586,23 +590,89 @@ void Console::enter_passenger_list(Flight *flight) {
                 std::ofstream out("data/Passenger/" + std::string(test->data.CMND) + ".txt");
                 out << test->data;
                 out.close();
+                // Menu::gotoxy(0,0);
+                // std::cout << test->data.number_of_tickets << std::endl;
                 if (test->data.number_of_tickets == 0) {
                     std::filesystem::remove("data/Passenger/" + std::string(test->data.CMND) + ".txt");
                     manager.root = manager.erase(manager.root, test->data); // Cập nhật root
                 }
                 flight->tickets[ticketIndex].CMND = nullptr; // Sửa chỉ số ở đây
             }
-            if(n == 1) {
+            if(n == *flight->total_seats) {
                 flight->cur_status = status::available;
             }
             std::ofstream out("data/Flights/" + std::string(flight->flight_id) + ".txt");
             out << *flight;
-            break;
-        }
-    }
 
+            n = 0;
+            seat_indices = flight->list_passengers(n);  
+            if(n == 0) {
+                //thông báo không có hành khách
+                return;
+            }
+            cur_row = 0, cur_page = 0;
+            max_page = (n + PASSENGERS_PER_PAGE - 1) / PASSENGERS_PER_PAGE - 1;
+            Menu::display_passenger_list();
+            // break;
+        } else if(key == TAB) {
+            enter_delete_passenger(flight);
+            if(n == *flight->total_seats) {
+                flight->cur_status = status::available;
+            }
+            std::ofstream out("data/Flights/" + std::string(flight->flight_id) + ".txt");
+            out << *flight;
+
+            n = 0;
+            seat_indices = flight->list_passengers(n);  
+            if(n == 0) {
+                //thông báo không có hành khách
+                return;
+            }
+            cur_row = 0, cur_page = 0;
+            max_page = (n + PASSENGERS_PER_PAGE - 1) / PASSENGERS_PER_PAGE - 1;
+
+            Menu::display_passenger_list();
+        }
+
+    } 
     // Giải phóng bộ nhớ đã cấp phát cho mảng seat_indices
     delete[] seat_indices;
+}
+
+void Console::enter_delete_passenger(Flight *flight) {
+    char ch;
+    Menu::display_delete_passenger();
+    char CMND[LEN_CMND];
+    int idx = 0;
+    while(true) {
+
+        Menu::gotoxy(20 + 45, 6);
+        enter(CMND, idx, LEN_CMND, ch, [&](char &c) {return 1;});
+
+        if(ch == TAB) {
+            break;
+        } else if(ch == ENTER) {
+            Node *test = manager.search(manager.root, CMND);
+            if (test != nullptr) { // Kiểm tra test khác nullptr
+                test->data.number_of_tickets--;
+                std::ofstream out("data/Passenger/" + std::string(test->data.CMND) + ".txt");
+                out << test->data;
+                out.close();
+                if (test->data.number_of_tickets == 0) {
+                    std::filesystem::remove("data/Passenger/" + std::string(test->data.CMND) + ".txt");
+                    manager.root = manager.erase(manager.root, test->data); // Cập nhật root
+                }
+                for(int i = 0; i < *flight->total_seats; ++i) {
+                    if(flight->tickets[i].CMND != nullptr && strcmp(CMND, flight->tickets[i].CMND) == 0) {
+
+                        flight->tickets[i].CMND = nullptr; 
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+    }   
 }
 
 

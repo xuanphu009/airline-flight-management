@@ -48,7 +48,7 @@ struct Console {
     void enter_flight_manager_menu();
     void enter_passenger_list(Flight *flight);
 
-
+    void enter_delete_passenger(Flight *flight);
     // void enter_the_tickets_of_you() {
         
     // }

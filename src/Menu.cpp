@@ -172,6 +172,22 @@ void Menu::display_delete_aircraft()
                                        
     )";
 }
+
+void Menu::display_delete_passenger()
+{
+    system("cls");
+    std::cout << R"(
+                                         ____________________________________________________
+                                        |                                                    |
+                                        |                   DELETE PASSENGER                 |
+                                        |____________________________________________________|
+                                        |                                                    |
+                                        |  Enter CMND to delete:                             |
+                                        |____________________________________________________|
+                                        
+                                       
+    )";
+}
 void Menu::display_aircraft_exist(){
     system("cls");
     std::cout << R"(

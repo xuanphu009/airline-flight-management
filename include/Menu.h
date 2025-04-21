@@ -51,6 +51,8 @@ namespace Menu {
     // Passenger Information
     void display_passenger_list();
 
+    void display_delete_passenger();
+
     // Flight Queries
     void display_available_flights();
     void display_available_tickets();
