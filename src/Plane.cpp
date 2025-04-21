@@ -22,10 +22,12 @@ std::ofstream& operator<<(std::ofstream &out, const Plane &other) {
     return out;
 }
 std::ifstream& operator>>(std::ifstream &in, Plane &other) {
-    in >> other.plane_id
-    >> other.plane_type
-    >> other.number_of_seats
-    >> other.number_flights_performed;
+    in >> other.plane_id;
+    in.ignore();
+    in.getline(other.plane_type, LEN_PLANE_TYPE);
+    in >> other.number_of_seats;
+    in.ignore();
+    in >> other.number_flights_performed;
     return in;
 }
 

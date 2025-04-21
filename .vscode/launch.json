@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      
+      {
+        "name": "Run main",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/main.exe", // hoặc ./build/main nếu bạn build riêng
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "lldb", // macOS thì dùng lldb
+        "preLaunchTask": "build" // nếu có tasks.json để build
+      }
+    ]
+  }
+  
