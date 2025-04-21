@@ -49,9 +49,9 @@ struct Console {
     void enter_passenger_list(Flight *flight);
 
 
-    void enter_the_tickets_of_you() {
+    // void enter_the_tickets_of_you() {
         
-    }
+    // }
     // void enter_available_tickets(Flight *flight);
     void enter_manage_flights();
     void count_passengers(Flight *flight, int &count);

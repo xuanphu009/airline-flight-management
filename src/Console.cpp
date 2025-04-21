@@ -584,7 +584,8 @@ void Console::enter_passenger_list(Flight *flight) {
             if (test != nullptr) { // Kiểm tra test khác nullptr
                 test->data.number_of_tickets--;
                 std::ofstream out("data/Passenger/" + std::string(test->data.CMND) + ".txt");
-                out << *input;
+                out << test->data;
+                out.close();
                 if (test->data.number_of_tickets == 0) {
                     std::filesystem::remove("data/Passenger/" + std::string(test->data.CMND) + ".txt");
                     manager.root = manager.erase(manager.root, test->data); // Cập nhật root
