@@ -1,0 +1,9 @@
+# Bỏ thư mục VS Code
+.vscode/
+
+# Bỏ thư mục data
+data/
+
+# File log hoặc tạm
+*.log
+*.tmp
