@@ -61,11 +61,13 @@ namespace Menu {
 
         // User Information
     void display_enter_user_information();
+    void display_enter_user_id_card();
     void display_identification_information();
     void display_enter_flight_details();
     void display_the_tickets_of_user();
     void display_booking_success();
     void display_booking_error();
+    void display_user_exist();
 }
 
 
