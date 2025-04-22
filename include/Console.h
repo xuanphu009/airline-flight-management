@@ -44,7 +44,7 @@ struct Console {
     void enter_plane_list();
     void enter_available_tickets(Flight *flight);
     void enter_user_information();
-    void enter_available_flights();
+    void enter_available_flights(int choice);
     void enter_flight_manager_menu();
     void enter_passenger_list(Flight *flight);
 

@@ -140,7 +140,6 @@ bool Console::is_completed(date_departure *x, time_departure *y) {
 
     time_t scheduled_time = mktime(&t);
     time_t now = time(nullptr);
-
     return now >= scheduled_time; // true nếu thời gian hiện tại đã vượt quá lịch
 }
 void Console::load_passengers_from_folder() {
@@ -291,7 +290,7 @@ void Console::enter_manager_menu() {
                 enter_plane_list();
                 Menu::display_manager_menu();
             } else if(i == 1) {
-                enter_available_flights();
+                enter_available_flights(2); // 2 là manager
                 Menu::display_manager_menu();
             } else if(i == 2) {
                 enter_plane_statistics();
@@ -821,7 +820,7 @@ void Console::enter_user_information() {
     
             // Nếu thông tin hiện tại hợp lệ (user mới hoặc đã load user cũ)
             if (input->valid_user()) {
-                enter_available_flights();
+                enter_available_flights(1); // 1 là user
                 // Menu::display_enter_user_information();
                 return;
             }
@@ -964,7 +963,7 @@ void Console::enter_plane_list() {
 //     return cur;
 // }
 
-void Console::enter_available_flights() {
+void Console::enter_available_flights(int choice) {
     load_flights_before_view();
     // if(input != nullptr) {
     //     //thông báo chưa có chuyến bay;
@@ -993,7 +992,18 @@ void Console::enter_available_flights() {
 
     Menu::display_flight_list();
     Menu::display_enter_flight_details();
+    
     while (true) {
+        Menu::gotoxy(35,27);
+        if (choice == 1){
+            // in ra các phím điều hướng không có tab ở user
+            Menu::display_list_instructions(cur_page, number_of_pages - 1);
+        }
+        else if (choice == 2){
+            // in ra các phím điều hướng có tab ở manager
+            Menu::display_list_instructions_tab(cur_page, number_of_pages - 1);
+        }
+        
 
         Flight *page_start = pages[cur_page];
         Flight *page_end = (cur_page + 1 < number_of_pages) ? pages[cur_page + 1] : nullptr;
@@ -1052,10 +1062,38 @@ void Console::enter_available_flights() {
         if (cur_row >= count_on_page && cur_row <= count_on_page + 1) {
             if (cur_row == count_on_page) {
                 Menu::gotoxy(70 + idx[0], 6 + 7 + 7);
-                enter(dep_date, idx[0], 11, ch, [](char c) { return true; });
+               
+                enter(dep_date, idx[0], 11, ch,
+                    [&](char &c) { return (c >= '0' && c <= '9' || c == '/'); });
+                int read = 0, day, month, year;
+                read = sscanf(dep_date, "%d/%d/%d", &day, &month, &year);
+                // chuẩn hoá lại chuỗi nhập ngày tháng
+                if (read == 3){ // Nếu tách được 3 số là day, month và year
+                    // chuẩn hoá lại cho đúng định dạng ngày
+                    if (dep_date[1] == '/'){
+                        for (int i = idx[0]; i > 0; i--){
+                            dep_date[i] = dep_date[i - 1];
+                        }
+                        dep_date[0] = '0';
+                        idx[0]++;
+                    }
+                    if (dep_date[4] == '/'){
+                        for (int i = idx[0]; i > 3; i--){
+                            dep_date[i] = dep_date[i - 1];
+                        }
+                        dep_date[3] = '0';
+                        idx[0]++;
+                    }
+                }
             } else if (cur_row == count_on_page + 1) {
                 Menu::gotoxy(74 + idx[1], 6 + 7 + 7 + 2);
-                enter(destination, idx[1], LEN_DESTINATION, ch, [](char c) { return true; });
+
+                enter(destination, idx[1], LEN_DESTINATION, ch,
+                    [&](char &c) {
+                        if (c >= 'a' && c <= 'z') c -= 32;
+                        return (c >= 'A' && c <= 'Z' || c == ' ');
+                    });
+                    
             }
         } else {
             Menu::gotoxy(0, 0);
@@ -1072,7 +1110,7 @@ void Console::enter_available_flights() {
                 }
             #endif
         }
-        // Menu::display_list_instructions(cur_page, number_of_pages - 1);
+        
 
 
         if (ch == UP && cur_row > 0) {
@@ -1088,9 +1126,13 @@ void Console::enter_available_flights() {
         } else if (ch == RIGHT && cur_page < number_of_pages - 1) {
             ++cur_page;
             cur_row = 0;
+            Menu::display_flight_list();
+            Menu::display_enter_flight_details();
         } else if (ch == LEFT && cur_page > 0) {
             --cur_page;
             cur_row = 0;
+            Menu::display_flight_list();
+            Menu::display_enter_flight_details();
         } else if (ch == ESC) {
             Console::input = nullptr;
             delete[] pages;
@@ -1149,6 +1191,8 @@ void Console::enter_available_flights() {
                     } else {
                         //in ra thông báo
                         Menu::display_booking_error();
+                        Menu::display_flight_list();
+                        Menu::display_enter_flight_details();
                         continue;
                     }
                 }
