@@ -7,6 +7,7 @@ namespace Menu {
     void display_flight_manager_menu(); 
     void display_navigation_instructions();
     void display_list_instructions(int current_page, int max_pages);
+    void display_list_instructions_tab(int current_page, int max_pages);
     void display_login_frame();
     void display_manager_menu();
 
@@ -43,6 +44,7 @@ namespace Menu {
     void display_empty_flight_list();
     void display_flight_not_found();
     void display_cannot_cancel_flight();
+    void display_create_flight_error();
 
     // Ticket Management
     void display_book_ticket();
@@ -64,6 +66,8 @@ namespace Menu {
     void display_identification_information();
     void display_enter_flight_details();
     void display_the_tickets_of_user();
+    void display_booking_success();
+    void display_booking_error();
 }
 
 

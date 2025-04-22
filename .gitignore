@@ -1,0 +1,8 @@
+# VSCode folder
+.vscode/
+
+# Thư mục dữ liệu
+data/
+
+# File hệ thống macOS
+.DS_Store

@@ -245,9 +245,10 @@ std::ifstream& operator>>(std::ifstream &in, Flight &other) {
     other.plane_id = new char[LEN_FLIGHT_ID];
     other.total_seats = new unsigned int;
     in >> other.flight_id
-       >> other.plane_id 
-       >> other.destination
-       >> other.date_dep
+       >> other.plane_id;
+    in.ignore();
+    in.getline(other.destination, LEN_DESTINATION);
+    in   >> other.date_dep
        >> other.time_dep
        >> *other.total_seats;
 
