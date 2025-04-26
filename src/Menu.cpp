@@ -367,6 +367,16 @@ void Menu::display_create_flight_error(){
                 )";
     Sleep(2000);
 }
+void Menu::display_user_exist(){
+    system("clear");
+    std::cout << R"(
+                                     _____________________________________________________ 
+                                    |                                                     |
+                                    |   THIS CMND ALREADY EXISTS IN THE PASSENGER LIST    |
+                                    |_____________________________________________________|
+                )";
+    Sleep(2000);
+}
 void Menu::display_search_flight()
 {
     system("clear");
@@ -505,7 +515,19 @@ void Menu::display_enter_flight_ID()
                                       
     )";
 }
+void Menu::display_enter_user_id_card(){
+    system("clear");
+    std::cout << R"(
+                                        ___________________________________________
+                                       |                                           |
+                                       |         ENTER USER INFORMATION            |
+                                       |___________________________________________|
+                                       |                                           |
+                                       |  Enter CMND:                              |
+                                       |___________________________________________|
 
+    )";
+}
 void Menu::display_enter_user_information()
 {
     system("clear");
@@ -515,6 +537,9 @@ void Menu::display_enter_user_information()
                                        |         ENTER USER INFORMATION            |
                                        |___________________________________________|
                                        |                                           |
+                                       |  Enter CMND:                              |
+                                       |___________________________________________|
+                                       |                                           |
                                        |  Enter Last Name:                         |
                                        |___________________________________________|
                                        |                                           |
@@ -522,9 +547,6 @@ void Menu::display_enter_user_information()
                                        |___________________________________________|
                                        |                                           |
                                        |  Enter Gender (Male: 1, Female: 0):       |
-                                       |___________________________________________|
-                                       |                                           |
-                                       |  Enter CMND:                              |
                                        |___________________________________________|
 
     )";

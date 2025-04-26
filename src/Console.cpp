@@ -820,83 +820,159 @@ void Console::enter_user_information() {
     char tmp_gender[2] = "\0", ch;
     int idx[4] = {}, column = 0;
     
-    Menu::display_enter_user_information();
+    Menu::display_enter_user_id_card();
     while (true) {
 
-        Menu::gotoxy(60, 6);
-        std::cout << input->last_name;
-        Menu::gotoxy(61, 9);
-        std::cout << input->first_name;
-        Menu::gotoxy(78, 12);
-        std::cout << (tmp_gender);
-        Menu::gotoxy(55, 15);
+        Menu::gotoxy(55, 6);
         std::cout << input->CMND;
 
         switch (column) {
             case 0:
-                Menu::gotoxy(60 + idx[column], 6);
-                enter(input->last_name, idx[column], LEN_LAST_NAME, ch,
+                Menu::gotoxy(55 + idx[column], 6);
+                // CMND chỉ nhận số thôi
+                enter(input->CMND, idx[column], LEN_CMND, ch,
                     [&](char &c) { 
-                        if(c >= 'a' && c <= 'z') c -= 32;
-                        return (c >= 'A' && c <= 'Z') || c == ' ';
+                        return (c >= 48 && c <= 57);
                     });
-                break;
-            case 1:
-                Menu::gotoxy(61 + idx[column], 9);
-                enter(input->first_name, idx[column], LEN_FIRST_NAME, ch,
-                    [&](char &c) { 
-                        if(c >= 'a' && c <= 'z') c -= 32;
-                        return (c >= 'A' && c <= 'Z') || c == ' ';
-                    });
-                break;
-            case 2: {
-                Menu::gotoxy(78 + (input->gender != nullptr ? 1 : 0), 12);
-                enter(tmp_gender, idx[column], 2, ch, [](char &c) { return c == '0' || c == '1'; });
-                if (strlen(tmp_gender)) input->gender = new bool(tmp_gender[0] == '1');
-                else input->gender = nullptr;
-                break;
-            }
-            case 3:
-                Menu::gotoxy(55 + idx[column], 15);
-                enter(input->CMND, idx[column], LEN_CMND, ch);
                 break;
         }
-        // thêm dòng lệnh này vào mỗi hàm nhập
-        
-        if (ch == UP && column > 0) {
-            --column;
-        } else if (ch == DOWN && column < 3) {
-            ++column;
-        } else if (ch == ENTER) {
-            // thiếu điều kiện
-            // std::cout << input->CMND << std::endl;
-            // Sleep(6000);
-            // Node *tmp = nullptr;
-            // // strlen > 0 và gán search(...) vào tmp, rồi mới so sánh != nullptr
-            // tmp = manager.search(manager.root, input->CMND);
-            // Menu::gotoxy(0,0);
-            // std::cout << (tmp == nullptr ? "HEHE" : "HUHU") << std::endl;
-            // std::cout << input->CMND;
-            // Sleep(2000);
 
+        // Xử lý phím mũi tên
+        #ifdef _WIN32
+            if (ch == -32 || ch == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                _getch(); // Bỏ qua ký tự của phím mũi tên
+                continue;
+            }
+        #else
+            if (ch == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                    _getch(); // Bỏ qua ký tự của phím mũi tên
+                    continue;
+                }
+            }
+        #endif
+
+
+        // Nếu nhấn ESC thì thoát luôn
+        if (ch == ESC){
+            return;
+        }
+            
+        // Nếu nhấn ENTER, tiến hành kiểm tra và xử lý 
+        if (ch == ENTER) {
             if (strlen(input->CMND) > 0) {
                 // tìm thấy user cũ: cập nhật lại input
                 Node *tmp = nullptr;
                 // strlen > 0 và gán search(...) vào tmp, rồi mới so sánh != nullptr
                 tmp = manager.search(manager.root, input->CMND);
-                if(tmp != nullptr) input = &tmp->data;
+                if(tmp != nullptr){
+                    Menu::display_user_exist(); // thông báo user đã tồn tại và đặt vé luôn
+                    input = &tmp->data;
+                    enter_available_flights(1); // 1 là user
+                    break;
+                }
+                else {
+                    // user chưa tồn tại
+                    column = 1;
+                    Menu::display_enter_user_information();
+                    while (true) {
+
+                        Menu::gotoxy(55, 6);
+                        std::cout << input->CMND;
+                        Menu::gotoxy(60, 9);
+                        std::cout << input->last_name;
+                        Menu::gotoxy(61, 12);
+                        std::cout << input->first_name;
+                        Menu::gotoxy(78, 15);
+                        std::cout << (tmp_gender);
+                
+                        switch (column) {
+                            case 0:
+                                Menu::gotoxy(55 + idx[column], 6);
+                                // CMND chỉ nhận số thôi
+                                enter(input->CMND, idx[column], LEN_CMND, ch,
+                                    [&](char &c) { 
+                                        return (c >= 48 && c <= 57);
+                                    });
+                                break;
+                            case 1:
+                                Menu::gotoxy(60 + idx[column], 9);
+                                enter(input->last_name, idx[column], LEN_LAST_NAME, ch,
+                                    [&](char &c) { 
+                                        if(c >= 'a' && c <= 'z') c -= 32;
+                                        return (c >= 'A' && c <= 'Z') || c == ' ';
+                                    });
+                                break;
+                            case 2: {
+                                Menu::gotoxy(61 + idx[column], 12);
+                                enter(input->first_name, idx[column], LEN_FIRST_NAME, ch,
+                                    [&](char &c) { 
+                                        if(c >= 'a' && c <= 'z') c -= 32;
+                                        return (c >= 'A' && c <= 'Z');
+                                    });
+                                break;
+                            }
+                            case 3:
+                                Menu::gotoxy(78 + (input->gender != nullptr ? 1 : 0), 15);
+                                enter(tmp_gender, idx[column], 2, ch, [](char &c) { return c == '0' || c == '1'; });
+                                if (strlen(tmp_gender)) input->gender = new bool(tmp_gender[0] == '1');
+                                else input->gender = nullptr;
+                                break;
+                        }
+                        
+                        if (ch == UP && column > 0) {
+                            --column;
+                        } else if (ch == DOWN && column < 3) {
+                            ++column;
+                        } else if (ch == ENTER) {
+                            if (column == 0){
+                                if (strlen(input->CMND) > 0) {
+                                    // tìm thấy user cũ: cập nhật lại input
+                                    Node *tmp = nullptr;
+                                    // strlen > 0 và gán search(...) vào tmp, rồi mới so sánh != nullptr
+                                    tmp = manager.search(manager.root, input->CMND);
+                                    if(tmp != nullptr){
+                                        Menu::display_user_exist(); // thông báo user đã tồn tại và đặt vé luôn
+                                        input = &tmp->data;
+                                        enter_available_flights(1); // 1 là user
+                                    }
+                                    else {
+                                        column++;
+                                        continue;
+                                    }
+                                    
+                                }
+                            }
+                            else if (column < 3){
+                                column++;
+                                continue;
+                            }
+                            else {
+                                // hiện tại ở dòng cuối cùng
+                                // Nếu thông tin hiện tại hợp lệ (user mới hoặc đã load user cũ)
+                                if (input->valid_user()) {
+                                    enter_available_flights(1); // 1 là user
+                                    // Menu::display_enter_user_information();
+                                    return;
+                                }
+                            }
+                            
+                            
+                        } else if(ch == ESC) return;
+                    
+                    }
+                }
                 // (nếu bạn dùng tmp_gender để hiện giới tính, cập nhật ở đây)
                 // tmp_gender[0] = input->gender ? (*input->gender ? '1':'0') : '\0';
+                
             }
-    
-            // Nếu thông tin hiện tại hợp lệ (user mới hoặc đã load user cũ)
-            if (input->valid_user()) {
-                enter_available_flights(1); // 1 là user
-                // Menu::display_enter_user_information();
-                return;
+            else {
+                continue;
             }
-            
-        } else if(ch == ESC) return;
+
+                
+        }
+        
     
     }
 }
@@ -1045,7 +1121,7 @@ void Console::enter_available_flights(int choice) {
     // if(total_flights == 0) {
 
     // }
-    unsigned int number_of_pages = (total_flights + FLIGHTS_PER_PAGE - 1) / FLIGHTS_PER_PAGE;
+    unsigned int number_of_pages = (total_flights / FLIGHTS_PER_PAGE) + 1;
 
     Flight **pages = new Flight*[number_of_pages];
     pages[0] = list;
@@ -1068,11 +1144,11 @@ void Console::enter_available_flights(int choice) {
         Menu::gotoxy(35,27);
         if (choice == 1){
             // in ra các phím điều hướng không có tab ở user
-            Menu::display_list_instructions(cur_page, number_of_pages - 1);
+            Menu::display_list_instructions(cur_page + 1, number_of_pages);
         }
         else if (choice == 2){
             // in ra các phím điều hướng có tab ở manager
-            Menu::display_list_instructions_tab(cur_page, number_of_pages - 1);
+            Menu::display_list_instructions_tab(cur_page + 1, number_of_pages);
         }
         
 
@@ -1226,7 +1302,7 @@ void Console::enter_available_flights(int choice) {
                     tmp = tmp->next;
                 }
 
-                unsigned int filtered_pages_count = (filtered_total + FLIGHTS_PER_PAGE - 1) / FLIGHTS_PER_PAGE;
+                unsigned int filtered_pages_count = (filtered_total / FLIGHTS_PER_PAGE) + 1;
                 filtered_pages = new Flight*[filtered_pages_count];
                 filtered_pages[0] = filtered_list;
 
