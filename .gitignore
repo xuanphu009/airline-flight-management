@@ -6,3 +6,6 @@ data/
 
 # File hệ thống macOS
 .DS_Store
+
+#flie run
+run.sh

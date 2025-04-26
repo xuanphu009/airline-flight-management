@@ -1,8 +1,10 @@
 #pragma once
 
 #include <iostream>
+#include "Constants.h"
 
 namespace Menu {
+    void notification();
     void gotoxy(int x, int y);
     void display_flight_manager_menu(); 
     void display_navigation_instructions();
@@ -68,6 +70,8 @@ namespace Menu {
     void display_booking_success();
     void display_booking_error();
     void display_user_exist();
+    void display_user_not_found();
+    void display_user_create_success();
 }
 
 
