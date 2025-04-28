@@ -1406,18 +1406,67 @@ void Console::add_plane(const Plane &other) {
 }
 
 void Console::delete_plane(const char *plane_id) {
+    // Kiểm tra xem có chuyến bay nào đang dùng máy bay này không
+    for (Flight *p = list; p != nullptr; p = p->next) {
+        if (p->plane_id != nullptr && strcmp(p->plane_id, plane_id) == 0) {
+            // Nếu có chuyến bay đang sử dụng máy bay này không cho phép xoá
+            Menu::display_delete_plane_error();
+            return;
+        }
+    }
+
+    // Nếu khong có chuyến bay dùng nó, hỏi xác nhận người dùng
+
+    Menu::display_delete_plane_confirm();
+    int curr_row = 0;
+    while (true) {
+        int idx;
+        // Xóa con trỏ cũ ở tất cả dòng
+        for (int i = 0; i < 2; ++i) {
+            Menu::gotoxy(45, 5 + i);
+            std::cout << "  ";
+        }
+
+        // In con trỏ ở dòng đang chọn
+        Menu::gotoxy(45, 5 + curr_row);
+        std::cout << ">>";
+
+        Menu::gotoxy(0, 0);
+        char ch = _getch();
+
+        #ifdef _WIN32
+            if (ch == -32 || ch == 224) ch = _getch();
+        #else
+            if (ch == ESC && _getch() == '[') ch = _getch();
+        #endif
+
+        // Điều hướng
+        if (ch == UP && curr_row > 0) {
+            --curr_row;
+        } else if (ch == DOWN && curr_row < 1) {
+            ++curr_row;
+        } else if (ch == RIGHT || ch == LEFT) {
+            continue;
+        } else if (ch == ENTER) {
+            if (curr_row == 0) {
+                break; // tiếp tục xử lý xoá sau
+            } else {
+                return; // nếu không xoá thì thoát luôn
+            }
+        }
+    
+    }
+
+    //  Nếu vẫn xác nhận xoá thì mới cho phép xoá
     for (int i = 0; i < MAX_PLANE && list_planes[i] != nullptr; i++) {
         if (strcmp(list_planes[i]->plane_id, plane_id) == 0) {
             int j;
-            std::filesystem::remove("data/Planes/"+ std::string(list_planes[i]->plane_id) + ".txt");
+
+            // Xóa file máy bay
+            std::filesystem::remove("data/Planes/" + std::string(list_planes[i]->plane_id) + ".txt");
             delete list_planes[i];
-            // for (j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
-            //     list_planes[j] = list_planes[j + 1];
-            //     std::ofstream out("data/Planes/"+ std::string(list_planes[j]->plane_id) + ".txt",std::ios::out);
-            //     out << j << std::endl;
-            //     out << *list_planes[j];
-            // }
-            
+
+            // Dịch các máy bay phía sau lên
             for (j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
                 list_planes[j] = list_planes[j + 1];
             }
@@ -1426,27 +1475,19 @@ void Console::delete_plane(const char *plane_id) {
             // Ghi lại file máy bay từ vị trí i
             for (int k = i; k < j; ++k) {
                 std::ofstream out("data/Planes/" + std::string(list_planes[k]->plane_id) + ".txt", std::ios::out);
-                out << k << std::endl;
-                out << *list_planes[k];
-            }
-
-            for(Flight *p = list; p != nullptr;p = p->next) {
-                if (p->plane_id != nullptr && strcmp(p->plane_id, plane_id) == 0) {
-                    p->cur_status = status::cancelled;
-                    std::string path = "data/Flights/" + std::string(p->flight_id) + ".txt";
-                    std::ofstream out(path);
-                    if (out) out << *p; 
+                if (out) {
+                    out << k << std::endl;
+                    out << *list_planes[k];
                 }
             }
-            // list = list->next;
-            // delete []tmp;
 
+            Menu::display_success_delete_aircraft();
             return;
         }
     }
-    // không tìm thấy máy bay
+
+    // Nếu không tìm thấy máy bay
     Menu::display_aircraft_not_found();
-    return;
 }
 
 void Console::update_plane(const Plane &other) {
@@ -1768,9 +1809,8 @@ void Console::enter_plane_delete() {
                 continue;
             }
             else {
-                // Đã tìm thấy mã, tiến hành xoá và hiển thị thông báo thành công
+                // Đã tìm thấy mã, tiến hành xoá
                 delete_plane(plane_id);
-                Menu::display_success_delete_aircraft();
                 Menu::display_delete_aircraft();
                 return;
             }
@@ -1915,13 +1955,61 @@ void Console::update_flight(const char *flight_id, const date_departure &new_dat
 }
 
 void Console::cancel_flight(const char *flight_id) {
+
+    // Hỏi có thực sự muổn huỷ chuyến không, nếu không thì khỏi huỷ
+
+    Menu::display_cancel_flight_confirm();
+    int curr_row = 0;
+    while (true) {
+        int idx;
+        // Xóa con trỏ cũ ở tất cả dòng
+        for (int i = 0; i < 2; ++i) {
+            Menu::gotoxy(54, 5 + i);
+            std::cout << "  ";
+        }
+
+        // In con trỏ ở dòng đang chọn
+        Menu::gotoxy(54, 5 + curr_row);
+        std::cout << ">>";
+
+        Menu::gotoxy(0, 0);
+        char ch = _getch();
+
+        #ifdef _WIN32
+            if (ch == -32 || ch == 224) ch = _getch();
+        #else
+            if (ch == ESC && _getch() == '[') ch = _getch();
+        #endif
+
+        // Điều hướng
+        if (ch == UP && curr_row > 0) {
+            --curr_row;
+        } else if (ch == DOWN && curr_row < 1) {
+            ++curr_row;
+        } else if (ch == RIGHT || ch == LEFT) {
+            continue;
+        } else if (ch == ENTER) {
+            if (curr_row == 0) {
+                break; // Nếu yes tiếp tục xử lý huỷ chuyến
+            } else {
+                return; // nếu không huỷ thì thoát
+            }
+        }
+    
+    }
+
     Flight *curr = list;
     // Tìm chuyến trong danh sách
     while (curr != nullptr) {
         if (strcmp(curr->flight_id, flight_id) == 0) {
             // Nếu đã hoàn tất thì không thể hủy
             if (curr->cur_status == status::completed) {
-                // Menu::display_cannot_cancel_flight();
+                Menu::display_cannot_cancel_flight();
+                return;
+            }
+            if (curr->cur_status == status::cancelled){
+                // Nếu đã huỷ rồi thì không huỷ nữa
+                Menu::display_already_cancelled_flight();
                 return;
             }
             // Đánh dấu hủy
@@ -2345,7 +2433,6 @@ void Console::enter_flight_cancel() {
             //     return;
             } else {
                 cancel_flight(flight_id);
-                Menu::display_success_cancel_flight();
                 Menu::display_cancel_flight();
                 ch = '\0';
                 // return;

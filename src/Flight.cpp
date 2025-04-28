@@ -253,10 +253,12 @@ std::ifstream& operator>>(std::ifstream &in, Flight &other) {
        >> *other.total_seats;
 
     std::string st;
-    in >> st;
+    in.ignore(); // Đọc xuống dòng mới
+    std::getline(in, st); // Đọc trọn dòng status
+    
     if (st == "cancelled")     other.cur_status = status::cancelled;
     else if (st == "available") other.cur_status = status::available;
-    else if (st == "sold")     other.cur_status = status::sold_out, in.ignore();
+    else if (st == "sold out")     other.cur_status = status::sold_out, in.ignore();
     else if (st == "completed") other.cur_status = status::completed;
 
     // Allocate memory for tickets array

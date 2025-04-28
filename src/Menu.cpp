@@ -307,6 +307,17 @@ void Menu::display_success_cancel_flight(){
                 )";
     notification();
 }
+void Menu::display_already_cancelled_flight(){
+    system("clear");
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |     FLIGHT ALREADY CANCELLED     |
+                                            |__________________________________|
+                )";
+    notification();
+}
+
 void Menu::display_empty_flight_list(){
     system("clear");
     std::cout << R"(
@@ -398,7 +409,44 @@ void Menu::display_user_create_success(){
                 )";
     notification();
 }
+void Menu::display_delete_plane_confirm(){
+    system("clear");
+    std::cout << R"(
+                                     _____________________________________________________ 
+                                    |                                                      |
+                                    |      NO FLIGHTS USE THIS PLANE - DELETE ANYWAY ?     |
+                                    |                                                      |
+                                    |           YES                                        |
+                                    |           NO                                         |
+                                    |______________________________________________________|
+                    )";
 
+}
+void Menu::display_delete_plane_error(){
+    system("clear");
+    std::cout << R"(
+                                     _____________________________________________________ 
+                                    |                                                      |
+                                    |     PLANE IN USE BY FLIGHTS - CANNOT DELETE PLANE    |
+                                    |                                                      |
+                                    |______________________________________________________|
+                    )";
+    notification();
+}
+
+void Menu::display_cancel_flight_confirm(){
+    system("clear");
+    std::cout << R"(
+                                             _______________________________________ 
+                                            |                                       |
+                                            |        CONFIRM CANCEL FLIGHT ?        |
+                                            |                                       |
+                                            |             YES                       |
+                                            |             NO                        |
+                                            |_______________________________________|
+                    )";
+
+}
 void Menu::display_search_flight()
 {
     system("clear");

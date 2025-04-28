@@ -29,6 +29,8 @@ namespace Menu {
     void display_success_delete_aircraft();
     void display_success_update_aircraft();
     void display_aircraft_not_found();
+    void display_delete_plane_confirm();
+    void display_delete_plane_error();
 
         // Flight Management
     void display_manage_flights();
@@ -46,7 +48,9 @@ namespace Menu {
     void display_empty_flight_list();
     void display_flight_not_found();
     void display_cannot_cancel_flight();
+    void display_already_cancelled_flight();
     void display_create_flight_error();
+    void display_cancel_flight_confirm();
 
     // Ticket Management
     void display_book_ticket();
