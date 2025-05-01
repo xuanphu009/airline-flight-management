@@ -491,6 +491,7 @@ void Console::enter_flight_id(int choice) {
             if(choosing == nullptr) {
                 //in ra thoong bao
                 Menu::display_flight_not_found();
+                Menu::display_enter_flight_ID();
                 continue;
             } 
             else {
