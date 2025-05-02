@@ -69,6 +69,7 @@ void Menu::display_list_instructions_tab(int current_page, int max_pages)
 )";
 }
 
+
 void Menu::display_login_frame()
 {
     system("clear");
@@ -155,6 +156,7 @@ void Menu::display_manage_plane()
                                        |              Edit Plane Details        |
                                        |________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
     
 }
@@ -179,6 +181,7 @@ void Menu::display_add_aircraft()
                                        |  Flights Performed:                                      |
                                        |__________________________________________________________|
     
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 
@@ -194,6 +197,7 @@ void Menu::display_delete_aircraft()
                                         |  Enter Plane ID to delete:                         |
                                         |____________________________________________________|
                                         
+                                        [ESC] Exit
                                        
     )";
 }
@@ -465,6 +469,7 @@ void Menu::display_search_flight()
                                         |  Enter Dep Date & Time:                            |
                                         |____________________________________________________|
                                         
+                                        [^] Move Up          [v] Move Down      [ESC] Exit
                                        
     )";
 }
@@ -489,6 +494,7 @@ void Menu::display_edit_aircraft_details()
                                        |  Flights Performed:                                      |
                                        |__________________________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 void Menu::display_manage_flights()
@@ -509,6 +515,7 @@ void Menu::display_manage_flights()
                                        |        Cancel Flight                   |
                                        |________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 void Menu::display_create_new_flight()
@@ -535,6 +542,7 @@ void Menu::display_create_new_flight()
                                        |  Destination:                             |
                                        |___________________________________________|
                     
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 void Menu::display_edit_flight_schedule()
@@ -554,6 +562,8 @@ void Menu::display_edit_flight_schedule()
                                        |                                               |  
                                        |  New Departure Time (hh:mm):                  |
                                        |_______________________________________________|
+
+                                        [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 
@@ -568,7 +578,8 @@ void Menu::display_cancel_flight()
                                        |                                        |
                                        |  Enter Flight ID:                      |
                                        |________________________________________|
-                                      
+                   
+                                       [ESC] Exit
     )";
 }
 void Menu::display_enter_flight_ID()
@@ -583,6 +594,7 @@ void Menu::display_enter_flight_ID()
                                        |  Enter Flight ID:                      |
                                        |________________________________________|
                                       
+                                       [ESC] Exit
     )";
 }
 void Menu::display_enter_user_id_card(){
@@ -596,6 +608,7 @@ void Menu::display_enter_user_id_card(){
                                        |  Enter CMND:                              |
                                        |___________________________________________|
 
+                                       [ESC] Exit
     )";
 }
 void Menu::display_enter_user_information()
@@ -619,6 +632,7 @@ void Menu::display_enter_user_information()
                                        |  Enter Gender (Male: 1, Female: 0):       |
                                        |___________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 
@@ -640,6 +654,7 @@ void Menu::display_identification_information()
                                        |  ID Card Number:                          |
                                        |___________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 
