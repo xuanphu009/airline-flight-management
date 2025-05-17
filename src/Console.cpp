@@ -301,12 +301,19 @@ void Console::enter_manager_menu() {
     }
 }
 
+
 void Console::enter_plane_statistics() {
     merge_sort();
     char ch;
     int number_of_planes = get_plane_count();
     //merge sort
-    int cur_page = 0, max_page = (number_of_planes + PLANES_PER_PAGE - 1)/PLANES_PER_PAGE - 1;
+    int cur_page = 0, max_page;
+    if (number_of_planes % PLANES_PER_PAGE == 0){
+        max_page = max_page = number_of_planes / PLANES_PER_PAGE;
+    }
+    else {
+        max_page = (number_of_planes / PLANES_PER_PAGE) + 1;
+    }
     int cur_row = 0;
     Menu::display_plane_statistics();
     while(true) {
@@ -315,6 +322,10 @@ void Console::enter_plane_statistics() {
             if(cur_row == i) {
                 Menu::gotoxy(24, 7 + i);
                 std::cout << ">>";
+            }
+            else {
+                Menu::gotoxy(24, 7 + i);
+                std::cout << "  ";
             }
             int cur_i = i + cur_page*PLANES_PER_PAGE;
             if(cur_i < number_of_planes) {
@@ -326,11 +337,15 @@ void Console::enter_plane_statistics() {
                 std::cout << list_planes[cur_i]->number_flights_performed;
             } else {
                 Menu::gotoxy(27, 7 + i);
-                std::cout << "                                                                     ";
+                std::cout << "         "; // xóa plane_id
+                Menu::gotoxy(27 + 23, 7 + i);
+                std::cout << "                     "; // xóa plane_type
+                Menu::gotoxy(27 + 23 + 43, 7 + i);
+                std::cout << "         "; // xóa number_flights_performed
             }
 
         }
-        Menu::display_list_instructions(cur_page, max_page);
+        Menu::display_list_instructions(cur_page + 1, max_page);
         Menu::gotoxy(0, 0);
         std::cout << "number_of_planes:" << number_of_planes;
         ch = _getch();
@@ -346,15 +361,28 @@ void Console::enter_plane_statistics() {
                 }
         #endif
         
-        if(ch == UP && cur_row > 0) --cur_row;
-        else if(ch == DOWN && cur_row + cur_page*PLANES_PER_PAGE < number_of_planes - 1) ++cur_row;
-        else if(ch == RIGHT && cur_page < max_page) {
+        if(ch == UP && cur_row > 0){
+            cur_row--;
+        }
+        else if(ch == DOWN && cur_row + cur_page*PLANES_PER_PAGE < number_of_planes - 1){
+            int remaining = std::min(PLANES_PER_PAGE, number_of_planes - cur_page * PLANES_PER_PAGE);
+            if (cur_row < remaining - 1){
+                ++cur_row;
+            }
+        }
+        else if(ch == RIGHT && cur_page < max_page - 1){
             cur_row = 0;
             ++cur_page;
-        } else if(ch == LEFT && cur_page > 0) {
+            // sang trang mới vẽ lại khung
+            Menu::display_plane_statistics();
+        }
+        else if(ch == LEFT && cur_page > 0){
             cur_row = 0;
-            --cur_page; 
-        }  else if(ch == ESC) return;
+            --cur_page;
+            // sang trang mới vẽ lại khung
+            Menu::display_plane_statistics();
+        } 
+        else if(ch == ESC) return;
     }
     
 }
@@ -464,6 +492,11 @@ void Console::enter_flight_id(int choice) {
             if(choosing == nullptr) {
                 //in ra thoong bao
                 Menu::display_flight_not_found();
+                // gán flight_id về rỗng để nhập lại
+                strcpy(flight_id, "/0");
+                i = 0;
+                choosing = nullptr;
+                Menu::display_enter_flight_ID();
                 continue;
             } 
             else {
@@ -489,7 +522,13 @@ void Console::enter_passenger_list(Flight *flight) {
         //thông báo không có hành khách
     }
     int cur_row = 0, cur_page = 0;
-    int max_page = (n + PASSENGERS_PER_PAGE - 1) / PASSENGERS_PER_PAGE - 1;
+    int max_page;
+    if (n % PASSENGERS_PER_PAGE == 0){
+        max_page = n / PASSENGERS_PER_PAGE;
+    }
+    else {
+        max_page = (n / PASSENGERS_PER_PAGE) + 1;
+    }
 
     Menu::display_passenger_list();
     while (true) {
@@ -560,7 +599,7 @@ void Console::enter_passenger_list(Flight *flight) {
             std::cout << ticketIndex + 1;
             
         }
-        Menu::display_list_instructions(cur_page, max_page);
+        Menu::display_list_instructions(cur_page + 1, max_page);
         Menu::gotoxy(0, 0);
         char key = _getch();
         #ifdef _WIN32
@@ -577,18 +616,27 @@ void Console::enter_passenger_list(Flight *flight) {
 
         // Xử lý các phím điều hướng
         if (key == ESC) break;
-        else if (key == LEFT && cur_page > 0) {
+        else if (key == LEFT && cur_page > 0){
             cur_page--;
             cur_row = 0;
+            // sang trang mới vẽ lại khung
+            Menu::display_passenger_list();
         }
-        else if (key == RIGHT && cur_page < max_page) {
+        else if (key == RIGHT && cur_page < max_page - 1){
             cur_page++;
             cur_row = 0;
+            // sang trang mới vẽ lại khung
+            Menu::display_passenger_list();
         }
-        else if (key == UP && cur_row > 0)
+        else if (key == UP && cur_row > 0){
             cur_row--;
-        else if (key == DOWN && cur_row < PASSENGERS_PER_PAGE - 1)
-            cur_row++;
+        }
+        else if (key == DOWN){
+            int remaining = std::min(PASSENGERS_PER_PAGE, n - cur_page * PASSENGERS_PER_PAGE);
+            if (cur_row < remaining - 1){
+                ++cur_row;
+            }
+        }
         // Trong hàm enter_passenger_list (Console.cpp)
         else if (key == ENTER) {
             int selected = start_idx + cur_row;
@@ -693,7 +741,13 @@ void Console::enter_available_tickets(Flight *flight) {
     int *seat_indices = flight->list_available_seats(n);  
     
     int current_page = 0, current_column = 0;
-    int max_pages = (n) / SEATS_PER_PAGE + !!(n % SEATS_PER_PAGE) - 1; // Số trang
+    int max_pages; // Số trang
+    if (n % SEATS_PER_PAGE == 0){
+        max_pages = n / SEATS_PER_PAGE;
+    }
+    else {
+        max_pages = (n / SEATS_PER_PAGE) + 1;
+    }
 
     Menu::display_available_tickets();
     while (true) {
@@ -751,7 +805,7 @@ void Console::enter_available_tickets(Flight *flight) {
             std::cout << (flight->tickets[ticketIndex].CMND != nullptr ? "SOLD OUT" : "AVAILABLE");
         }
 
-        Menu::display_list_instructions(current_page, max_pages);
+        Menu::display_list_instructions(current_page + 1, max_pages);
         Menu::gotoxy(0, 0);
         char key = _getch(); // Nhận phím nhập vào
         #ifdef _WIN32
@@ -767,10 +821,16 @@ void Console::enter_available_tickets(Flight *flight) {
         #endif
 
         if (key == ESC) break;  // ESC để thoát
-        else if (key == LEFT && current_page > 0)
+        else if (key == LEFT && current_page > 0){
+            // sang trang mới vẽ lại khung
+            Menu::display_available_tickets();
             current_page--;  // Phím mũi tên trái để chuyển trang về trước
-        else if (key == RIGHT && current_page < max_pages)
+        }
+        else if (key == RIGHT && current_page < max_pages - 1){
+            // sang trang mới vẽ lại khung
+            Menu::display_available_tickets();
             current_page++;  // Phím mũi tên phải để chuyển trang tiếp theo
+        }
         else if (key == UP && current_column > 0)
             current_column--;  // Phím mũi tên lên để chọn vé ở vị trí trước đó
         else if (key == DOWN && current_column < (end_idx - start_idx - 1))
@@ -873,6 +933,7 @@ void Console::enter_user_information() {
                 }
                 else {
                     // user chưa tồn tại
+                    Menu::display_user_not_found(); // thông báo user chưa tồn tại, và tạo tài khoản mới
                     column = 1;
                     Menu::display_enter_user_information();
                     while (true) {
@@ -951,8 +1012,8 @@ void Console::enter_user_information() {
                                 // hiện tại ở dòng cuối cùng
                                 // Nếu thông tin hiện tại hợp lệ (user mới hoặc đã load user cũ)
                                 if (input->valid_user()) {
+                                    Menu::display_user_create_success(); // thông báo tạo tài khoản thành công và cho đặt vé
                                     enter_available_flights(1); // 1 là user
-                                    // Menu::display_enter_user_information();
                                     return;
                                 }
                             }
@@ -961,10 +1022,7 @@ void Console::enter_user_information() {
                         } else if(ch == ESC) return;
                     
                     }
-                }
-                // (nếu bạn dùng tmp_gender để hiện giới tính, cập nhật ở đây)
-                // tmp_gender[0] = input->gender ? (*input->gender ? '1':'0') : '\0';
-                
+                } 
             }
             else {
                 continue;
@@ -1028,8 +1086,13 @@ void Console::enter_plane_list() {
     char ch = '\0';
     int number_of_planes = get_plane_count();
     int cur_page = 0;
-    int max_page = (number_of_planes + PLANES_PER_PAGE - 1) / PLANES_PER_PAGE - 1;
-    if (max_page < 0) max_page = 0;
+    int max_page;
+    if (number_of_planes % PLANES_PER_PAGE == 0){
+        max_page = number_of_planes / PLANES_PER_PAGE;
+    }
+    else {
+        max_page = (number_of_planes / PLANES_PER_PAGE) + 1;
+    }
     int cur_row = 0;
 
     Menu::display_plane_list();
@@ -1063,7 +1126,7 @@ void Console::enter_plane_list() {
         }
 
         // In hướng dẫn
-        Menu::display_list_instructions_tab(cur_page, max_page);
+        Menu::display_list_instructions_tab(cur_page + 1, max_page);
         Menu::gotoxy(0, 0);
         std::cout << cur_page * PLANES_PER_PAGE << " " << number_of_planes;
         ch = _getch();
@@ -1081,19 +1144,22 @@ void Console::enter_plane_list() {
                    && cur_row < PLANES_PER_PAGE - 1
                    && cur_row + cur_page * PLANES_PER_PAGE < number_of_planes - 1) {
             ++cur_row;
-        } else if (ch == RIGHT && cur_page < max_page) {
+        } else if (ch == RIGHT && cur_page < max_page - 1) {
             ++cur_page;
             cur_row = 0;
+            // sang trang mới vẽ lại khung
+            Menu::display_plane_list();
         } else if (ch == LEFT && cur_page > 0) {
             --cur_page;
             cur_row = 0;
+            // sang trang mới vẽ lại khung
+            Menu::display_plane_list();
         } else if (ch == TAB) {
             // Quay về menu quản lý – sau khi xong, load lại số plane & reset trang
             enter_manage_plane();
             Menu::display_plane_list();
             number_of_planes = get_plane_count();
-            max_page = (number_of_planes + PLANES_PER_PAGE - 1) / PLANES_PER_PAGE - 1;
-            if (max_page < 0) max_page = 0;
+            max_page = (number_of_planes / PLANES_PER_PAGE) + 1;
             cur_page = 0;
             cur_row = 0;
         } else if (ch == ESC) {
@@ -1118,10 +1184,15 @@ void Console::enter_available_flights(int choice) {
     // }
     char ch = '\0';
     unsigned int total_flights = count_flights();
-    // if(total_flights == 0) {
-
-    // }
-    unsigned int number_of_pages = (total_flights / FLIGHTS_PER_PAGE) + 1;
+    
+    unsigned int number_of_pages;
+    if (total_flights % FLIGHTS_PER_PAGE == 0){
+        number_of_pages = total_flights / FLIGHTS_PER_PAGE;
+    }
+    else {
+        number_of_pages = (total_flights / FLIGHTS_PER_PAGE) + 1;
+    }
+    
 
     Flight **pages = new Flight*[number_of_pages];
     pages[0] = list;
@@ -1273,11 +1344,13 @@ void Console::enter_available_flights(int choice) {
         } else if (ch == RIGHT && cur_page < number_of_pages - 1) {
             ++cur_page;
             cur_row = 0;
+            // sang trang mới vẽ lại khung
             Menu::display_flight_list();
             Menu::display_enter_flight_details();
         } else if (ch == LEFT && cur_page > 0) {
             --cur_page;
             cur_row = 0;
+            // sang trang mới vẽ lại khung
             Menu::display_flight_list();
             Menu::display_enter_flight_details();
         } else if (ch == ESC) {
@@ -1302,7 +1375,13 @@ void Console::enter_available_flights(int choice) {
                     tmp = tmp->next;
                 }
 
-                unsigned int filtered_pages_count = (filtered_total / FLIGHTS_PER_PAGE) + 1;
+                unsigned int filtered_pages_count;
+                if (filtered_total % FLIGHTS_PER_PAGE == 0){
+                    filtered_pages_count = filtered_total / FLIGHTS_PER_PAGE;
+                }
+                else {
+                    filtered_pages_count = (filtered_total / FLIGHTS_PER_PAGE) + 1;
+                }
                 filtered_pages = new Flight*[filtered_pages_count];
                 filtered_pages[0] = filtered_list;
 
@@ -1403,36 +1482,88 @@ void Console::add_plane(const Plane &other) {
 }
 
 void Console::delete_plane(const char *plane_id) {
-    for (int i = 0; i < MAX_PLANE && list_planes[i] != nullptr; i++) {
-        if (strcmp(list_planes[i]->plane_id, plane_id) == 0) {
-            int j;
-            std::filesystem::remove("data/Planes/"+ std::string(list_planes[i]->plane_id) + ".txt");
-            delete list_planes[i];
-            for (j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
-                list_planes[j] = list_planes[j + 1];
-                std::ofstream out("data/Planes/"+ std::string(list_planes[j]->plane_id) + ".txt",std::ios::app);
-                out << j << std::endl;
-                out << *list_planes[j];
-            }
-            list_planes[j] = nullptr;
-
-            for(Flight *p = list; p != nullptr;p = p->next) {
-                if (p->plane_id != nullptr && strcmp(p->plane_id, plane_id) == 0) {
-                    p->cur_status = status::cancelled;
-                    std::string path = "data/Flights/" + std::string(p->flight_id) + ".txt";
-                    std::ofstream out(path);
-                    if (out) out << *p; 
-                }
-            }
-            // list = list->next;
-            // delete []tmp;
-
+    // Kiểm tra xem có chuyến bay nào đang dùng máy bay này không
+    for (Flight *p = list; p != nullptr; p = p->next) {
+        if (p->plane_id != nullptr && strcmp(p->plane_id, plane_id) == 0) {
+            // Nếu có chuyến bay đang sử dụng máy bay này không cho phép xoá
+            Menu::display_delete_plane_error();
             return;
         }
     }
-    // không tìm thấy máy bay
+
+    // Nếu khong có chuyến bay dùng nó, hỏi xác nhận người dùng
+
+    Menu::display_delete_plane_confirm();
+    int curr_row = 0;
+    while (true) {
+        int idx;
+        // Xóa con trỏ cũ ở tất cả dòng
+        for (int i = 0; i < 2; ++i) {
+            Menu::gotoxy(45, 5 + i);
+            std::cout << "  ";
+        }
+
+        // In con trỏ ở dòng đang chọn
+        Menu::gotoxy(45, 5 + curr_row);
+        std::cout << ">>";
+
+        Menu::gotoxy(0, 0);
+        char ch = _getch();
+
+        #ifdef _WIN32
+            if (ch == -32 || ch == 224) ch = _getch();
+        #else
+            if (ch == ESC && _getch() == '[') ch = _getch();
+        #endif
+
+        // Điều hướng
+        if (ch == UP && curr_row > 0) {
+            --curr_row;
+        } else if (ch == DOWN && curr_row < 1) {
+            ++curr_row;
+        } else if (ch == RIGHT || ch == LEFT) {
+            continue;
+        } else if (ch == ENTER) {
+            if (curr_row == 0) {
+                break; // tiếp tục xử lý xoá sau
+            } else {
+                return; // nếu không xoá thì thoát luôn
+            }
+        }
+    
+    }
+
+    //  Nếu vẫn xác nhận xoá thì mới cho phép xoá
+    for (int i = 0; i < MAX_PLANE && list_planes[i] != nullptr; i++) {
+        if (strcmp(list_planes[i]->plane_id, plane_id) == 0) {
+            int j;
+
+            // Xóa file máy bay
+            std::filesystem::remove("data/Planes/" + std::string(list_planes[i]->plane_id) + ".txt");
+            delete list_planes[i];
+
+            // Dịch các máy bay phía sau lên
+            for (j = i; j < MAX_PLANE - 1 && list_planes[j + 1] != nullptr; j++) {
+                list_planes[j] = list_planes[j + 1];
+            }
+            list_planes[j] = nullptr;
+
+            // Ghi lại file máy bay từ vị trí i
+            for (int k = i; k < j; ++k) {
+                std::ofstream out("data/Planes/" + std::string(list_planes[k]->plane_id) + ".txt", std::ios::out);
+                if (out) {
+                    out << k << std::endl;
+                    out << *list_planes[k];
+                }
+            }
+
+            Menu::display_success_delete_aircraft();
+            return;
+        }
+    }
+
+    // Nếu không tìm thấy máy bay
     Menu::display_aircraft_not_found();
-    return;
 }
 
 void Console::update_plane(const Plane &other) {
@@ -1754,9 +1885,8 @@ void Console::enter_plane_delete() {
                 continue;
             }
             else {
-                // Đã tìm thấy mã, tiến hành xoá và hiển thị thông báo thành công
+                // Đã tìm thấy mã, tiến hành xoá
                 delete_plane(plane_id);
-                Menu::display_success_delete_aircraft();
                 Menu::display_delete_aircraft();
                 return;
             }
@@ -1901,13 +2031,61 @@ void Console::update_flight(const char *flight_id, const date_departure &new_dat
 }
 
 void Console::cancel_flight(const char *flight_id) {
+
+    // Hỏi có thực sự muổn huỷ chuyến không, nếu không thì khỏi huỷ
+
+    Menu::display_cancel_flight_confirm();
+    int curr_row = 0;
+    while (true) {
+        int idx;
+        // Xóa con trỏ cũ ở tất cả dòng
+        for (int i = 0; i < 2; ++i) {
+            Menu::gotoxy(54, 5 + i);
+            std::cout << "  ";
+        }
+
+        // In con trỏ ở dòng đang chọn
+        Menu::gotoxy(54, 5 + curr_row);
+        std::cout << ">>";
+
+        Menu::gotoxy(0, 0);
+        char ch = _getch();
+
+        #ifdef _WIN32
+            if (ch == -32 || ch == 224) ch = _getch();
+        #else
+            if (ch == ESC && _getch() == '[') ch = _getch();
+        #endif
+
+        // Điều hướng
+        if (ch == UP && curr_row > 0) {
+            --curr_row;
+        } else if (ch == DOWN && curr_row < 1) {
+            ++curr_row;
+        } else if (ch == RIGHT || ch == LEFT) {
+            continue;
+        } else if (ch == ENTER) {
+            if (curr_row == 0) {
+                break; // Nếu yes tiếp tục xử lý huỷ chuyến
+            } else {
+                return; // nếu không huỷ thì thoát
+            }
+        }
+    
+    }
+
     Flight *curr = list;
     // Tìm chuyến trong danh sách
     while (curr != nullptr) {
         if (strcmp(curr->flight_id, flight_id) == 0) {
             // Nếu đã hoàn tất thì không thể hủy
             if (curr->cur_status == status::completed) {
-                // Menu::display_cannot_cancel_flight();
+                Menu::display_cannot_cancel_flight();
+                return;
+            }
+            if (curr->cur_status == status::cancelled){
+                // Nếu đã huỷ rồi thì không huỷ nữa
+                Menu::display_already_cancelled_flight();
                 return;
             }
             // Đánh dấu hủy
@@ -2331,7 +2509,6 @@ void Console::enter_flight_cancel() {
             //     return;
             } else {
                 cancel_flight(flight_id);
-                Menu::display_success_cancel_flight();
                 Menu::display_cancel_flight();
                 ch = '\0';
                 // return;

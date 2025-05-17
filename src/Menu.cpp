@@ -25,7 +25,23 @@
     }
 #endif
 
+void Menu::notification(){
+    std::cout << "\n\n\t\t\t\t\t\t\t\t\t\tPress any key to continue...";
+    int ch_temp = _getch();
 
+    // Xử lý phím mũi tên
+    #ifdef _WIN32
+            if (ch_temp == 0 || ch_temp == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                _getch(); 
+            }
+    #else
+            if (ch_temp == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                   _getch(); // Lấy mã thực tế của phím
+                }
+            }
+    #endif
+}
 void Menu::display_navigation_instructions()
 {
     std::cout << R"(
@@ -52,6 +68,7 @@ void Menu::display_list_instructions_tab(int current_page, int max_pages)
                                 [^] Move Up          [v] Move Down    [TAB] Show Functions
 )";
 }
+
 
 void Menu::display_login_frame()
 {
@@ -139,7 +156,9 @@ void Menu::display_manage_plane()
                                        |              Edit Plane Details        |
                                        |________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
+    
 }
 void Menu::display_add_aircraft()
 {
@@ -161,7 +180,8 @@ void Menu::display_add_aircraft()
                                        |                                                          |
                                        |  Flights Performed:                                      |
                                        |__________________________________________________________|
-
+    
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 
@@ -177,6 +197,7 @@ void Menu::display_delete_aircraft()
                                         |  Enter Plane ID to delete:                         |
                                         |____________________________________________________|
                                         
+                                        [ESC] Exit
                                        
     )";
 }
@@ -201,10 +222,10 @@ void Menu::display_aircraft_exist(){
     std::cout << R"(
                                              __________________________________ 
                                             |                                  |
-                                            |     PLANE ID ALREADY EXISTS     |
+                                            |     PLANE ID ALREADY EXISTS      |
                                             |__________________________________|
          )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_empty_aircraft_list(){
     system("clear");
@@ -214,7 +235,7 @@ void Menu::display_empty_aircraft_list(){
                                             |      THE PLANE LIST IS EMPTY     |
                                             |__________________________________|
          )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_full_aircraft_list(){
     system("clear");
@@ -224,7 +245,7 @@ void Menu::display_full_aircraft_list(){
                                             |      THE PLANE LIST IS FULL      |
                                             |__________________________________|
          )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_success_add_aircraft(){
     system("clear");
@@ -234,7 +255,7 @@ void Menu::display_success_add_aircraft(){
                                             |      SUCCESSFULLY ADDED PLANE     |
                                             |___________________________________|
         )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_success_delete_aircraft(){
     system("clear");
@@ -244,7 +265,7 @@ void Menu::display_success_delete_aircraft(){
                                             |     SUCCESSFULLY DELETED PLANE    |
                                             |___________________________________|
         )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_success_update_aircraft(){
     system("clear");
@@ -254,7 +275,7 @@ void Menu::display_success_update_aircraft(){
                                             |     SUCCESSFULLY UPDATED PLANE    |
                                             |___________________________________|
         )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_aircraft_not_found(){
     system("clear");
@@ -264,17 +285,17 @@ void Menu::display_aircraft_not_found(){
                                             |        PLANE ID NOT FOUND        |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_flight_exist(){
     system("clear");
     std::cout << R"(
                                              __________________________________ 
                                             |                                  |
-                                            |     FLIGHT ID ALREADY EXISTS    |
+                                            |     FLIGHT ID ALREADY EXISTS     |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_success_create_flight(){
     system("clear");
@@ -284,7 +305,7 @@ void Menu::display_success_create_flight(){
                                             |   SUCCESSFULLY CREATED FLIGHT    |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_success_update_flight(){
     system("clear");
@@ -294,7 +315,7 @@ void Menu::display_success_update_flight(){
                                             |   SUCCESSFULLY UPDATED FLIGHT    |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_success_cancel_flight(){
     system("clear");
@@ -304,8 +325,19 @@ void Menu::display_success_cancel_flight(){
                                             |   SUCCESSFULLY CANCELLED FLIGHT  |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
+void Menu::display_already_cancelled_flight(){
+    system("clear");
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |     FLIGHT ALREADY CANCELLED     |
+                                            |__________________________________|
+                )";
+    notification();
+}
+
 void Menu::display_empty_flight_list(){
     system("clear");
     std::cout << R"(
@@ -314,7 +346,7 @@ void Menu::display_empty_flight_list(){
                                             |     THE FLIGHT LIST IS EMPTY     |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_flight_not_found(){
     system("clear");
@@ -324,7 +356,7 @@ void Menu::display_flight_not_found(){
                                             |         FLIGHT NOT FOUND         |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_cannot_cancel_flight(){
     system("clear");
@@ -334,7 +366,7 @@ void Menu::display_cannot_cancel_flight(){
                                             |     THIS FLIGHT CANNOT CANCEL    |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 
 void Menu::display_booking_success(){
@@ -345,7 +377,7 @@ void Menu::display_booking_success(){
                                             |    TICKET BOOKED SUCCESSFULLY    |
                                             |__________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_booking_error(){
     system("clear");
@@ -355,7 +387,7 @@ void Menu::display_booking_error(){
                                     | YOU HAVE ALREADY BOOKED A TICKET FOR THIS FLIGHT |
                                     |__________________________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_create_flight_error(){
     system("clear");
@@ -365,7 +397,7 @@ void Menu::display_create_flight_error(){
                                     | INVALID TIME: CANNOT CREATE A FLIGHT IN THE PAST |
                                     |__________________________________________________|
                 )";
-    Sleep(2000);
+    notification();
 }
 void Menu::display_user_exist(){
     system("clear");
@@ -375,7 +407,65 @@ void Menu::display_user_exist(){
                                     |   THIS CMND ALREADY EXISTS IN THE PASSENGER LIST    |
                                     |_____________________________________________________|
                 )";
-    Sleep(2000);
+    notification();
+}
+void Menu::display_user_not_found(){
+    system("clear");
+    std::cout << R"(
+                                     _____________________________________________________ 
+                                    |                                                     |
+                                    |   USER DOES NOT EXIST. PLEASE CREATE AN ACCOUNT     |
+                                    |_____________________________________________________|
+                )";
+    notification();
+}
+void Menu::display_user_create_success(){
+    system("clear");
+    std::cout << R"(
+                                             ___________________________________ 
+                                            |                                   |
+                                            |   ACCOUNT CREATED SUCCESSFULLY    |
+                                            |___________________________________|
+                )";
+    notification();
+}
+void Menu::display_delete_plane_confirm(){
+    system("clear");
+    std::cout << R"(
+                                     _____________________________________________________ 
+                                    |                                                      |
+                                    |      NO FLIGHTS USE THIS PLANE - DELETE ANYWAY ?     |
+                                    |                                                      |
+                                    |           YES                                        |
+                                    |           NO                                         |
+                                    |______________________________________________________|
+                    )";
+
+}
+void Menu::display_delete_plane_error(){
+    system("clear");
+    std::cout << R"(
+                                     _____________________________________________________ 
+                                    |                                                      |
+                                    |     PLANE IN USE BY FLIGHTS - CANNOT DELETE PLANE    |
+                                    |                                                      |
+                                    |______________________________________________________|
+                    )";
+    notification();
+}
+
+void Menu::display_cancel_flight_confirm(){
+    system("clear");
+    std::cout << R"(
+                                             _______________________________________ 
+                                            |                                       |
+                                            |        CONFIRM CANCEL FLIGHT ?        |
+                                            |                                       |
+                                            |             YES                       |
+                                            |             NO                        |
+                                            |_______________________________________|
+                    )";
+
 }
 void Menu::display_search_flight()
 {
@@ -395,6 +485,7 @@ void Menu::display_search_flight()
                                         |  Enter Dep Date & Time:                            |
                                         |____________________________________________________|
                                         
+                                        [^] Move Up          [v] Move Down      [ESC] Exit
                                        
     )";
 }
@@ -419,6 +510,7 @@ void Menu::display_edit_aircraft_details()
                                        |  Flights Performed:                                      |
                                        |__________________________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 void Menu::display_manage_flights()
@@ -439,6 +531,7 @@ void Menu::display_manage_flights()
                                        |        Cancel Flight                   |
                                        |________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 void Menu::display_create_new_flight()
@@ -465,6 +558,7 @@ void Menu::display_create_new_flight()
                                        |  Destination:                             |
                                        |___________________________________________|
                     
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 void Menu::display_edit_flight_schedule()
@@ -484,6 +578,8 @@ void Menu::display_edit_flight_schedule()
                                        |                                               |  
                                        |  New Departure Time (hh:mm):                  |
                                        |_______________________________________________|
+
+                                        [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 
@@ -498,7 +594,8 @@ void Menu::display_cancel_flight()
                                        |                                        |
                                        |  Enter Flight ID:                      |
                                        |________________________________________|
-                                      
+                   
+                                       [ESC] Exit
     )";
 }
 void Menu::display_enter_flight_ID()
@@ -513,6 +610,7 @@ void Menu::display_enter_flight_ID()
                                        |  Enter Flight ID:                      |
                                        |________________________________________|
                                       
+                                       [ESC] Exit
     )";
 }
 void Menu::display_enter_user_id_card(){
@@ -526,6 +624,7 @@ void Menu::display_enter_user_id_card(){
                                        |  Enter CMND:                              |
                                        |___________________________________________|
 
+                                       [ESC] Exit
     )";
 }
 void Menu::display_enter_user_information()
@@ -549,6 +648,7 @@ void Menu::display_enter_user_information()
                                        |  Enter Gender (Male: 1, Female: 0):       |
                                        |___________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 
@@ -570,6 +670,7 @@ void Menu::display_identification_information()
                                        |  ID Card Number:                          |
                                        |___________________________________________|
 
+                                       [^] Move Up          [v] Move Down      [ESC] Exit
     )";
 }
 

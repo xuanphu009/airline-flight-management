@@ -7,6 +7,10 @@ data/
 # File hệ thống macOS
 .DS_Store 
 
-run.bat
 
 main.exe
+
+#flie run
+run.sh
+
+run.bat

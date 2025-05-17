@@ -21,9 +21,10 @@ std::ofstream& operator<<(std::ofstream &out, const Passenger &other) {
 
 std::ifstream& operator>>(std::ifstream &in, Passenger &other) {
     other.gender = new bool;
-    in >> other.CMND
-    >> other.last_name
-    >> other.first_name
+    in >> other.CMND;
+    in.ignore();
+    in.getline(other.last_name, LEN_LAST_NAME);
+    in >> other.first_name
     >> *other.gender
     >> other.number_of_tickets;
     return in;
