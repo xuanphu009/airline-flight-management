@@ -5,4 +5,8 @@
 data/
 
 # File hệ thống macOS
-.DS_Store
+.DS_Store 
+
+run.bat
+
+main.exe
