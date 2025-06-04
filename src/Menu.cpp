@@ -370,6 +370,26 @@ void Menu::display_booking_success(){
                 )";
     notification();
 }
+void Menu::display_book_time_expired(){
+    CLEAR_SCREEN();
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |     BOOKING TIME HAS EXPIRED     |
+                                            |__________________________________|
+                )";
+    notification();
+}
+void Menu::display_cannot_update_flight(){
+    CLEAR_SCREEN();
+    std::cout << R"(
+                                             __________________________________ 
+                                            |                                  |
+                                            |       CAN NOT UPDATE FLIGHT      |
+                                            |__________________________________|
+                )";
+    notification();
+}
 void Menu::display_booking_error(){
     CLEAR_SCREEN();
     std::cout << R"(

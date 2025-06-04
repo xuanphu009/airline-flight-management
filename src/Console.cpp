@@ -613,6 +613,8 @@ void Console::enter_passenger_list(Flight *flight) {
             
         }
         Menu::display_list_instructions(cur_page + 1, max_page);
+        // thêm chỉ dẫn khi nhấn enter để huỷ vé đó
+        std::cout << "\t\t\t\t[Enter] Cancel Ticket";
         while(true) {
             Menu::gotoxy(22, 13 + cur_row);
             std::cout << ">>";
@@ -902,6 +904,7 @@ void Console::enter_available_tickets(Flight *flight) {
                 // Đặt vé
                 if(is_completed(&flight->date_dep, &flight->time_dep)) {
                     //in thông báo quá giờ đặt vé
+                    Menu::display_book_time_expired();
                     return;
                 }
                 flight->tickets[seat_index].CMND = input->CMND;
@@ -1220,15 +1223,17 @@ void Console::enter_plane_list() {
             } else if (ch == RIGHT && cur_page < max_page - 1) {
                 ++cur_page;
                 cur_row = 0;
-                break;
                 // sang trang mới vẽ lại khung
-                // Menu::display_plane_list();
+                Menu::display_plane_list();
+                break;
+                
             } else if (ch == LEFT && cur_page > 0) {
                 --cur_page;
                 cur_row = 0;
-                break;
                 // sang trang mới vẽ lại khung
-                // Menu::display_plane_list();
+                Menu::display_plane_list();
+                break;
+                
             } else if (ch == TAB) {
                 // Quay về menu quản lý – sau khi xong, load lại số plane & reset trang
                 enter_manage_plane();
@@ -1257,10 +1262,7 @@ void Console::enter_plane_list() {
 
 void Console::enter_available_flights(int choice) {
     load_flights_before_view();
-    // if(input != nullptr) {
-    //     //thông báo chưa có chuyến bay;
-    //     return;
-    // }
+    
     char ch = '\0';
     unsigned int total_flights = count_flights();
     
@@ -1488,6 +1490,7 @@ void Console::enter_available_flights(int choice) {
                     Flight *selected_flight = page_start;
                     int j = 0;
                     while(j < cur_row) {
+                        
                         if ((strlen(dep_date) == 0 || strcmp(selected_flight->date_dep.to_string(), dep_date) == 0) 
                         && (strlen(destination) == 0 || strcmp(selected_flight->destination, destination) == 0)) {
                             ++j;
@@ -2107,12 +2110,7 @@ void Console::create_flight(Flight &other) {
         // Menu::display_file_error(path.c_str());
     }
 
-    // // Update plane file to reflect incremented number_flights_performed
-    // std::ofstream plane_out("data/Planes/" + std::string(list_planes[idx]->plane_id) + ".txt");
-    // if (plane_out) {
-    //     plane_out << idx << std::endl;
-    //     plane_out << *list_planes[idx];
-    // }
+
 }
 
 
@@ -2125,6 +2123,7 @@ void Console::update_flight(const char *flight_id, const date_departure &new_dat
     while (curr != nullptr) {
         if (strcmp(curr->flight_id, flight_id) == 0){
             if(curr->cur_status == status::cancelled || curr->cur_status == status::completed) {
+                Menu::display_cannot_update_flight();
                 //in ra thông báo
                 return;
             }

@@ -51,10 +51,12 @@ namespace Menu {
     void display_already_cancelled_flight();
     void display_create_flight_error();
     void display_cancel_flight_confirm();
+    void display_cannot_update_flight();
 
     // Ticket Management
     void display_book_ticket();
     void display_cancel_ticket();
+    void display_book_time_expired();
 
     // Passenger Information
     void display_passenger_list();
