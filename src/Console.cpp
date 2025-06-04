@@ -535,6 +535,8 @@ void Console::enter_passenger_list(Flight *flight) {
     // Lấy danh sách chỉ số vé có người đặt (mảng được cấp phát động)
     int *seat_indices = flight->list_passengers(n);  
     if(n == 0) {
+        Menu::display_flight_not_booked_by_user();
+        return;
         //thông báo không có hành khách
         Menu::display_flight_not_booked_by_user();
         return;
