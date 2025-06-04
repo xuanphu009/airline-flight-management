@@ -21,7 +21,11 @@
         return ch;
     }
 #endif
-
+#ifdef _WIN32
+    #define CLEAR_SCREEN() system("cls")
+#else
+    #define CLEAR_SCREEN() system("clear")
+#endif
 
 constexpr int LEN_FLIGHT_ID = 15, LEN_DESTINATION = 16;
 constexpr int LEN_LAST_NAME = 12, LEN_FIRST_NAME = 12;
