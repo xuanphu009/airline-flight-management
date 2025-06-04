@@ -1471,8 +1471,8 @@ void Console::enter_available_flights(int choice) {
                     Flight *selected_flight = page_start;
                     int j = 0;
                     while(j < cur_row) {
-                        if ((strlen(dep_date) == 0 || strcmp(tmp->date_dep.to_string(), dep_date) == 0) 
-                        && (strlen(destination) == 0 || strcmp(tmp->destination, destination) == 0)) {
+                        if ((strlen(dep_date) == 0 || strcmp(selected_flight->date_dep.to_string(), dep_date) == 0) 
+                        && (strlen(destination) == 0 || strcmp(selected_flight->destination, destination) == 0)) {
                             ++j;
                         }
                         selected_flight = selected_flight->next;
