@@ -6,11 +6,11 @@
     #include <conio.h>
 
     void Menu::gotoxy(int x, int y){
-        COORD coord;
-        coord.X = x; // col
-        coord.Y = y; // row
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    }
+    COORD coord;
+    coord.X = x; // col
+    coord.Y = y; // row
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
 #else
     #include <stdlib.h>
     #include <unistd.h>  
@@ -42,16 +42,7 @@ void Menu::notification(){
             }
     #endif
 }
-void Menu::display_navigation_instructions()
-{
-    std::cout << R"(
 
-            Use UP/DOWN to navigate fields       
-            Press ENTER to confirm input          
-            Press TAB to go back                  
-
-    )";
-}
 void Menu::display_list_instructions(int current_page, int max_pages)
 {
     std::cout << R"(
@@ -429,6 +420,43 @@ void Menu::display_user_create_success(){
                 )";
     notification();
 }
+void Menu::display_flight_not_booked_by_user(){
+    CLEAR_SCREEN();
+    std::cout << R"(
+                                     ____________________________________________________ 
+                                    |                                                    |
+                                    |   NO PASSENGERS HAVE BOOKED SEATS ON THIS FLIHGT   |
+                                    |____________________________________________________|
+                )";
+    notification();
+}
+void Menu::display_flight_sold_out(){
+    std::cout << R"(
+                                             ___________________________________ 
+                                            |                                   |
+                                            |      THIS FLIGHT IS SOLD OUT      |
+                                            |___________________________________|
+                )";
+    notification();
+}
+void Menu::display_flight_cancelled(){
+    std::cout << R"(
+                                             ___________________________________ 
+                                            |                                   |
+                                            |      THIS FLIGHT IS CANCELLED     |
+                                            |___________________________________|
+                )";
+    notification();
+}
+void Menu::display_flight_completed(){
+    std::cout << R"(
+                                             ___________________________________ 
+                                            |                                   |
+                                            |      THIS FLIGHT IS COMPLETED     |
+                                            |___________________________________|
+                )";
+    notification();
+}
 void Menu::display_delete_plane_confirm(){
     CLEAR_SCREEN();
     std::cout << R"(
@@ -766,8 +794,6 @@ void Menu::display_passenger_list()
 )";
 
 
-    // 📌 Hiển thị điều hướng trang
-
 }
 
 void Menu::display_available_flights()
@@ -818,11 +844,7 @@ void Menu::display_available_tickets() {
 )";
 
 
-    // 📌 Hiển thị điều hướng trang
-    // gotoxy(35, 26);
-    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    // gotoxy(35, 27);
-    // std::cout << "[^] Move Up          [v] Move Down";
+
 }
 
 void Menu::display_plane_statistics()
@@ -849,16 +871,12 @@ void Menu::display_plane_statistics()
                     
 
 									   )";       
-    // 📌 Hiển thị điều hướng trang
-    // gotoxy(35, 26);
-    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    // gotoxy(35, 27);
-    // std::cout << "[^] Move Up          [v] Move Down";
+
 }
 
 void Menu::display_enter_flight_details()
 {
-    // CLEAR_SCREEN();
+
     std::cout << R"(
                          _______________________________________________________________________________________
                         |                |  Date of Dep (dd/mm/yyyy):                                           |
@@ -888,13 +906,7 @@ void Menu::display_flight_list() {
 
     )" << std::endl;    
     
-    // show_
-    // 📌 Hiển thị điều hướng trang
-    // gotoxy(35, 26);
-    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    // gotoxy(35, 27);
-    // std::cout << "[^] Move Up          [v] Move Down";
-    // show_navigation_instructions();
+  
 }
 void Menu::display_plane_list() {
     CLEAR_SCREEN();
@@ -919,32 +931,5 @@ void Menu::display_plane_list() {
                     
 
            )";
-    // 📌 Hiển thị điều hướng trang
-    // gotoxy(35, 26);
-    // std::cout << "[<] Previous Page    [>] Next Page    [ESC] Exit     Page: " << current_page << "|" << max_pages;
-    // gotoxy(35, 27);
-    // std::cout << "[^] Move Up          [v] Move Down";
-    // show_navigation_instructions();
-}
-
-void Menu::display_the_tickets_of_user() {
-    CLEAR_SCREEN();
-    std::cout << R"(
-                         ______________________________________________________________________________________
-                        |                                                                                      |
-                        |                               The Tickets Of Youuuu!!!                               |
-                        |______________________________________________________________________________________|
-                        | Flight ID      | Plane ID         | Dep Date & Time | Destination      | Status      |
-                        |________________|__________________|_________________|__________________|_____________|
-
-
-
-
-
-
-
-
-
-
-    )" << std::endl;    
+ 
 }
