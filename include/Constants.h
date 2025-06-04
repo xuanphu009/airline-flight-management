@@ -77,3 +77,4 @@ void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) no
         }
     }
 }
+
