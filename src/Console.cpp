@@ -1,6 +1,7 @@
 #include "../include/Console.h"
 #include <algorithm>
 #include <iomanip>
+#include <windows.h>
 
 // Plane* Console::list_planes[MAX_PLANE] = {};
 // Flight* Console::list = nullptr;
@@ -1489,15 +1490,22 @@ void Console::enter_available_flights(int choice) {
                 } else {
                     Flight *selected_flight = page_start;
                     int j = 0;
-                    while(j < cur_row) {
-                        
-                        if ((strlen(dep_date) == 0 || strcmp(selected_flight->date_dep.to_string(), dep_date) == 0) 
-                        && (strlen(destination) == 0 || strcmp(selected_flight->destination, destination) == 0)) {
-                            ++j;
+                    int valid_count = 0; 
+
+                    while (selected_flight != nullptr && valid_count <= cur_row) {
+                        bool date_match = (strlen(dep_date) == 0) || (strcmp(selected_flight->date_dep.to_string(), dep_date) == 0);
+                        bool dest_match = (strlen(destination) == 0) || (strcmp(selected_flight->destination, destination) == 0);
+
+                        if (date_match && dest_match) {
+                            if (valid_count == cur_row) {
+                                break;
+                            }
+                            valid_count++;
                         }
+                        
                         selected_flight = selected_flight->next;
                     }
-    
+                        
                     if (input == nullptr) {
                         enter_available_tickets(selected_flight);
                         load_flights_before_view();
@@ -2220,7 +2228,7 @@ void Console::cancel_flight(const char *flight_id) {
 }
 
 void Console::enter_flight_information() {
-    Flight *other = new Flight; // Use unique_ptr for automatic cleanup
+    Flight *other = new Flight;
     char ch = '\0';
     int idx[5] = {0};
     int column = 0;
@@ -2237,185 +2245,170 @@ void Console::enter_flight_information() {
         Menu::gotoxy(66, 15); std::cout << time_str;
         Menu::gotoxy(55, 18); std::cout << other->destination;
 
-        while(true) {
-            switch (column) {
-                case 0:
-                    Menu::gotoxy(53 + idx[column], 6);
-                    enter(other->flight_id, idx[column], LEN_FLIGHT_ID, ch,
-                        [&](char &c) {
-                            if (c >= 'a' && c <= 'z') c -= 32;
-                            return (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9');
-                        });
-                    break;
-                case 1:
-                    Menu::gotoxy(52 + idx[column], 9);
-                    enter(other->plane_id, idx[column], LEN_PLANE_ID, ch,
-                        [&](char &c) {
-                            if (c >= 'a' && c <= 'z') c -= 32;
-                            return (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9');
-                        });
-                    break;
-                case 2:
-                    Menu::gotoxy(71 + idx[column], 12);
-                    enter(date_str, idx[column], 11, ch,
-                        [&](char &c) { return (c >= '0' && c <= '9' || c == '/'); });
-                    read = 0;
-                    read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
-                    // chuẩn hoá lại chuỗi nhập ngày tháng
-                    if (read == 3){ // Nếu tách được 3 số là day, month và year
-                        // chuẩn hoá lại cho đúng định dạng ngày
-                        if (date_str[1] == '/'){
-                            for (int i = idx[column]; i > 0; i--){
-                                date_str[i] = date_str[i - 1];
-                            }
-                            date_str[0] = '0';
-                            idx[column]++;
+        switch (column) {
+            case 0:
+                Menu::gotoxy(53 + idx[column], 6);
+                enter(other->flight_id, idx[column], LEN_FLIGHT_ID, ch,
+                    [&](char &c) {
+                        if (c >= 'a' && c <= 'z') c -= 32;
+                        return (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9');
+                    });
+                break;
+            case 1:
+                Menu::gotoxy(52 + idx[column], 9);
+                enter(other->plane_id, idx[column], LEN_PLANE_ID, ch,
+                    [&](char &c) {
+                        if (c >= 'a' && c <= 'z') c -= 32;
+                        return (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9');
+                    });
+                break;
+            case 2:
+                Menu::gotoxy(71 + idx[column], 12);
+                enter(date_str, idx[column], 11, ch,
+                    [&](char &c) { return (c >= '0' && c <= '9' || c == '/'); });
+                read = 0;
+                read = sscanf(date_str, "%d/%d/%d", &day, &month, &year);
+                // chuẩn hoá lại chuỗi nhập ngày tháng
+                if (read == 3){ // Nếu tách được 3 số là day, month và year
+                    // chuẩn hoá lại cho đúng định dạng ngày
+                    if (date_str[1] == '/'){
+                        for (int i = idx[column]; i > 0; i--){
+                            date_str[i] = date_str[i - 1];
                         }
-                        if (date_str[4] == '/'){
-                            for (int i = idx[column]; i > 3; i--){
-                                date_str[i] = date_str[i - 1];
-                            }
-                            date_str[3] = '0';
-                            idx[column]++;
+                        date_str[0] = '0';
+                        idx[column]++;
+                    }
+                    if (date_str[4] == '/'){
+                        for (int i = idx[column]; i > 3; i--){
+                            date_str[i] = date_str[i - 1];
                         }
+                        date_str[3] = '0';
+                        idx[column]++;
                     }
-                    break;
-                case 3:
-                    Menu::gotoxy(66 + idx[column], 15);
-                    enter(time_str, idx[column], 6, ch,
-                        [&](char &c) { return (c >= '0' && c <= '9' || c == ':'); });
-                    read = 0;
-                    read = sscanf(time_str, "%d:%d", &hour, &minute);
-                    // chuẩn hoá lại chuỗi nhập thời gian
-                    if (read == 2){ // Nếu tách dược 2 số nguyên là hour và minute
-                        // Chuẩn hoá chuỗi lại cho đúng định dạng
-                        if (time_str[1] == ':'){
-                            for (int i = idx[column]; i > 0; i--){
-                                time_str[i] = time_str[i - 1];
-                            }
-                            time_str[0] = '0';
-                            idx[column]++;
-                        }
-                        if (time_str[4] == '\0'){
-                            time_str[4] = time_str[3];
-                            time_str[3] = '0';
-                            idx[column]++;
-                        }
-                    }
-                    break;
-                case 4:
-                    Menu::gotoxy(55 + idx[column], 18);
-                    enter(other->destination, idx[column], LEN_DESTINATION, ch,
-                        [&](char &c) {
-                            if (c >= 'a' && c <= 'z') c -= 32;
-                            return (c >= 'A' && c <= 'Z' || c == ' ');
-                        });
-                    break;
-            }
-    
-            if (ch == UP && column > 0) {
-                --column;
-            }
-            else if (ch == DOWN && column < 4) {
-                ++column;
-            }
-            else if (ch == ENTER) {
-                if (column == 0) {
-                    if (search_flight_id(other->flight_id)) {
-                        Menu::display_flight_exist();
-                        Menu::display_create_new_flight();
-                        // memset(other->flight_id, 0, LEN_FLIGHT_ID);
-                        // idx[0] = 0;
-                        // Menu::display_create_new_flight();
-                        // ch = '\0';
-                        break;
-                    } else {
-                        ++column;
-                    }
-                } else if (column == 1) {
-                    if (!search_plane_id(other->plane_id)) {
-                        Menu::display_aircraft_not_found();
-                        Menu::display_create_new_flight();
-                        // Menu::display_create_new_flight();
-                        // ch = '\0';
-                        // memset(other->plane_id, 0, LEN_PLANE_ID);
-                        // idx[1] = 0;
-                        break;
-                    } else {
-                        ++column;
-                    }
-                } else if (column < 4) {
-                    ++column;
-                } else {
-                    bool failed = false;
-                    if (search_flight_id(other->flight_id)) {
-                        Menu::display_flight_exist();
-                        Menu::display_create_new_flight();
-                        // memset(other->flight_id, 0, LEN_FLIGHT_ID);
-                        // idx[0] = 0;
-                        // Menu::display_create_new_flight();
-                        // continue;
-                        break;
-                    }
-                    if (!search_plane_id(other->plane_id)) {
-                        Menu::display_aircraft_not_found();
-                        // Menu::display_create_new_flight();
-                        Menu::display_create_new_flight();
-                        // memset(other->plane_id, 0, LEN_PLANE_ID);
-                        // idx[1] = 0;
-                        // continue;
-                        // failed = true;
-                        break;
-                    }
-                    // if(failed) {
-                    //     ch = '\0';
-                    //     Menu::display_create_new_flight();
-                    //     continue;
-                    // }
-                    if (strlen(other->flight_id) == 0) { column = 0; continue; }
-                    if (strlen(other->plane_id) == 0) { column = 1; continue; }
-                    if (strlen(other->destination) == 0) { column = 4; continue;}
-                    if (!other->valid_date(day, month, year)) { column = 2;continue; }
-                    if (!other->valid_time(hour, minute)) { column = 3; continue; }
-    
-                    other->date_dep.day = day;
-                    other->date_dep.month = month;
-                    other->date_dep.year = year;
-                    other->time_dep.hour = hour;
-                    other->time_dep.minute = minute;
-                    if(is_completed(&other->date_dep, &other->time_dep)) {
-                        //in ra thông báo không được đặt;
-                        Menu::display_create_flight_error();
-                        Menu::display_create_new_flight();
-                        column = 2;
-                        break;
-                    }
-    
-                    // Call create_flight and check success
-                    int idx = get_plane_by_id(other->plane_id);
-                    if (idx == -1 || list_planes[idx] == nullptr) {
-                        Menu::display_aircraft_not_found();
-                        Menu::display_create_new_flight();
-                        column = 1;
-                        break;
-                    }
-    
-                    create_flight(*other);
-                    Menu::display_success_create_flight();
-                    Menu::display_create_new_flight();
-                    // other =  new Flight;
-                    ch = '\0';
-                    break;
-                    // delete[]other;
-                    // return; // unique_ptr automatically deletes other
                 }
-            } else if (ch == ESC) {
-                return; // unique_ptr automatically deletes other
-            }
+                break;
+            case 3:
+                Menu::gotoxy(66 + idx[column], 15);
+                enter(time_str, idx[column], 6, ch,
+                    [&](char &c) { return (c >= '0' && c <= '9' || c == ':'); });
+                read = 0;
+                read = sscanf(time_str, "%d:%d", &hour, &minute);
+                // chuẩn hoá lại chuỗi nhập thời gian
+                if (read == 2){ // Nếu tách dược 2 số nguyên là hour và minute
+                    // Chuẩn hoá chuỗi lại cho đúng định dạng
+                    if (time_str[1] == ':'){
+                        for (int i = idx[column]; i > 0; i--){
+                            time_str[i] = time_str[i - 1];
+                        }
+                        time_str[0] = '0';
+                        idx[column]++;
+                    }
+                    if (time_str[4] == '\0'){
+                        time_str[4] = time_str[3];
+                        time_str[3] = '0';
+                        idx[column]++;
+                    }
+                }
+                break;
+            case 4:
+                Menu::gotoxy(55 + idx[column], 18);
+                enter(other->destination, idx[column], LEN_DESTINATION, ch,
+                    [&](char &c) {
+                        if (c >= 'a' && c <= 'z') c -= 32;
+                        return (c >= 'A' && c <= 'Z' || c == ' ');
+                    });
+                break;
         }
 
+        if (ch == UP && column > 0) --column;
+        else if (ch == DOWN && column < 4) ++column;
+        else if (ch == ENTER) {
+            if (column == 0) {
+                if (search_flight_id(other->flight_id)) {
+                    Menu::display_flight_exist();
+                    Menu::display_create_new_flight();
+                    // memset(other->flight_id, 0, LEN_FLIGHT_ID);
+                    // idx[0] = 0;
+                    // Menu::display_create_new_flight();
+                    ch = '\0';
+                    continue;
+                } else {
+                    ++column;
+                }
+            } else if (column == 1) {
+                if (!search_plane_id(other->plane_id)) {
+                    Menu::display_aircraft_not_found();
+                    Menu::display_create_new_flight();
+                    // Menu::display_create_new_flight();
+                    ch = '\0';
+                    // memset(other->plane_id, 0, LEN_PLANE_ID);
+                    // idx[1] = 0;
+                    continue;
+                } else {
+                    ++column;
+                }
+            } else if (column < 4) {
+                ++column;
+                continue;
+            } else {
+                // bool failed = false;
+                if (search_flight_id(other->flight_id)) {
+                    Menu::display_flight_exist();
+
+                    Menu::display_create_new_flight();
+                    ch = '\0';
+                    continue;
+                }
+                if (!search_plane_id(other->plane_id)) {
+                    Menu::display_aircraft_not_found();
+                    Menu::display_create_new_flight();
+                    ch = '\0';
+                    continue;
+
+                }
+
+                if (strlen(other->flight_id) == 0) { column = 0; continue; }
+                if (strlen(other->plane_id) == 0) { column = 1; continue; }
+                if (strlen(other->destination) == 0) { column = 4; continue; }
+                if (!other->valid_date(day, month, year)) { column = 2; continue; }
+                if (!other->valid_time(hour, minute)) { column = 3; continue; }
+
+                other->date_dep.day = day;
+                other->date_dep.month = month;
+                other->date_dep.year = year;
+                other->time_dep.hour = hour;
+                other->time_dep.minute = minute;
+                if(is_completed(&other->date_dep, &other->time_dep)) {
+                    //in ra thông báo không được đặt;
+                    Menu::display_create_flight_error();
+                    column = 2;
+                    Menu::display_create_new_flight();
+                    continue;
+                }
+
+                // Call create_flight and check success
+                int idx = get_plane_by_id(other->plane_id);
+                if (idx == -1 || list_planes[idx] == nullptr) {
+                    Menu::display_aircraft_not_found();
+                    Menu::display_create_new_flight();
+                    column = 1;
+                    continue;
+                }
+
+                create_flight(*other);
+                Menu::display_success_create_flight();
+                Menu::display_create_new_flight();
+                // other =  new Flight;
+                ch = '\0';
+                // delete[]other;
+                // return; // unique_ptr automatically deletes other
+            }
+        } else if (ch == ESC) {
+            return; // unique_ptr automatically deletes other
+        }
     }
 }
+
 void Console::enter_flight_update(){
     if (count_flights() == 0){
         // Nếu danh sach chuyến bay rỗng, không thể sửa
