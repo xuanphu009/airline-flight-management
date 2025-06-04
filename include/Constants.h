@@ -37,6 +37,15 @@ constexpr int LEN_CMND = 15;
 constexpr int SEATS_PER_PAGE = 10, FLIGHTS_PER_PAGE = 10, PLANES_PER_PAGE = 10, PASSENGERS_PER_PAGE = 10;
 
 
+#ifdef _WIN32
+    #define CLEAR_SCREEN() system("cls")
+#else
+    #define CLEAR_SCREEN() system("clear")
+#endif
+
+
+
+
 template <typename... Conds>
 void enter(char *str, int &index, int max_len, char &ch, Conds... conditions) noexcept {
     //char *str : nhập str            

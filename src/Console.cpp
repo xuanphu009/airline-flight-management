@@ -772,6 +772,7 @@ int Console::enter_delete_passenger(Flight *flight) {
 
 
 void Console::enter_available_tickets(Flight *flight) {
+    // if()
     
     int n = 0;
     // Lấy danh sách chỉ số vé có người đặt (mảng được cấp phát động)
@@ -887,7 +888,7 @@ void Console::enter_available_tickets(Flight *flight) {
                 }
     
                 // Đặt vé
-    
+                if(is_completed(&flight->date_dep, &flight->time_dep)) return;
                 flight->tickets[seat_index].CMND = input->CMND;
                 input->number_of_tickets++;
                 
@@ -1014,7 +1015,7 @@ void Console::enter_user_information() {
                                     enter(input->first_name, idx[column], LEN_FIRST_NAME, ch,
                                         [&](char &c) { 
                                             if(c >= 'a' && c <= 'z') c -= 32;
-                                            return (c >= 'A' && c <= 'Z');
+                                            return (c >= 'A' && c <= 'Z') || c == ' ';
                                         });
                                     break;
                                 }
