@@ -138,8 +138,7 @@ void Console::load_flights_from_folder() {
     
     delete[] files;
     list = head;
-    // std::cout << (list != nullptr ? "hehehe" : "huhuhu") << std::endl;
-    // Sleep(2000);
+    
 }
 bool Console::is_completed(date_departure *x, time_departure *y) {
     tm t = {};
@@ -318,6 +317,11 @@ void Console::enter_plane_statistics() {
     merge_sort();
     char ch;
     int number_of_planes = get_plane_count();
+    if (number_of_planes == 0){
+        //in ra thong bao
+        Menu::display_empty_aircraft_list();
+        return;
+    }
     //merge sort
     int cur_page = 0, max_page;
     if (number_of_planes % PLANES_PER_PAGE == 0){
@@ -484,11 +488,7 @@ void Console::enter_flight_id(int choice) {
     Menu::display_enter_flight_ID();
     while(true) {
         Menu::gotoxy(25 + 35, 6);
-        // enter(flight_id, i, LEN_FLIGHT_ID, ch, [](char &c) {
-        //     return true;
-        // });
-
-        // Sửa lại cho đúng định dạng flight_id
+      
         enter(flight_id, i, LEN_FLIGHT_ID, ch,
             [&](char &c) {
                 if (c >= 'a' && c <= 'z') c -= 32;
@@ -497,7 +497,7 @@ void Console::enter_flight_id(int choice) {
         // ch = _getch();
         if(ch == ESC) return;
         else if(ch == ENTER) {
-            //thieu dieu kien check flight id
+           
             choosing = list;
             while(choosing) {
                 if(strcmp(flight_id, choosing->flight_id) == 0) {
@@ -594,7 +594,7 @@ void Console::enter_passenger_list(Flight *flight) {
             Node *node = manager.search(manager.root, flight->tickets[ticketIndex].CMND);
             Passenger *passenger = (node ? &node->data : nullptr);
             Menu::gotoxy(24, row);
-            // std::cout << std::string(90, ' ');
+
             // In Last Name
             Menu::gotoxy(24 + 3, row);
             std::cout << passenger->last_name;
@@ -673,8 +673,7 @@ void Console::enter_passenger_list(Flight *flight) {
                     std::ofstream out("data/Passenger/" + std::string(test->data.CMND) + ".txt");
                     out << test->data;
                     out.close();
-                    // Menu::gotoxy(0,0);
-                    // std::cout << test->data.number_of_tickets << std::endl;
+
                     if (test->data.number_of_tickets == 0) {
                         std::filesystem::remove("data/Passenger/" + std::string(test->data.CMND) + ".txt");
                         manager.root = manager.erase(manager.root, test->data); // Cập nhật root
@@ -766,7 +765,7 @@ int Console::enter_delete_passenger(Flight *flight) {
                     }
                 }
             } else {
-                //in thoong bao ko co usser
+                //in thoong bao ko co user
                 Menu::display_flight_not_booked_by_user();
                 return -1;
             }
@@ -1474,7 +1473,7 @@ void Console::enter_available_flights(int choice) {
                     Flight *selected_flight = page_start;
                     int j = 0;
                     while(j < cur_row) {
-                        if ((strlen(dep_date) == 0 || strcmp(selected_flight->date_dep.to_string(), dep_date) == 0) 
+                         if ((strlen(dep_date) == 0 || strcmp(selected_flight->date_dep.to_string(), dep_date) == 0) 
                         && (strlen(destination) == 0 || strcmp(selected_flight->destination, destination) == 0)) {
                             ++j;
                         }
@@ -2112,6 +2111,7 @@ void Console::update_flight(const char *flight_id, const date_departure &new_dat
         if (strcmp(curr->flight_id, flight_id) == 0){
             if(curr->cur_status == status::cancelled || curr->cur_status == status::completed) {
                 //in ra thông báo
+                Menu::display_cannot_update_flight();
                 return;
             }
             curr->date_dep = new_date;

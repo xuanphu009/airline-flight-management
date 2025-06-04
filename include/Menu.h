@@ -7,7 +7,6 @@ namespace Menu {
     void notification();
     void gotoxy(int x, int y);
     void display_flight_manager_menu(); 
-    void display_navigation_instructions();
     void display_list_instructions(int current_page, int max_pages);
     void display_list_instructions_tab(int current_page, int max_pages);
     void display_login_frame();
@@ -32,6 +31,7 @@ namespace Menu {
     void display_delete_plane_confirm();
     void display_delete_plane_error();
 
+
         // Flight Management
     void display_manage_flights();
     void display_search_flight();
@@ -51,6 +51,7 @@ namespace Menu {
     void display_already_cancelled_flight();
     void display_create_flight_error();
     void display_cancel_flight_confirm();
+    void display_cannot_update_flight();
 
     // Ticket Management
     void display_book_ticket();
@@ -72,7 +73,7 @@ namespace Menu {
     void display_enter_user_id_card();
     void display_identification_information();
     void display_enter_flight_details();
-    void display_the_tickets_of_user();
+
     void display_booking_success();
     void display_booking_error();
     void display_user_exist();
