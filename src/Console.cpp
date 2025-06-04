@@ -888,7 +888,10 @@ void Console::enter_available_tickets(Flight *flight) {
                 }
     
                 // Đặt vé
-                if(is_completed(&flight->date_dep, &flight->time_dep)) return;
+                if(is_completed(&flight->date_dep, &flight->time_dep)) {
+                    //in thông báo quá giờ đặt vé
+                    return;
+                }
                 flight->tickets[seat_index].CMND = input->CMND;
                 input->number_of_tickets++;
                 
