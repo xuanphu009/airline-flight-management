@@ -617,19 +617,20 @@ void Console::enter_passenger_list(Flight *flight) {
             Menu::gotoxy(0, 0);
             char key = _getch();
             #ifdef _WIN32
-            if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
-                key = _getch(); // Lấy mã thực tế của phím
-            }
+                if (key == -32 || key == 224) { // Phím mũi tên trên Windows có mã tiền tố
+                    key = _getch(); // Lấy mã thực tế của phím
+                }
+                
             #else
-                    if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
-                        if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
-                            key = _getch(); // Lấy mã thực tế của phím
-                        }
+                if (key == ESC) { // Trên macOS, phím mũi tên bắt đầu với ESC
+                    if (_getch() == '[') { // Kiểm tra ký tự tiếp theo
+                        key = _getch(); // Lấy mã thực tế của phím
                     }
+                }
             #endif
     
             // Xử lý các phím điều hướng
-            if (key == ESC) break;
+            if (key == ESC) return;
             else if (key == LEFT && cur_page > 0){
                 cur_page--;
                 cur_row = 0;
@@ -853,17 +854,19 @@ void Console::enter_available_tickets(Flight *flight) {
                     }
             #endif
     
-            if (key == ESC) break;  // ESC để thoát
+            if (key == ESC) return;  // ESC để thoát
             else if (key == LEFT && current_page > 0){
                 // sang trang mới vẽ lại khung
                 Menu::display_available_tickets();
                 current_page--;  // Phím mũi tên trái để chuyển trang về trước
+                current_column = 0;
                 break;
             }
             else if (key == RIGHT && current_page < max_pages - 1){
                 // sang trang mới vẽ lại khung
                 Menu::display_available_tickets();
                 current_page++;  // Phím mũi tên phải để chuyển trang tiếp theo
+                current_column = 0;
                 break;
             }
             else if (key == UP && current_column > 0) {
@@ -2159,7 +2162,7 @@ void Console::cancel_flight(const char *flight_id) {
             } else {
                 return; // nếu không huỷ thì thoát
             }
-        }
+        } 
     
     }
 
