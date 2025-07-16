@@ -1,7 +1,7 @@
 #include "../include/Console.h"
 #include <algorithm>
 #include <iomanip>
-#include <windows.h>
+
 
 // Plane* Console::list_planes[MAX_PLANE] = {};
 // Flight* Console::list = nullptr;
