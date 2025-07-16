@@ -9,7 +9,6 @@ int main() {
 
     Console test;
 
-
     while(true) {
         test.start_program();
     }
