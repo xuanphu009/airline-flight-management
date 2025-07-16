@@ -1,1 +1,1 @@
-Quản lý các chuyến bay nội địa thuộc 1 hăng hàng không
+Quản lý các chuyến bay nội địa thuộc một hãng hàng không
